@@ -7,6 +7,11 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.buildConfig)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqlDelight)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.ktorfit)
 }
 
 kotlin {
@@ -16,9 +21,9 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     jvm("desktop")
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -29,26 +34,69 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
-        val desktopMain by getting
-        
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.napier)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktorfit.converters.response)
+            implementation(libs.ktorfit.converters.call)
+            implementation(libs.ktorfit.converters.flow)
+            implementation(libs.ktorfit)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kstore)
+
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.mp)
+            implementation(libs.coil.network.ktor)
+
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.navigation.compose)
         }
-        desktopMain.dependencies {
+
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqlDelight.driver.android)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.kstore.file)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+            implementation(libs.sqlDelight.driver.native)
+            implementation(libs.kstore.file)
+        }
+
+        jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqlDelight.driver.sqlite)
+            implementation(libs.kstore.file)
         }
     }
+
+    tasks.create("testClasses")
 }
 
 android {
@@ -96,6 +144,16 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "org.kmp.newsapp"
             packageVersion = "1.0.0"
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("MyDatabase") {
+            // Database configuration here.
+            // https://cashapp.github.io/sqldelight
+            packageName.set("com.softteco.kmp.db")
         }
     }
 }

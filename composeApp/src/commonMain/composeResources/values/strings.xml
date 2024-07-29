@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">News App</string>
+
+    <!-- Error messages -->
+    <string name="error_wrong_credentials">Incorrect email or password. Please check the data and try again.</string>
+    <string name="error_invalid_username">Username must be at least 3 characters long and contain only letters and numbers.</string>
+    <string name="error_invalid_email">Invalid e-mail address. Please check the entered value and try again.</string>
+    <string name="error_invalid_password">Password must be at least 6 characters long and include at least one uppercase letter.</string>
+    <string name="error_invalid_access_token">Invalid Access Token. The access token is invalid and may need to be re-authorized.</string>
+    <string name="error_username_unavailable">Username is already taken. Please choose a different username.</string>
+    <string name="error_email_already_exists">An account with this email address already exists.</string>
+    <string name="error_email_not_found">No user found with this email. Please sign up for an account.</string>
+    <string name="error_network">Check your internet connection and try again.</string>
+    <string name="error_unknown">Something went wrong. We are already looking into it. Please try again later or contact our support team if the error persists.</string>
+    <string name="dialog_user_not_found_title">User not found</string>
+    <string name="dialog_user_not_found_message">No user with this e-mail address was found. Do you want to register a new account?</string>
+
+</resources>

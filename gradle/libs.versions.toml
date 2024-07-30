@@ -19,7 +19,7 @@ lifecycleViewModel = "2.8.4"
 lifecycleViewModelCompose = "2.8.0"
 
 # Navigation
-navigationCompose = "2.8.0-alpha02"
+navigationCompose = "2.8.0-alpha08"
 
 # Ktor
 ktor = "2.3.12"
@@ -44,7 +44,8 @@ sqlDelight = "2.0.2"
 
 # Koin
 koin = "3.6.0-alpha3"
-koinComposeMultiplatform = "1.2.0-Beta4"
+koinComposeMultiplatform = "1.2.0-alpha3"
+koinComposeViewModel = "4.0.0-RC1"
 
 # Ktorfit
 ktorfit = "2.0.0"
@@ -117,7 +118,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
-koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeMultiplatform" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeViewModel" }
 
 # KStore
 kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }

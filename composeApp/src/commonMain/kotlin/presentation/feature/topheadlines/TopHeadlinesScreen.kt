@@ -19,8 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import newsappkmp.composeapp.generated.resources.Res
+import newsappkmp.composeapp.generated.resources.error
+import newsappkmp.composeapp.generated.resources.no_info
+import newsappkmp.composeapp.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import presentation.navigation.Screen
 
 @ExperimentalFoundationApi
 @Composable
@@ -34,18 +39,21 @@ fun TopHeadlinesScreen(
         viewModel.fetchHeadlines()
     }
 
-    ScreenContent(state = state)
+    ScreenContent(
+        state = state,
+        navController = navController
+    )
 }
 
 @ExperimentalFoundationApi
 @Composable
 private fun ScreenContent(
     modifier: Modifier = Modifier,
-    state: TopHeadlinesState
+    state: TopHeadlinesState,
+    navController: NavController
 ) {
 
     val articles = state.articles
-    val error = state.error
 
     if (articles != null) {
         LazyColumn(
@@ -53,13 +61,15 @@ private fun ScreenContent(
         ) {
             items(
                 items = articles,
-                key = { it.url!! }
+                key = { it.url }
             ) { article ->
                 TopHeadlineItem(
                     article = article,
                     onArticleClicked = {
-                        // TODO
-//                        navController.navigate("note_detail/${note.id}")
+                        navController.navigate(
+                            Screen.ArticleDetail("ddd").route
+//                            Screen.ArticleDetail(article.url).route
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -75,12 +85,11 @@ private fun ScreenContent(
                 .fillMaxSize()
         ) {
             Text(
-                text = "Nothing to show yet...",
+                text = stringResource(Res.string.no_info),
                 modifier = modifier
                     .align(Alignment.Center)
             )
         }
-
     }
 
     if (state.loading) {
@@ -103,12 +112,12 @@ private fun ScreenContent(
             },
             confirmButton = {
                 Text(
-                    text = "Ok"
+                    text = stringResource(Res.string.ok)
                 )
             },
             title = {
                 Text(
-                    text = "Error"
+                    text = stringResource(Res.string.error)
                 )
             },
             text = {

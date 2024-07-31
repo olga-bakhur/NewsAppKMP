@@ -15,4 +15,9 @@
     <string name="dialog_user_not_found_title">User not found</string>
     <string name="dialog_user_not_found_message">No user with this e-mail address was found. Do you want to register a new account?</string>
 
+    <!--    Generic-->
+    <string name="no_info">No info</string>
+    <string name="error">Error</string>
+    <string name="ok">Ok</string>
+
 </resources>

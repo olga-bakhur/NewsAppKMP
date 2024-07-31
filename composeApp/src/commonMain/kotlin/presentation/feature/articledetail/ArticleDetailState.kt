@@ -1,10 +1,10 @@
-package presentation.feature.topheadlines
+package presentation.feature.articledetail
 
 import data.base.error.AppError
 import data.model.dto.Article
 
-data class TopHeadlinesState(
+data class ArticleDetailState(
     val loading: Boolean = false,
     val error: AppError? = null,
-    val articles: List<Article>? = null
+    val article: Article? = null
 )

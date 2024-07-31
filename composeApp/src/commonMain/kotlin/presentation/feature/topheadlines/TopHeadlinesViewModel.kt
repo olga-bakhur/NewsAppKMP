@@ -19,20 +19,18 @@ class TopHeadlinesViewModel(
 ) : BaseViewModel() {
 
     override val loading = MutableStateFlow(false)
-
     private val _error = MutableStateFlow<AppError?>(null)
     private val _articles = MutableStateFlow<List<Article>?>(null)
 
-
     val state: StateFlow<TopHeadlinesState> = combine(
         loading,
-        _articles,
-        _error
-    ) { loading, articles, error ->
+        _error,
+        _articles
+    ) { loading, error, articles ->
         TopHeadlinesState(
             loading = loading,
-            articles = articles,
-            error = error
+            error = error,
+            articles = articles
         )
     }.stateIn(
         viewModelScope,

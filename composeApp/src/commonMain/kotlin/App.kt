@@ -35,16 +35,19 @@ fun App() {
                 }
 
                 composable(
-                    route = Screen.ArticleDetail.route,
+                    route = Screen.ArticleDetail(EMPTY).route,
                     arguments = listOf(
                         navArgument(name = articleUrl) {
                             type = NavType.StringType
                             defaultValue = EMPTY
                         }
                     )
-                ) {
+                ) { backStackEntry ->
+                    val articleUrl = backStackEntry.arguments?.getString(articleUrl) ?: EMPTY
+
                     ArticleDetailScreen(
-                        navController = navController
+                        navController = navController,
+                        articleUrl = articleUrl
                     )
                 }
             }

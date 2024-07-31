@@ -25,6 +25,7 @@ import newsappkmp.composeapp.generated.resources.no_info
 import newsappkmp.composeapp.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import presentation.navigation.Screen
 
 @ExperimentalFoundationApi
 @Composable
@@ -66,8 +67,7 @@ private fun ScreenContent(
                     article = article,
                     onArticleClicked = {
                         navController.navigate(
-                            "article_detail/ddd!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!АААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ}"
-//                            Screen.ArticleDetail(article.url).route
+                            route = Screen.ArticleDetail.createRoute(article.url)
                         )
                     },
                     modifier = Modifier

@@ -68,6 +68,8 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.navigation.compose)
+
+            implementation(libs.urlencoder.lib)
         }
 
         androidMain.dependencies {

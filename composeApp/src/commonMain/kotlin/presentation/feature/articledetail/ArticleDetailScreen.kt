@@ -26,6 +26,7 @@ import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.no_info
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import presentation.navigation.Screen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -36,10 +37,11 @@ fun ArticleDetailScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    println(articleUrl)
+    val url = Screen.ArticleDetail.decodeUrl(articleUrl)
+
     LaunchedEffect(Unit) {
-        if (articleUrl.isNotBlank()) {
-            viewModel.getArticleByUrl(articleUrl)
+        if (url.isNotBlank()) {
+            viewModel.getArticleByUrl(url)
         }
     }
 

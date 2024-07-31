@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,7 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import common.EMPTY
 import newsappkmp.composeapp.generated.resources.Res
+import newsappkmp.composeapp.generated.resources.error
 import newsappkmp.composeapp.generated.resources.no_info
+import newsappkmp.composeapp.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import presentation.navigation.Screen
@@ -92,5 +96,41 @@ private fun ScreenContent(
                     .align(Alignment.Center)
             )
         }
+    }
+
+    if (state.loading) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+        ) {
+            CircularProgressIndicator(
+                modifier = modifier
+                    .align(Alignment.Center),
+                color = Color.Red
+            )
+        }
+    }
+
+    state.error?.let { appError ->
+        AlertDialog(
+            onDismissRequest = {
+                // TODO: dismiss
+            },
+            confirmButton = {
+                Text(
+                    text = stringResource(Res.string.ok)
+                )
+            },
+            title = {
+                Text(
+                    text = stringResource(Res.string.error)
+                )
+            },
+            text = {
+                Text(
+                    text = stringResource(appError.messageRes)
+                )
+            }
+        )
     }
 }

@@ -8,6 +8,7 @@ import data.util.Config.BASE_URL_NEWS
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.ktorfit
 import domain.repository.NewsRepository
+import domain.usecase.GetArticleUseCase
 import domain.usecase.GetTopHeadlinesUseCase
 import domain.util.AppDispatchers
 import io.ktor.client.HttpClient
@@ -48,6 +49,7 @@ val sharedModule = module {
 
     /* UseCase */
     factoryOf(::GetTopHeadlinesUseCase)
+    factoryOf(::GetArticleUseCase)
 
     /* ViewModel */
     viewModelOf(::TopHeadlinesViewModel)

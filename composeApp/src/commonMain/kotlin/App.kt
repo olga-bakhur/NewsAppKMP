@@ -35,7 +35,7 @@ fun App() {
                 }
 
                 composable(
-                    route = Screen.ArticleDetail(EMPTY).route,
+                    route = Screen.ArticleDetail.route,
                     arguments = listOf(
                         navArgument(name = articleUrl) {
                             type = NavType.StringType

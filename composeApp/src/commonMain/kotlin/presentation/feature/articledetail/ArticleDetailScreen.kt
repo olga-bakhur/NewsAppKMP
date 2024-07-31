@@ -36,6 +36,7 @@ fun ArticleDetailScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
+    println(articleUrl)
     LaunchedEffect(Unit) {
         if (articleUrl.isNotBlank()) {
             viewModel.getArticleByUrl(articleUrl)

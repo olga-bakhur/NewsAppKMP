@@ -1,38 +1,49 @@
 package presentation.feature.topheadlines
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import base.BaseViewModel
+import data.base.error.AppError
 import data.base.result.Result
 import data.model.dto.Article
 import domain.usecase.GetTopHeadlinesUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
+import domain.util.AppDispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 class TopHeadlinesViewModel(
-    private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase
-) : ViewModel() {
+    private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase,
+    private val appDispatchers: AppDispatchers
+) : BaseViewModel() {
 
-    private val resultListArticle =
-        MutableStateFlow<Result<List<Article>>>(Result.Success(emptyList()))
+    override val loading = MutableStateFlow(false)
 
-    val state: StateFlow<TopHeadlinesState> = resultListArticle.map { result ->
+    private val _error = MutableStateFlow<AppError?>(null)
+    private val _articles = MutableStateFlow<List<Article>?>(null)
+
+
+    val state: StateFlow<TopHeadlinesState> = combine(
+        loading,
+        _articles
+    ) { loading, articles ->
         TopHeadlinesState(
-            resultListArticle = result
+            loading = loading,
+            articles = articles
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), TopHeadlinesState())
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(),
+        TopHeadlinesState()
+    )
 
-
-    fun getTopHeadlines() {
-        viewModelScope.launch(Dispatchers.IO) {
-            resultListArticle.emit(
-                getTopHeadlinesUseCase.getTopHeadlines()
-            )
+    fun fetchHeadlines() {
+        launchWithLoading(appDispatchers.io) {
+            when (val result = getTopHeadlinesUseCase.getTopHeadlines()) {
+                is Result.Success -> _articles.emit(result.data)
+                is Result.Error -> {} // TODO: handle error
+            }
         }
     }
 }

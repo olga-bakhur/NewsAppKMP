@@ -1,3 +1,4 @@
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -13,6 +14,7 @@ import presentation.feature.topheadlines.TopHeadlinesScreen
 import presentation.navigation.Screen
 import presentation.navigation.articleUrl
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun App() {

@@ -13,11 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import data.base.result.Result
 import data.model.dto.Article
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalFoundationApi::class)
+@ExperimentalFoundationApi
 @Composable
 fun TopHeadlinesScreen(
     navController: NavController,
@@ -25,18 +24,27 @@ fun TopHeadlinesScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = true) {
-        viewModel.getTopHeadlines()
+    LaunchedEffect(Unit) {
+        viewModel.fetchHeadlines()
     }
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        if (state.resultListArticle is Result.Success) {
-            val list = (state.resultListArticle as Result.Success<List<Article>>).data
+    ScreenContent(
+        articles = state.articles,
+    )
+}
 
+@ExperimentalFoundationApi
+@Composable
+private fun ScreenContent(
+    modifier: Modifier = Modifier,
+    articles: List<Article>?,
+) {
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+    ) {
+        if (articles != null) {
             items(
-                items = list,
+                items = articles,
                 key = { it.url!! }
             ) { article ->
                 TopHeadlineItem(
@@ -52,6 +60,8 @@ fun TopHeadlinesScreen(
                         .animateItemPlacement()
                 )
             }
+        } else {
+            //todo: add loading or empty list placeholder
         }
     }
 }

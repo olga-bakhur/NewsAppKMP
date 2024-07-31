@@ -26,11 +26,13 @@ class TopHeadlinesViewModel(
 
     val state: StateFlow<TopHeadlinesState> = combine(
         loading,
-        _articles
-    ) { loading, articles ->
+        _articles,
+        _error
+    ) { loading, articles, error ->
         TopHeadlinesState(
             loading = loading,
-            articles = articles
+            articles = articles,
+            error = error
         )
     }.stateIn(
         viewModelScope,
@@ -42,7 +44,7 @@ class TopHeadlinesViewModel(
         launchWithLoading(appDispatchers.io) {
             when (val result = getTopHeadlinesUseCase.getTopHeadlines()) {
                 is Result.Success -> _articles.emit(result.data)
-                is Result.Error -> {} // TODO: handle error
+                is Result.Error -> _error.emit(result.error)
             }
         }
     }

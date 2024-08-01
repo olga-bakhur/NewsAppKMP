@@ -1,15 +1,15 @@
 package di
 
 import data.base.result.AppResponseConverterFactory
-import data.repository.NewsRepositoryImpl
-import data.source.remote.NewsApi
-import data.source.remote.createNewsApi
-import data.util.Config.BASE_URL_NEWS
+import data.repository.ArticlesRepositoryImpl
+import data.source.remote.ArticlesApi
+import data.source.remote.createArticlesApi
+import data.util.Config.BASE_URL_ARTICLES
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.ktorfit
-import domain.repository.NewsRepository
-import domain.usecase.GetArticleUseCase
-import domain.usecase.GetTopHeadlinesUseCase
+import domain.repository.ArticlesRepository
+import domain.usecase.FetchArticleDetailUseCase
+import domain.usecase.FetchArticleListUseCase
 import domain.util.AppDispatchers
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
@@ -33,7 +33,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import presentation.feature.articledetail.ArticleDetailViewModel
-import presentation.feature.topheadlines.TopHeadlinesViewModel
+import presentation.feature.articlelist.ArticleListViewModel
 
 private const val NETWORK_TIME_OUT = 10_000L
 
@@ -48,14 +48,14 @@ val sharedModule = module {
     singleOf(::provideAppDispatchers)
 
     /* Repository */
-    singleOf(::NewsRepositoryImpl).bind<NewsRepository>()
+    singleOf(::ArticlesRepositoryImpl).bind<ArticlesRepository>()
 
     /* UseCase */
-    factoryOf(::GetTopHeadlinesUseCase)
-    factoryOf(::GetArticleUseCase)
+    factoryOf(::FetchArticleListUseCase)
+    factoryOf(::FetchArticleDetailUseCase)
 
     /* ViewModel */
-    viewModelOf(::TopHeadlinesViewModel)
+    viewModelOf(::ArticleListViewModel)
     viewModelOf(::ArticleDetailViewModel)
 }
 
@@ -90,7 +90,7 @@ fun provideJson(): Json = Json {
 
 fun provideKtorfitClient(httpClient: HttpClient): Ktorfit =
     ktorfit {
-        baseUrl(BASE_URL_NEWS)
+        baseUrl(BASE_URL_ARTICLES)
         httpClient(httpClient)
         converterFactories(
             AppResponseConverterFactory(),
@@ -99,7 +99,7 @@ fun provideKtorfitClient(httpClient: HttpClient): Ktorfit =
 
 fun provideApi(
     ktorfit: Ktorfit,
-): NewsApi = ktorfit.createNewsApi()
+): ArticlesApi = ktorfit.createArticlesApi()
 
 fun provideAppDispatchers(): AppDispatchers = AppDispatchers(
     ui = Dispatchers.Main,

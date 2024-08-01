@@ -10,9 +10,9 @@ import common.EMPTY
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
 import presentation.feature.articledetail.ArticleDetailScreen
-import presentation.feature.topheadlines.TopHeadlinesScreen
+import presentation.feature.articlelist.NewsListScreen
 import presentation.navigation.Screen
-import presentation.navigation.articleUrl
+import presentation.navigation.articleId
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -29,7 +29,7 @@ fun App() {
                 composable(
                     Screen.TopHeadlines.route
                 ) {
-                    TopHeadlinesScreen(
+                    NewsListScreen(
                         navController = navController
                     )
                 }
@@ -37,17 +37,17 @@ fun App() {
                 composable(
                     route = Screen.ArticleDetail.route,
                     arguments = listOf(
-                        navArgument(name = articleUrl) {
+                        navArgument(name = articleId) {
                             type = NavType.StringType
                             defaultValue = EMPTY
                         }
                     )
                 ) { backStackEntry ->
-                    val articleUrl = backStackEntry.arguments?.getString(articleUrl) ?: EMPTY
+                    val articleId = backStackEntry.arguments?.getString(articleId) ?: EMPTY
 
                     ArticleDetailScreen(
                         navController = navController,
-                        articleUrl = articleUrl
+                        articleId = articleId
                     )
                 }
             }

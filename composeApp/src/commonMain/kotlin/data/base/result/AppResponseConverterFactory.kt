@@ -46,12 +46,15 @@ suspend fun <T : Any> handleApiResponse(
         if (response.status.isSuccess()) {
             val jsonElement = Json.parseToJsonElement(response.bodyAsText())
             val data = Json.decodeFromJsonElement(serializer, jsonElement)
+            println("KTOR / Success: $data")
             ApiSuccess(response.status.value, data)
         } else {
             val errorBody = Json.decodeFromString<ErrorBody>(response.bodyAsText())
+            println("KTOR / Error: $errorBody")
             ApiError(response.status.value, errorBody)
         }
     } catch (e: Exception) {
+        println("KTOR / exception: $e")
         ApiException(e)
     }
 }

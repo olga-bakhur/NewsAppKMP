@@ -5,7 +5,7 @@ import base.BaseViewModel
 import data.base.error.AppError
 import data.base.result.Result
 import data.model.dto.Article
-import domain.usecase.GetArticleUseCase
+import domain.usecase.FetchArticleDetailUseCase
 import domain.util.AppDispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
 class ArticleDetailViewModel(
-    private val getArticleUseCase: GetArticleUseCase,
+    private val fetchArticleDetailUseCase: FetchArticleDetailUseCase,
     private val appDispatchers: AppDispatchers
 ) : BaseViewModel() {
 
@@ -38,9 +38,9 @@ class ArticleDetailViewModel(
         ArticleDetailState()
     )
 
-    fun getArticleByUrl(url: String) {
+    fun fetchArticleDetailById(articleId: String) {
         launchWithLoading(appDispatchers.io) {
-            when (val result = getArticleUseCase.getArticleByUrl(url)) {
+            when (val result = fetchArticleDetailUseCase.fetchArticleDetailById(articleId)) {
                 is Result.Success -> _article.emit(result.data)
                 is Result.Error -> _error.emit(result.error)
             }

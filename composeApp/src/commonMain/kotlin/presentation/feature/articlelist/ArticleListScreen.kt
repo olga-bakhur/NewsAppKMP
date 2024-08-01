@@ -1,4 +1,4 @@
-package presentation.feature.topheadlines
+package presentation.feature.articlelist
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
@@ -29,14 +29,14 @@ import presentation.navigation.Screen
 
 @ExperimentalFoundationApi
 @Composable
-fun TopHeadlinesScreen(
+fun NewsListScreen(
     navController: NavController,
-    viewModel: TopHeadlinesViewModel = koinViewModel()
+    viewModel: ArticleListViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.fetchHeadlines()
+        viewModel.fetchArticleList()
     }
 
     ScreenContent(
@@ -49,7 +49,7 @@ fun TopHeadlinesScreen(
 @Composable
 private fun ScreenContent(
     modifier: Modifier = Modifier,
-    state: TopHeadlinesState,
+    state: ArticleListState,
     navController: NavController
 ) {
 
@@ -61,19 +61,18 @@ private fun ScreenContent(
         ) {
             items(
                 items = articles,
-                key = { it.url }
+                key = { it.webUrl }
             ) { article ->
                 TopHeadlineItem(
                     article = article,
                     onArticleClicked = {
                         navController.navigate(
-                            route = Screen.ArticleDetail.createRoute(article.url)
+                            route = Screen.ArticleDetail.createRoute(article.id)
                         )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
-                        .animateItemPlacement()
                 )
             }
         }

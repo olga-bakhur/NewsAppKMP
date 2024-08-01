@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">News App</string>
+    <string name="app_name">News reader</string>
 
     <!-- Error messages -->
     <string name="error_wrong_credentials">Incorrect email or password. Please check the data and try again.</string>

@@ -36,16 +36,16 @@ import presentation.navigation.Screen
 @Composable
 fun ArticleDetailScreen(
     navController: NavController,
-    articleUrl: String,
+    articleId: String,
     viewModel: ArticleDetailViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
-    val url = Screen.ArticleDetail.decodeUrl(articleUrl)
+    val decodedArticleId = Screen.ArticleDetail.decodeUrl(articleId)
 
     LaunchedEffect(Unit) {
-        if (url.isNotBlank()) {
-            viewModel.getArticleByUrl(url)
+        if (articleId.isNotBlank()) {
+            viewModel.fetchArticleDetailById(decodedArticleId)
         }
     }
 
@@ -71,18 +71,18 @@ private fun ScreenContent(
                 .padding(16.dp)
         ) {
             Text(
-                text = article.title ?: EMPTY,
+                text = article.webTitle ?: EMPTY,
                 color = Color.Black,
                 fontWeight = FontWeight.SemiBold
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = article.content ?: EMPTY,
-                color = Color.Black,
-                fontWeight = FontWeight.Light
-            )
+//            Text(
+//                text = article.content ?: EMPTY,
+//                color = Color.Black,
+//                fontWeight = FontWeight.Light
+//            )
         }
 
     } else {

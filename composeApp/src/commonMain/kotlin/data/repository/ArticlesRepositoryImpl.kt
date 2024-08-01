@@ -5,16 +5,16 @@ import data.base.result.ApiSuccess
 import data.base.result.Result
 import data.base.result.map
 import data.model.dto.Article
-import data.source.remote.NewsApi
+import data.source.remote.ArticlesApi
 import data.util.toArticle
 import data.util.toArticleList
-import domain.repository.NewsRepository
+import domain.repository.ArticlesRepository
 
-internal class NewsRepositoryImpl(
-    private val newsApi: NewsApi
-) : NewsRepository {
-    override suspend fun getTopHeadlines(): Result<List<Article>> {
-        val result = newsApi.getTopHeadlines()
+internal class ArticlesRepositoryImpl(
+    private val articlesApi: ArticlesApi
+) : ArticlesRepository {
+    override suspend fun fetchArticleList(): Result<List<Article>> {
+        val result = articlesApi.fetchArticleList()
             .map {
                 it.toArticleList()
             }
@@ -28,8 +28,8 @@ internal class NewsRepositoryImpl(
         }
     }
 
-    override suspend fun getArticleByUrl(url: String): Result<Article> {
-        val result = newsApi.getArticleByUrl(url)
+    override suspend fun fetchArticleDetailById(articleId: String): Result<Article> {
+        val result = articlesApi.fetchArticleDetailById(articleId = articleId)
             .map {
                 it.toArticle()
             }

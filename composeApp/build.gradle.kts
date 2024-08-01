@@ -165,6 +165,6 @@ sqldelight {
 }
 
 buildConfig {
-    buildConfigField("String", "API_KEY_NEWS", "\"7e76d7c58c264734896df25f983244ed\"")
-    buildConfigField("String", "BASE_URL_NEWS", "\"https://newsapi.org/v2/\"")
+    buildConfigField("String", "API_KEY_NEWS", "\"308f64c7-0fc9-45b4-ba5a-708f7437e1ee\"")
+    buildConfigField("String", "BASE_URL_NEWS", "\"https://content.guardianapis.com/\"")
 }

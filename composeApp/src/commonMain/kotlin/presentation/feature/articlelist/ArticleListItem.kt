@@ -1,4 +1,4 @@
-package presentation.feature.topheadlines
+package presentation.feature.articlelist
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -33,17 +33,17 @@ fun TopHeadlineItem(
             .padding(16.dp)
     ) {
         Text(
-            text = article.title ?: EMPTY,
+            text = article.webTitle ?: EMPTY,
             color = Color.Black,
             fontWeight = FontWeight.SemiBold
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = article.content ?: EMPTY,
-            color = Color.Black,
-            fontWeight = FontWeight.Light
-        )
+//        Text(
+//            text = article.content ?: EMPTY,
+//            color = Color.Black,
+//            fontWeight = FontWeight.Light
+//        )
     }
 }

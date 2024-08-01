@@ -2,17 +2,17 @@ package presentation.navigation
 
 import net.thauvin.erik.urlencoder.UrlEncoderUtil
 
-const val articleUrl = "articleUrl"
+const val articleId = "articleId"
 
 sealed class Screen(val route: String) {
     data object TopHeadlines : Screen("top_headlines")
 
-    data object ArticleDetail : Screen("article_detail/{$articleUrl}") {
-        fun createRoute(articleUrl: String): String {
-            val encodedUrl = UrlEncoderUtil.encode(articleUrl)
-            return "article_detail/$encodedUrl"
+    data object ArticleDetail : Screen("article_detail/{$articleId}") {
+        fun createRoute(articleId: String): String {
+            val encodedArticleId = UrlEncoderUtil.encode(articleId)
+            return "article_detail/$encodedArticleId"
         }
 
-        fun decodeUrl(articleUrl: String): String = UrlEncoderUtil.decode(articleUrl)
+        fun decodeUrl(articleId: String): String = UrlEncoderUtil.decode(articleId)
     }
 }

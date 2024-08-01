@@ -67,7 +67,7 @@ private fun ScreenContent(
                     article = article,
                     onArticleClicked = {
                         navController.navigate(
-                            route = Screen.ArticleDetail.createRoute(article.id)
+                            route = Screen.ArticleDetail.createRoute(article.articleId)
                         )
                     },
                     modifier = Modifier

@@ -1,5 +1,6 @@
 package data.model.response
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,5 +18,6 @@ data class ArticleListResponse(
     val currentPage: Int,
     val pages: Int,
     val orderBy: String,
-    val results: List<ArticleResponse>
+    @SerialName("results")
+    val articles: List<ArticleResponse>
 )

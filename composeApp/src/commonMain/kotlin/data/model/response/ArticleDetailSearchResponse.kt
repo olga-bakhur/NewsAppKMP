@@ -1,5 +1,6 @@
 package data.model.response
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,5 +13,6 @@ data class SingleArticleResponse(
     val status: String,
     val userTier: String,
     val total: Int,
-    val content: ArticleResponse
+    @SerialName("content")
+    val article: ArticleResponse
 )

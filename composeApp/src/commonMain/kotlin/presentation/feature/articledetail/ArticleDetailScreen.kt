@@ -1,15 +1,14 @@
 package presentation.feature.articledetail
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -24,12 +23,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import common.EMPTY
+import data.util.transformMillisToDateString
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.error
 import newsappkmp.composeapp.generated.resources.no_info
 import newsappkmp.composeapp.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import presentation.component.LoadImageFromUrl
 import presentation.navigation.Screen
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -64,27 +65,81 @@ private fun ScreenContent(
     if (article != null) {
         Column(
             modifier = modifier
-                .border(
-                    border = BorderStroke(1.dp, Color.Black),
-                    RoundedCornerShape(10.dp)
-                )
                 .padding(16.dp)
+                .verticalScroll(state = rememberScrollState())
         ) {
+            // Thumbnail
+            LoadImageFromUrl(
+                imageUri = article.thumbnail,
+                contentDescription = "Thumbnail"
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Title
             Text(
-                text = article.webTitle ?: EMPTY,
+                text = article.title,
                 color = Color.Black,
                 fontWeight = FontWeight.SemiBold
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-//            Text(
-//                text = article.content ?: EMPTY,
-//                color = Color.Black,
-//                fontWeight = FontWeight.Light
-//            )
-        }
+            // Body text
+            Text(
+                text = article.bodyText ?: EMPTY,
+                color = Color.Black,
+                fontWeight = FontWeight.Light
+            )
 
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // By line
+            Text(
+                text = article.byline ?: EMPTY,
+                color = Color.Black,
+                fontWeight = FontWeight.Light
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Source
+            Text(
+                text = article.source,
+                color = Color.Black,
+                fontWeight = FontWeight.Light
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Category
+            Text(
+                text = article.category,
+                color = Color.Black,
+                fontWeight = FontWeight.Light
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Date
+            Text(
+                text = transformMillisToDateString(article.publicationDate),
+                color = Color.Black,
+                fontWeight = FontWeight.Light
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Last modified
+            Text(
+                text = transformMillisToDateString(article.lastModified),
+                color = Color.Black,
+                fontWeight = FontWeight.Light
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+        }
     } else {
         Box(
             modifier = modifier

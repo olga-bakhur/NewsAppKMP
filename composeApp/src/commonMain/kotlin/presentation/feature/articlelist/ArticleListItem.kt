@@ -14,8 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import common.EMPTY
 import data.model.dto.Article
+import data.util.transformMillisToDateString
+import presentation.component.LoadImageFromUrl
 
 @Composable
 fun TopHeadlineItem(
@@ -32,18 +33,57 @@ fun TopHeadlineItem(
             .clickable { onArticleClicked() }
             .padding(16.dp)
     ) {
+        // Thumbnail
+        LoadImageFromUrl(
+            imageUri = article.thumbnail,
+            contentDescription = "Thumbnail"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Title
         Text(
-            text = article.webTitle ?: EMPTY,
+            text = article.title,
             color = Color.Black,
             fontWeight = FontWeight.SemiBold
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-//        Text(
-//            text = article.content ?: EMPTY,
-//            color = Color.Black,
-//            fontWeight = FontWeight.Light
-//        )
+        // Trail text
+        Text(
+            text = article.trailText,
+            color = Color.Black,
+            fontWeight = FontWeight.Light
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Source
+        Text(
+            text = article.source,
+            color = Color.Black,
+            fontWeight = FontWeight.Light
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Category
+        Text(
+            text = article.category,
+            color = Color.Black,
+            fontWeight = FontWeight.Light
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Date
+        Text(
+            text = transformMillisToDateString(article.publicationDate),
+            color = Color.Black,
+            fontWeight = FontWeight.Light
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
     }
 }

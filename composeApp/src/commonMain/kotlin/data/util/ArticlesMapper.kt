@@ -6,24 +6,30 @@ import data.model.response.ArticleListSearchResponse
 import data.model.response.ArticleResponse
 
 fun ArticleListSearchResponse.toArticleList(): List<Article> =
-    response.results.map { articleResponse ->
+    response.articles.map { articleResponse ->
         articleResponse.toArticle()
     }
 
 fun ArticleDetailSearchResponse.toArticle(): Article =
-    response.content.toArticle()
+    response.article.toArticle()
 
 
 fun ArticleResponse.toArticle(): Article = Article(
-    id = id,
+    articleId = articleId,
     type = type,
-    sectionId = sectionId,
-    sectionName = sectionName,
-    webPublicationDate = webPublicationDate,
-    webTitle = webTitle,
+    sectionId = categoryId,
+    category = category,
+    publicationDate = toEpochMillis(publicationDate),
+    title = title,
     webUrl = webUrl,
     apiUrl = apiUrl,
     isHosted = isHosted,
     pillarId = pillarId,
-    pillarName = pillarName
+    pillarName = pillarName,
+    trailText = fields.trailText,
+    bodyText = fields.bodyText,
+    byline = fields.byline,
+    lastModified = toEpochMillis(fields.lastModified),
+    source = fields.source,
+    thumbnail = fields.thumbnail
 )

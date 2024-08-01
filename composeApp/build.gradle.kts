@@ -79,6 +79,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.slf4j.android)
             implementation(libs.sqlDelight.driver.android)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)

@@ -13,6 +13,7 @@ import domain.usecase.GetTopHeadlinesUseCase
 import domain.util.AppDispatchers
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
@@ -33,6 +34,8 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import presentation.feature.articledetail.ArticleDetailViewModel
 import presentation.feature.topheadlines.TopHeadlinesViewModel
+
+private const val NETWORK_TIME_OUT = 10_000L
 
 expect val platformModule: Module
 
@@ -69,11 +72,20 @@ fun provideHttpClient(json: Json): HttpClient =
             logger = Logger.DEFAULT
             level = LogLevel.ALL
         }
+
+        install(HttpTimeout) {
+            requestTimeoutMillis = NETWORK_TIME_OUT
+            connectTimeoutMillis = NETWORK_TIME_OUT
+            socketTimeoutMillis = NETWORK_TIME_OUT
+        }
     }
 
 fun provideJson(): Json = Json {
+    prettyPrint = true
     isLenient = true
+    useAlternativeNames = true
     ignoreUnknownKeys = true
+    encodeDefaults = false
 }
 
 fun provideKtorfitClient(httpClient: HttpClient): Ktorfit =

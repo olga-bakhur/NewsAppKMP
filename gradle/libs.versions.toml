@@ -52,6 +52,7 @@ ktorfit = "2.0.0"
 
 # Ktor logging
 slf4j = "2.1.0-alpha1"
+slf4jAndroid = "1.7.36"
 
 # KStore
 kstore = "0.8.0"
@@ -93,6 +94,17 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 
+# Ktorfit
+ktorfit = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit" }
+ktorfit-converters-response = { module = "de.jensklingenberg.ktorfit:ktorfit-converters-response", version.ref = "ktorfit" }
+ktorfit-converters-call = { module = "de.jensklingenberg.ktorfit:ktorfit-converters-call", version.ref = "ktorfit" }
+ktorfit-converters-flow = { module = "de.jensklingenberg.ktorfit:ktorfit-converters-flow", version.ref = "ktorfit" }
+
+# Ktor logging
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
+
 # Coil (image loading in KMP)
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil3" }
@@ -130,16 +142,6 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
 # for android, iOS, desktop and nodeJs
 kstore-file = { module = "io.github.xxfast:kstore-file", version.ref = "kstore" }
-
-# Ktorfit
-ktorfit = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit" }
-ktorfit-converters-response = { module = "de.jensklingenberg.ktorfit:ktorfit-converters-response", version.ref = "ktorfit" }
-ktorfit-converters-call = { module = "de.jensklingenberg.ktorfit:ktorfit-converters-call", version.ref = "ktorfit" }
-ktorfit-converters-flow = { module = "de.jensklingenberg.ktorfit:ktorfit-converters-flow", version.ref = "ktorfit" }
-
-# Ktor logging
-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 # Encode Url
 urlencoder-lib = { module = "net.thauvin.erik.urlencoder:urlencoder-lib", version.ref = "urlencoderLib" }

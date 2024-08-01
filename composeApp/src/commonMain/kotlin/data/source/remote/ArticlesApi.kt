@@ -11,12 +11,11 @@ import de.jensklingenberg.ktorfit.http.Query
 
 interface ArticlesApi {
 
-
     @GET("search")
     suspend fun fetchArticleList(
         @Query("api-key") apiKey: String = API_KEY_ARTICLES,
-        @Query("pageSize") pageSize: Int = 2, // TODO: not working
-        @Query("currentPage") currentPage: Int = 4, // TODO: not working
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
         @Query("show-fields") fields: String = FieldsRequestBuilder.constructArticleListRequestFields()
     ): ApiResult<ArticleListSearchResponse>
 

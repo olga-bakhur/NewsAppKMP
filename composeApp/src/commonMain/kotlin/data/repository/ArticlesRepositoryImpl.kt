@@ -13,8 +13,11 @@ import domain.repository.ArticlesRepository
 internal class ArticlesRepositoryImpl(
     private val articlesApi: ArticlesApi
 ) : ArticlesRepository {
-    override suspend fun fetchArticleList(): Result<List<Article>> {
-        val result = articlesApi.fetchArticleList()
+    override suspend fun fetchArticleList(page: Int, pageSize: Int): Result<List<Article>> {
+        val result = articlesApi.fetchArticleList(
+            page = page,
+            pageSize = pageSize
+        )
             .map {
                 it.toArticleList()
             }

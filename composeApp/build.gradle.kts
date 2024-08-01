@@ -54,6 +54,8 @@ kotlin {
             implementation(libs.ktorfit.converters.call)
             implementation(libs.ktorfit.converters.flow)
             implementation(libs.ktorfit)
+            implementation(libs.slf4j.api)
+            implementation(libs.slf4j.simple)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kstore)

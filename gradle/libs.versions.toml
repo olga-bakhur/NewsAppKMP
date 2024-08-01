@@ -51,8 +51,7 @@ koinComposeViewModel = "4.0.0-RC1"
 ktorfit = "2.0.0"
 
 # Ktor logging
-slf4jApi = "2.0.9"
-slf4jSimple = "1.6.1"
+slf4j = "2.1.0-alpha1"
 
 # KStore
 kstore = "0.8.0"
@@ -139,8 +138,8 @@ ktorfit-converters-call = { module = "de.jensklingenberg.ktorfit:ktorfit-convert
 ktorfit-converters-flow = { module = "de.jensklingenberg.ktorfit:ktorfit-converters-flow", version.ref = "ktorfit" }
 
 # Ktor logging
-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jApi" }
-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 # Encode Url
 urlencoder-lib = { module = "net.thauvin.erik.urlencoder:urlencoder-lib", version.ref = "urlencoderLib" }

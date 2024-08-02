@@ -66,6 +66,9 @@ buildConfig = "4.1.1"
 # Encode Url
 urlencoderLib = "1.5.0"
 
+# Paging
+pagingComposeCommon = "3.3.0-alpha02-0.4.0"
+
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -104,6 +107,10 @@ ktorfit-converters-flow = { module = "de.jensklingenberg.ktorfit:ktorfit-convert
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
+
+# Paging
+paging-common = { module = "app.cash.paging:paging-common", version.ref = "pagingComposeCommon" }
+paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "pagingComposeCommon" }
 
 # Coil (image loading in KMP)
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }

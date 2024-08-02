@@ -72,6 +72,10 @@ kotlin {
             implementation(libs.navigation.compose)
 
             implementation(libs.urlencoder.lib)
+
+            // Paging
+            implementation(libs.paging.compose.common)
+            implementation(libs.paging.common)
         }
 
         androidMain.dependencies {

@@ -8,5 +8,9 @@ class FetchArticleListUseCase(
     private val articlesRepository: ArticlesRepository
 ) {
 
-    suspend fun fetchArticleList(): Result<List<Article>> = articlesRepository.fetchArticleList()
+    suspend fun fetchArticleList(): Result<List<Article>> =
+        articlesRepository.fetchArticleList(
+            page = 1,
+            pageSize = 5
+        )
 }

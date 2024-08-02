@@ -76,6 +76,7 @@ kotlin {
             // Paging
             implementation(libs.paging.compose.common)
             implementation(libs.paging.common)
+            implementation(libs.paging.testing)
         }
 
         androidMain.dependencies {

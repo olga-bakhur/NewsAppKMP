@@ -68,6 +68,7 @@ urlencoderLib = "1.5.0"
 
 # Paging
 pagingComposeCommon = "3.3.0-alpha02-0.4.0"
+pagingTesting = "3.3.0-alpha02-0.5.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -111,6 +112,7 @@ slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroi
 # Paging
 paging-common = { module = "app.cash.paging:paging-common", version.ref = "pagingComposeCommon" }
 paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "pagingComposeCommon" }
+paging-testing = { module = "app.cash.paging:paging-testing", version.ref = "pagingTesting" }
 
 # Coil (image loading in KMP)
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }

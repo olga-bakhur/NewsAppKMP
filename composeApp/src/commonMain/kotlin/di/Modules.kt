@@ -2,6 +2,7 @@ package di
 
 import data.base.result.AppResponseConverterFactory
 import data.repository.ArticlesRepositoryImpl
+import data.source.paging.ArticlesPagingSource
 import data.source.remote.ArticlesApi
 import data.source.remote.createArticlesApi
 import data.util.Config.BASE_URL_ARTICLES
@@ -27,7 +28,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -51,12 +51,15 @@ val sharedModule = module {
     singleOf(::ArticlesRepositoryImpl).bind<ArticlesRepository>()
 
     /* UseCase */
-    factoryOf(::FetchArticleListUseCase)
-    factoryOf(::FetchArticleDetailUseCase)
+    singleOf(::FetchArticleListUseCase)
+    singleOf(::FetchArticleDetailUseCase)
 
     /* ViewModel */
     viewModelOf(::ArticleListViewModel)
     viewModelOf(::ArticleDetailViewModel)
+
+    /* Paging */
+    singleOf(::ArticlesPagingSource)
 }
 
 

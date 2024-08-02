@@ -36,7 +36,7 @@ fun NewsListScreen(
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.fetchArticleList()
+        viewModel.getPaginatedArticlesList()
     }
 
     ScreenContent(

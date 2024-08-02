@@ -61,7 +61,7 @@ private fun ScreenContent(
         ) {
             items(
                 items = articles,
-                key = { it.webUrl }
+                key = { it.articleId }
             ) { article ->
                 TopHeadlineItem(
                     article = article,

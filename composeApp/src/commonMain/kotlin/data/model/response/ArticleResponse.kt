@@ -19,8 +19,8 @@ data class ArticleResponse(
     val webUrl: String,
     val apiUrl: String,
     val isHosted: Boolean,
-    val pillarId: String,
-    val pillarName: String,
+    val pillarId: String? = null,
+    val pillarName: String? = null,
     val fields: ArticleResponseFields
 )
 

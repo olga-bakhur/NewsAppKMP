@@ -12,11 +12,13 @@ data class ArticleListSearchResponse(
 data class ArticleListResponse(
     val status: String,
     val userTier: String,
-    val total: Int,
+    @SerialName("total")
+    val totalArticlesCount: Int,
     val startIndex: Int,
     val pageSize: Int,
     val currentPage: Int,
-    val pages: Int,
+    @SerialName("pages")
+    val totalPagesCount: Int,
     val orderBy: String,
     @SerialName("results")
     val articles: List<ArticleResponse>

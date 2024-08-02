@@ -41,7 +41,7 @@ class ArticleListViewModel(
     fun fetchArticleList() {
         launchWithLoading(appDispatchers.io) {
             when (val result = fetchArticleListUseCase.fetchArticleList()) {
-                is Result.Success -> _articles.emit(result.data)
+                is Result.Success -> _articles.emit(result.data.articles)
                 is Result.Error -> _error.emit(result.error)
             }
         }

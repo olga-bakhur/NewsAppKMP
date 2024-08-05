@@ -2,9 +2,9 @@ package di
 
 import data.base.result.AppResponseConverterFactory
 import data.repository.ArticlesRepositoryImpl
-import data.source.paging.ArticlesPagingSource
 import data.source.remote.ArticlesApi
 import data.source.remote.createArticlesApi
+import data.source.remote.paging.ArticlesPagingSource
 import data.util.Config.BASE_URL_ARTICLES
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.ktorfit
@@ -84,11 +84,8 @@ fun provideHttpClient(json: Json): HttpClient =
     }
 
 fun provideJson(): Json = Json {
-    prettyPrint = true
     isLenient = true
-    useAlternativeNames = true
     ignoreUnknownKeys = true
-    encodeDefaults = false
 }
 
 fun provideKtorfitClient(httpClient: HttpClient): Ktorfit =

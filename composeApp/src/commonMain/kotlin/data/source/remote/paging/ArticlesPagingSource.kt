@@ -1,17 +1,14 @@
-package data.source.paging
+package data.source.remote.paging
 
-import data.base.paging.BasePagingSource
-import data.base.paging.PaginationItems
 import data.base.result.Result
 import data.model.dto.Article
 import data.model.dto.ArticleList
 import domain.repository.ArticlesRepository
-import org.koin.core.component.KoinComponent
 import kotlin.properties.Delegates
 
 class ArticlesPagingSource(
     private val articlesRepository: ArticlesRepository,
-) : BasePagingSource<Article>(), KoinComponent {
+) : BasePagingSource<Article>() {
     private var filterId by Delegates.notNull<String>()
 
     fun initFilter(id: String) {

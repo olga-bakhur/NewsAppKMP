@@ -1,4 +1,4 @@
-package data.base.paging
+package data.source.remote.paging
 
 data class PaginationItems<T>(
     val items: List<T>,

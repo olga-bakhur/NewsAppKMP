@@ -8,12 +8,13 @@ import data.base.error.AppError
 import data.model.dto.Article
 import domain.usecase.FetchArticleListUseCase
 import domain.util.AppDispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class ArticleListViewModel(
     private val fetchArticleListUseCase: FetchArticleListUseCase,
@@ -22,7 +23,7 @@ class ArticleListViewModel(
 
     override val loading = MutableStateFlow(false)
     private val _error = MutableStateFlow<AppError?>(null)
-    private val _articles = MutableStateFlow<List<Article>?>(null)
+    private val _articles = MutableStateFlow(emptyFlow<PagingData<Article>>())
 
     val state: StateFlow<ArticleListState> = combine(
         loading,
@@ -40,20 +41,9 @@ class ArticleListViewModel(
         ArticleListState()
     )
 
-    fun fetchArticleList() {
-//        launchWithLoading(appDispatchers.io) {
-//            when (val result = fetchArticleListUseCase.fetchArticleList()) {
-//                is Result.Success -> _articles.emit(result.data.articles)
-//                is Result.Error -> _error.emit(result.error)
-//            }
-//        }
-    }
-
-    // TODO: handle error
     fun getPaginatedArticlesList() {
-        val flow: Flow<PagingData<Article>> =
-            fetchArticleListUseCase.getPaginatedArticlesList(EMPTY)
-
-        // TODO: update UI state
+        viewModelScope.launch(appDispatchers.io) {
+            _articles.emit(fetchArticleListUseCase.getPaginatedArticlesList(EMPTY))
+        }
     }
 }

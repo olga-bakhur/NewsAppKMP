@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -19,12 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import app.cash.paging.compose.collectAsLazyPagingItems
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.error
-import newsappkmp.composeapp.generated.resources.no_info
 import newsappkmp.composeapp.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import presentation.component.BasePagingList
 import presentation.navigation.Screen
 
 @ExperimentalFoundationApi
@@ -52,40 +51,22 @@ private fun ScreenContent(
     state: ArticleListState,
     navController: NavController
 ) {
+    val pagingItems = state.articles.collectAsLazyPagingItems()
 
-    val articles = state.articles
-
-    if (articles != null) {
-        LazyColumn(
-            modifier = modifier.fillMaxSize(),
-        ) {
-            items(
-                items = articles,
-                key = { it.articleId }
-            ) { article ->
-                TopHeadlineItem(
-                    article = article,
-                    onArticleClicked = {
-                        navController.navigate(
-                            route = Screen.ArticleDetail.createRoute(article.articleId)
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                )
-            }
-        }
-
-    } else {
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-        ) {
-            Text(
-                text = stringResource(Res.string.no_info),
-                modifier = modifier
-                    .align(Alignment.Center)
+    BasePagingList(
+        data = pagingItems
+    ) { meal, modifier ->
+        meal?.let { article ->
+            TopHeadlineItem(
+                article = article,
+                onArticleClicked = {
+                    navController.navigate(
+                        route = Screen.ArticleDetail.createRoute(article.articleId)
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             )
         }
     }

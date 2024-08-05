@@ -1,4 +1,4 @@
-package data.base.paging
+package data.source.remote.paging
 
 import app.cash.paging.PagingSource
 import app.cash.paging.PagingSourceLoadParams
@@ -39,5 +39,9 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Value>): Int? = state.anchorPosition
+    override fun getRefreshKey(state: PagingState<Int, Value>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
 }

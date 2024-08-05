@@ -55,8 +55,8 @@ private fun ScreenContent(
 
     BasePagingList(
         data = pagingItems
-    ) { meal, modifier ->
-        meal?.let { article ->
+    ) { article, modifier ->
+        article?.let { article ->
             TopHeadlineItem(
                 article = article,
                 onArticleClicked = {

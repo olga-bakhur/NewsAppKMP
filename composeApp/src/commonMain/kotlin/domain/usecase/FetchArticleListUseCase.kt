@@ -17,6 +17,8 @@ class FetchArticleListUseCase(
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
+                initialLoadSize = 10,
+                prefetchDistance = 3,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { articlesPagingSource }

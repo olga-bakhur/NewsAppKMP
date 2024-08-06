@@ -1,4 +1,4 @@
-package presentation.feature.articlelist
+package presentation.feature.feed
 
 import androidx.lifecycle.viewModelScope
 import app.cash.paging.PagingData
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class ArticleListViewModel(
+class FeedViewModel(
     private val fetchArticleListUseCase: FetchArticleListUseCase,
     private val appDispatchers: AppDispatchers
 ) : BaseViewModel() {
@@ -25,12 +25,12 @@ class ArticleListViewModel(
     private val _error = MutableStateFlow<AppError?>(null)
     private val _articles = MutableStateFlow(emptyFlow<PagingData<Article>>())
 
-    val state: StateFlow<ArticleListState> = combine(
+    val state: StateFlow<FeedListState> = combine(
         loading,
         _error,
         _articles
     ) { loading, error, articles ->
-        ArticleListState(
+        FeedListState(
             loading = loading,
             error = error,
             articles = articles
@@ -38,7 +38,7 @@ class ArticleListViewModel(
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(),
-        ArticleListState()
+        FeedListState()
     )
 
     fun getPaginatedArticlesList() {

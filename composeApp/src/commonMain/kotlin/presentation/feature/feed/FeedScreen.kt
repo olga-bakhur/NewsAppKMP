@@ -1,4 +1,4 @@
-package presentation.feature.articlelist
+package presentation.feature.feed
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import app.cash.paging.compose.collectAsLazyPagingItems
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.error
@@ -24,13 +23,14 @@ import newsappkmp.composeapp.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import presentation.component.BasePagingList
-import presentation.navigation.Screen
 
 @ExperimentalFoundationApi
 @Composable
 fun NewsListScreen(
-    navController: NavController,
-    viewModel: ArticleListViewModel = koinViewModel()
+    modifier: Modifier = Modifier,
+    viewModel: FeedViewModel = koinViewModel(),
+    onArticleClicked: (articleId: String) -> Unit,
+    onBackClicked: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -39,8 +39,10 @@ fun NewsListScreen(
     }
 
     ScreenContent(
+        modifier = modifier,
         state = state,
-        navController = navController
+        onArticleClicked = onArticleClicked,
+        onBackClicked = onBackClicked
     )
 }
 
@@ -48,23 +50,23 @@ fun NewsListScreen(
 @Composable
 private fun ScreenContent(
     modifier: Modifier = Modifier,
-    state: ArticleListState,
-    navController: NavController
+    state: FeedListState,
+    onArticleClicked: (articleId: String) -> Unit,
+    onBackClicked: () -> Unit,
 ) {
     val pagingItems = state.articles.collectAsLazyPagingItems()
 
     BasePagingList(
+        modifier = modifier,
         data = pagingItems
-    ) { article, modifier ->
-        article?.let { article ->
+    ) { articleView, modifierView ->
+        articleView?.let { article ->
             TopHeadlineItem(
                 article = article,
                 onArticleClicked = {
-                    navController.navigate(
-                        route = Screen.ArticleDetail.createRoute(article.articleId)
-                    )
+                    onArticleClicked(article.articleId)
                 },
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             )

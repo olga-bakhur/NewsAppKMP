@@ -20,4 +20,9 @@
     <string name="error">Error</string>
     <string name="ok">Ok</string>
 
+    <!--    BottomBar-->
+    <string name="feed">Feed</string>
+    <string name="favorite">Favorite</string>
+    <string name="settings">Settings</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package presentation.feature.articlelist
+package presentation.feature.feed
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border

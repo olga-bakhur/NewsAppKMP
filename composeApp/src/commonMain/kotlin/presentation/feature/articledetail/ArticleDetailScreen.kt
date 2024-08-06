@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import common.EMPTY
 import data.util.transformMillisToDateString
 import newsappkmp.composeapp.generated.resources.Res
@@ -36,9 +35,10 @@ import presentation.navigation.Screen
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ArticleDetailScreen(
-    navController: NavController,
+    modifier: Modifier = Modifier,
+    viewModel: ArticleDetailViewModel = koinViewModel(),
     articleId: String,
-    viewModel: ArticleDetailViewModel = koinViewModel()
+    onBackClicked: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -50,16 +50,20 @@ fun ArticleDetailScreen(
         }
     }
 
-    ScreenContent(state = state)
+    ScreenContent(
+        modifier = modifier,
+        state = state,
+        onBackClicked = onBackClicked
+    )
 }
 
 @ExperimentalFoundationApi
 @Composable
 private fun ScreenContent(
     modifier: Modifier = Modifier,
-    state: ArticleDetailState
+    state: ArticleDetailState,
+    onBackClicked: () -> Unit
 ) {
-
     val article = state.article
 
     if (article != null) {

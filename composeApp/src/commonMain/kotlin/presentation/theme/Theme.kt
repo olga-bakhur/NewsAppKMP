@@ -12,7 +12,7 @@ private val localRadius = staticCompositionLocalOf { Radius() }
 private val localTypography = staticCompositionLocalOf { Typography() }
 
 @Composable
-fun BpTheme(
+fun Theme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {

@@ -5,7 +5,7 @@ import net.thauvin.erik.urlencoder.UrlEncoderUtil
 const val articleId = "articleId"
 
 sealed class Screen(val route: String) {
-    data object TopHeadlines : Screen("top_headlines")
+    data object Feed : Screen("feed")
 
     data object ArticleDetail : Screen("article_detail/{$articleId}") {
         fun createRoute(articleId: String): String {
@@ -15,4 +15,7 @@ sealed class Screen(val route: String) {
 
         fun decodeUrl(articleId: String): String = UrlEncoderUtil.decode(articleId)
     }
+
+    data object Favorite : Screen("favorite")
+    data object Settings : Screen("settings")
 }

@@ -33,7 +33,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import presentation.feature.articledetail.ArticleDetailViewModel
-import presentation.feature.articlelist.ArticleListViewModel
+import presentation.feature.feed.FeedViewModel
 
 private const val NETWORK_TIME_OUT = 10_000L
 
@@ -55,7 +55,7 @@ val sharedModule = module {
     singleOf(::FetchArticleDetailUseCase)
 
     /* ViewModel */
-    viewModelOf(::ArticleListViewModel)
+    viewModelOf(::FeedViewModel)
     viewModelOf(::ArticleDetailViewModel)
 
     /* Paging */

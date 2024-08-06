@@ -1,4 +1,4 @@
-package presentation.navigation
+package presentation.navigation.navbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -14,30 +14,31 @@ import newsappkmp.composeapp.generated.resources.favorite
 import newsappkmp.composeapp.generated.resources.feed
 import newsappkmp.composeapp.generated.resources.settings
 import org.jetbrains.compose.resources.StringResource
+import presentation.navigation.Screen
 
-sealed class BottomNavigationItem(
+sealed class NavigationItem(
     val textId: StringResource,
-    val unSelectedIcon: ImageVector = Icons.Outlined.Home,
+    val unselectedIcon: ImageVector = Icons.Outlined.Home,
     val selectedIcon: ImageVector = Icons.Filled.Home,
     val route: String = EMPTY
 ) {
-    data object Feed : BottomNavigationItem(
+    data object Feed : NavigationItem(
         textId = Res.string.feed,
-        unSelectedIcon = Icons.Outlined.Home,
+        unselectedIcon = Icons.Outlined.Home,
         selectedIcon = Icons.Filled.Home,
         route = Screen.Feed.route
     )
 
-    data object Favorite : BottomNavigationItem(
+    data object Favorite : NavigationItem(
         textId = Res.string.favorite,
-        unSelectedIcon = Icons.Outlined.Favorite,
+        unselectedIcon = Icons.Outlined.Favorite,
         selectedIcon = Icons.Filled.Favorite,
         route = Screen.Favorite.route
     )
 
-    data object Settings : BottomNavigationItem(
+    data object Settings : NavigationItem(
         textId = Res.string.settings,
-        unSelectedIcon = Icons.Outlined.Settings,
+        unselectedIcon = Icons.Outlined.Settings,
         selectedIcon = Icons.Filled.Settings,
         route = Screen.Settings.route
     )

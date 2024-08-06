@@ -70,6 +70,9 @@ urlencoderLib = "1.5.0"
 pagingComposeCommon = "3.3.0-alpha02-0.4.0"
 pagingTesting = "3.3.0-alpha02-0.5.1"
 
+# WindowSize
+material3WindowSizeClassMultiplatform = "0.5.0"
+
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -154,6 +157,9 @@ kstore-file = { module = "io.github.xxfast:kstore-file", version.ref = "kstore" 
 
 # Encode Url
 urlencoder-lib = { module = "net.thauvin.erik.urlencoder:urlencoder-lib", version.ref = "urlencoderLib" }
+
+# WindowSize
+material3-window-size-multiplatform = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "material3WindowSizeClassMultiplatform" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -11,7 +11,7 @@ import presentation.navigation.Graph
 fun App() {
     KoinContext {
         MaterialTheme {
-            AppContent(startDestination = Graph.BottomBar.route)
+            AppContent(startDestination = Graph.NavigationBar.route)
         }
     }
 }

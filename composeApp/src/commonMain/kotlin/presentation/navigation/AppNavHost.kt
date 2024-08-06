@@ -32,18 +32,18 @@ fun AppNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        bottomBarGraph(navController, Modifier.padding(paddingValues))
+        navigationBarGraph(navController, Modifier.padding(paddingValues))
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-fun NavGraphBuilder.bottomBarGraph(
+fun NavGraphBuilder.navigationBarGraph(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
     navigation(
         startDestination = Screen.Feed.route,
-        route = Graph.BottomBar.route
+        route = Graph.NavigationBar.route
     ) {
         // tabs
         composable(Screen.Feed.route) {

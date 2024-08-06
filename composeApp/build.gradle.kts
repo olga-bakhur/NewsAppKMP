@@ -77,6 +77,9 @@ kotlin {
             implementation(libs.paging.compose.common)
             implementation(libs.paging.common)
             implementation(libs.paging.testing)
+
+            // WindowSize
+            implementation(libs.material3.window.size.multiplatform)
         }
 
         androidMain.dependencies {

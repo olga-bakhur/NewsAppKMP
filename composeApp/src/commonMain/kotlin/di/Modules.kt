@@ -34,6 +34,8 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import presentation.feature.articledetail.ArticleDetailViewModel
 import presentation.feature.feed.FeedViewModel
+import presentation.feature.favorite.FavoriteViewModel
+import presentation.feature.settings.SettingsViewModel
 
 private const val NETWORK_TIME_OUT = 10_000L
 
@@ -57,6 +59,8 @@ val sharedModule = module {
     /* ViewModel */
     viewModelOf(::FeedViewModel)
     viewModelOf(::ArticleDetailViewModel)
+    viewModelOf(::FavoriteViewModel)
+    viewModelOf(::SettingsViewModel)
 
     /* Paging */
     singleOf(::ArticlesPagingSource)

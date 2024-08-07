@@ -2,7 +2,7 @@ package data.source.remote.paging
 
 import data.base.result.Result
 import data.model.dto.Article
-import data.model.dto.ArticleList
+import data.model.dto.Feed
 import domain.repository.ArticlesRepository
 import kotlin.properties.Delegates
 
@@ -17,12 +17,12 @@ class ArticlesPagingSource(
 
     override suspend fun fetchData(page: Int, limit: Int): Result<PaginationItems<Article>> =
         articlesRepository
-            .fetchArticleList(page, limit)
+            .fetchFeed(page, limit)
             .toPaginationItemsResult()
 
 }
 
-fun Result<ArticleList>.toPaginationItemsResult(): Result<PaginationItems<Article>> =
+fun Result<Feed>.toPaginationItemsResult(): Result<PaginationItems<Article>> =
     when (this) {
         is Result.Success -> Result.Success(
             with(this.data) {

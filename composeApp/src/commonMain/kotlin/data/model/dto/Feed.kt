@@ -3,7 +3,7 @@ package data.model.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ArticleList(
+data class Feed(
     val totalArticlesCount: Int,
     val startIndex: Int,
     val pageSize: Int,

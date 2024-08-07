@@ -7,7 +7,7 @@ import data.model.dto.Article
 import data.source.remote.paging.ArticlesPagingSource
 import kotlinx.coroutines.flow.Flow
 
-class FetchArticleListUseCase(
+class FetchFeedUseCase(
     private val articlesPagingSource: ArticlesPagingSource
 ) {
 

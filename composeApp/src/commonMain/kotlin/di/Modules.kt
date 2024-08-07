@@ -10,7 +10,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.ktorfit
 import domain.repository.ArticlesRepository
 import domain.usecase.FetchArticleDetailUseCase
-import domain.usecase.FetchArticleListUseCase
+import domain.usecase.FetchFeedUseCase
 import domain.util.AppDispatchers
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
@@ -53,7 +53,7 @@ val sharedModule = module {
     singleOf(::ArticlesRepositoryImpl).bind<ArticlesRepository>()
 
     /* UseCase */
-    singleOf(::FetchArticleListUseCase)
+    singleOf(::FetchFeedUseCase)
     singleOf(::FetchArticleDetailUseCase)
 
     /* ViewModel */

@@ -5,22 +5,22 @@ import data.base.result.ApiSuccess
 import data.base.result.Result
 import data.base.result.map
 import data.model.dto.Article
-import data.model.dto.ArticleList
+import data.model.dto.Feed
 import data.source.remote.ArticlesApi
 import data.util.toArticle
-import data.util.toArticleList
+import data.util.toFeed
 import domain.repository.ArticlesRepository
 
 internal class ArticlesRepositoryImpl(
     private val articlesApi: ArticlesApi
 ) : ArticlesRepository {
-    override suspend fun fetchArticleList(page: Int, pageSize: Int): Result<ArticleList> {
-        val result = articlesApi.fetchArticleList(
+    override suspend fun fetchFeed(page: Int, pageSize: Int): Result<Feed> {
+        val result = articlesApi.fetchFeed(
             page = page,
             pageSize = pageSize
         )
             .map {
-                it.toArticleList()
+                it.toFeed()
             }
 
         return when (result) {

@@ -4,12 +4,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ArticleListSearchResponse(
-    val response: ArticleListResponse
+data class FeedSearchResponse(
+    val response: FeedResponse
 )
 
 @Serializable
-data class ArticleListResponse(
+data class FeedResponse(
     val status: String,
     val userTier: String,
     @SerialName("total")

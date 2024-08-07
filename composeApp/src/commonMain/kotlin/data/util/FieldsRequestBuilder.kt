@@ -2,16 +2,16 @@ package data.util
 
 object FieldsRequestBuilder {
 
-    private const val trailText = "trailText"
-    private const val bodyText = "bodyText"
-    private const val byline = "byline"
-    private const val lastModified = "lastModified"
-    private const val publication = "publication"
-    private const val thumbnail = "thumbnail"
+    private const val TRAIL_TEXT = "trailText"
+    private const val BODY_TEXT = "bodyText"
+    private const val BY_LINE = "byline"
+    private const val LAST_MODIFIED = "lastModified"
+    private const val PUBLICATION = "publication"
+    private const val THUMBNAIL = "thumbnail"
 
-    fun constructArticleListRequestFields(): String =
-        "$trailText,$lastModified,$publication,$thumbnail"
+    fun constructFeedRequestFields(): String =
+        "$TRAIL_TEXT,$LAST_MODIFIED,$PUBLICATION,$THUMBNAIL"
 
     fun constructArticleDetailRequestFields(): String =
-        "$trailText,$bodyText,$byline,$lastModified,$publication,$thumbnail"
+        "$TRAIL_TEXT,$BODY_TEXT,$BY_LINE,$LAST_MODIFIED,$PUBLICATION,$THUMBNAIL"
 }

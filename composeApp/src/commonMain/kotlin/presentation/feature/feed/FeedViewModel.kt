@@ -6,7 +6,7 @@ import base.BaseViewModel
 import common.EMPTY
 import data.base.error.AppError
 import data.model.dto.Article
-import domain.usecase.FetchArticleListUseCase
+import domain.usecase.FetchFeedUseCase
 import domain.util.AppDispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class FeedViewModel(
-    private val fetchArticleListUseCase: FetchArticleListUseCase,
+    private val fetchFeedUseCase: FetchFeedUseCase,
     private val appDispatchers: AppDispatchers
 ) : BaseViewModel() {
 
@@ -43,7 +43,7 @@ class FeedViewModel(
 
     fun getPaginatedArticlesList() {
         viewModelScope.launch(appDispatchers.io) {
-            _articles.emit(fetchArticleListUseCase.getPaginatedArticlesList(EMPTY))
+            _articles.emit(fetchFeedUseCase.getPaginatedArticlesList(EMPTY))
         }
     }
 }

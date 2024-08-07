@@ -1,14 +1,14 @@
 package data.util
 
 import data.model.dto.Article
-import data.model.dto.ArticleList
+import data.model.dto.Feed
 import data.model.response.ArticleDetailSearchResponse
-import data.model.response.ArticleListSearchResponse
+import data.model.response.FeedSearchResponse
 import data.model.response.ArticleResponse
 
-fun ArticleListSearchResponse.toArticleList(): ArticleList =
+fun FeedSearchResponse.toFeed(): Feed =
     with(response) {
-        ArticleList(
+        Feed(
             totalArticlesCount = totalArticlesCount,
             startIndex = startIndex,
             pageSize = pageSize,

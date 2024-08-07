@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
@@ -37,6 +38,7 @@ import newsappkmp.composeapp.generated.resources.no_info
 import newsappkmp.composeapp.generated.resources.ok
 import newsappkmp.composeapp.generated.resources.save
 import newsappkmp.composeapp.generated.resources.screen_title_article_detail
+import newsappkmp.composeapp.generated.resources.share
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import presentation.component.LoadImageFromUrl
@@ -96,7 +98,13 @@ private fun ScreenContent(
                         contentDescription = stringResource(Res.string.save),
                         onActionClicked = {
                             println("Save clicked")
-                            // TODO: save to local DB
+                        }
+                    ),
+                    TopAppBarActionItem(
+                        icon = Icons.Outlined.Share,
+                        contentDescription = stringResource(Res.string.share),
+                        onActionClicked = {
+                            println("Share clicked")
                         }
                     )
                 )

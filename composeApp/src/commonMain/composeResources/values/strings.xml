@@ -21,6 +21,10 @@
     <string name="ok">Ok</string>
     <string name="back">Back</string>
     <string name="save">Save</string>
+    <string name="search">Search</string>
+    <string name="share">Share</string>
+    <string name="filter">Filter</string>
+    <string name="date">Date</string>
 
     <!--    BottomBar-->
     <string name="screen_title_feed">Feed</string>

@@ -1,9 +1,8 @@
 package presentation.feature
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -32,7 +31,14 @@ fun AppContent(
     val isSideBarNavigation =
         calculateWindowSizeClass().widthSizeClass != WindowWidthSizeClass.Compact
 
-    Box {
+    Row {
+        if (isSideBarNavigation) {
+            SideNavBar(
+                navController = navController,
+                modifier = modifier
+            )
+        }
+
         Scaffold(
             modifier = modifier.fillMaxSize(),
             containerColor = MaterialTheme.colorScheme.background,
@@ -51,13 +57,6 @@ fun AppContent(
                 navController = navController,
                 startDestination = startDestination,
                 paddingValues = paddingValues,
-                modifier = modifier.padding(start = if (isSideBarNavigation) 80.dp else 0.dp)
-            )
-        }
-
-        if (isSideBarNavigation) {
-            SideNavBar(
-                navController = navController,
                 modifier = modifier
             )
         }

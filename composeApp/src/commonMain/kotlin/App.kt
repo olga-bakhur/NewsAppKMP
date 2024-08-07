@@ -5,13 +5,14 @@ import org.koin.compose.KoinContext
 import presentation.feature.AppContent
 import presentation.navigation.Graph
 
-
 @Composable
 @Preview
 fun App() {
     KoinContext {
         MaterialTheme {
-            AppContent(startDestination = Graph.NavigationBar.route)
+            AppContent(
+                startDestination = Graph.NavigationBar.route
+            )
         }
     }
 }

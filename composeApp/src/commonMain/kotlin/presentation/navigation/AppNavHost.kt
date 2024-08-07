@@ -87,7 +87,6 @@ fun NavGraphBuilder.navigationBarGraph(
             )
         ) { backStackEntry ->
             ArticleDetailScreen(
-                modifier = modifier,
                 viewModel = koinViewModel(),
                 articleId = backStackEntry.arguments?.getString(articleId) ?: EMPTY,
                 onBackClicked = { navController.popBackStack() }

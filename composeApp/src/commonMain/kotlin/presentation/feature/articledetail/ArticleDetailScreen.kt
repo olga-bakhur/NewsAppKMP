@@ -47,7 +47,6 @@ import presentation.navigation.navbar.TopAppBarActionItem
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ArticleDetailScreen(
-    modifier: Modifier = Modifier,
     viewModel: ArticleDetailViewModel = koinViewModel(),
     articleId: String,
     onBackClicked: () -> Unit
@@ -64,7 +63,6 @@ fun ArticleDetailScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     ScreenContent(
-        modifier = modifier,
         state = state,
         scrollBehavior = scrollBehavior,
         onBackClicked = onBackClicked
@@ -75,18 +73,15 @@ fun ArticleDetailScreen(
 @ExperimentalFoundationApi
 @Composable
 private fun ScreenContent(
-    modifier: Modifier = Modifier,
     state: ArticleDetailState,
     scrollBehavior: TopAppBarScrollBehavior,
     onBackClicked: () -> Unit
 ) {
     Scaffold(
-        modifier = modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
                 title = stringResource(Res.string.screen_title_article_detail),
-                modifier = modifier,
                 maxLines = 1,
                 scrollBehavior = scrollBehavior,
                 isNavigationIconVisible = true,
@@ -110,7 +105,8 @@ private fun ScreenContent(
 
         if (article != null) {
             Column(
-                modifier = modifier
+                modifier = Modifier
+                    .padding(innerPadding)
                     .padding(16.dp)
                     .verticalScroll(state = rememberScrollState())
             ) {
@@ -188,13 +184,13 @@ private fun ScreenContent(
             }
         } else {
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
             ) {
                 Text(
                     text = stringResource(Res.string.no_info),
-                    modifier = modifier
+                    modifier = Modifier
                         .align(Alignment.Center)
                 )
             }
@@ -202,11 +198,12 @@ private fun ScreenContent(
 
         if (state.loading) {
             Box(
-                modifier = modifier
+                modifier = Modifier
+                    .padding(innerPadding)
                     .fillMaxSize()
             ) {
                 CircularProgressIndicator(
-                    modifier = modifier
+                    modifier = Modifier
                         .align(Alignment.Center),
                     color = Color.Red
                 )

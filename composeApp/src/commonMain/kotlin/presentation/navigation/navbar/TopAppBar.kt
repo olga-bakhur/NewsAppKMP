@@ -26,7 +26,7 @@ fun TopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     isNavigationIconVisible: Boolean,
     onNavigationIconClicked: (() -> Unit)? = null,
-    actions: List<TopAppBarAction> = emptyList()
+    actions: List<TopAppBarActionItem> = emptyList()
 ) {
     CenterAlignedTopAppBar(
         title = {

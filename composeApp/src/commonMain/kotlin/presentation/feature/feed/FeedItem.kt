@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,16 +22,16 @@ import presentation.component.LoadImageFromUrl
 @Composable
 fun TopHeadlineItem(
     article: Article,
-    onArticleClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    onArticleClicked: () -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .border(
                 border = BorderStroke(1.dp, Color.Black),
-                RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(10.dp)
             )
             .clickable { onArticleClicked() }
+            .fillMaxWidth()
             .padding(16.dp)
     ) {
         // Thumbnail

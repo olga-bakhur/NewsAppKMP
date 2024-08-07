@@ -51,7 +51,6 @@ fun NavGraphBuilder.navigationBarGraph(
         /* tabs */
         composable(Screen.Feed.route) {
             FeedScreen(
-                modifier = modifier,
                 viewModel = koinViewModel(),
                 onArticleClicked = { articleId ->
                     navController.navigate(

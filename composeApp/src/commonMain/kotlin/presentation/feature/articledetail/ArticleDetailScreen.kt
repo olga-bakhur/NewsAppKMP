@@ -42,7 +42,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import presentation.component.LoadImageFromUrl
 import presentation.navigation.Screen
 import presentation.navigation.navbar.TopAppBar
-import presentation.navigation.navbar.TopAppBarAction
+import presentation.navigation.navbar.TopAppBarActionItem
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -94,7 +94,7 @@ private fun ScreenContent(
                     onBackClicked.invoke()
                 },
                 actions = listOf(
-                    TopAppBarAction(
+                    TopAppBarActionItem(
                         icon = Icons.Outlined.Star,
                         contentDescription = stringResource(Res.string.save),
                         onActionClicked = {

@@ -53,7 +53,6 @@ fun <T : Any> BasePagingList(
         horizontalAlignment = Alignment.CenterHorizontally,
         contentPadding = paddingValues
     ) {
-
         item {
             AnimatedVisibility(hasOptionalList) {
                 Row(
@@ -87,7 +86,7 @@ fun <T : Any> BasePagingList(
             if (index == data.itemCount - 1) {
                 // This is the last index, you can add padding or any other logic here
                 content(item, Modifier.padding(bottomPadding))
-            }else{
+            } else {
                 content(item, Modifier)
             }
         }

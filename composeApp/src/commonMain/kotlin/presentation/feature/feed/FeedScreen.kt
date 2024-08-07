@@ -1,6 +1,7 @@
 package presentation.feature.feed
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -52,6 +53,7 @@ private fun ScreenContent(
 ) {
     Scaffold(
         modifier = Modifier
+            .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
@@ -65,7 +67,9 @@ private fun ScreenContent(
         val pagingItems = state.articles.collectAsLazyPagingItems()
 
         BasePagingList(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             data = pagingItems
         ) { articleView, _ ->
             articleView?.let { article ->

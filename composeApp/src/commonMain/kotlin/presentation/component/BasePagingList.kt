@@ -115,8 +115,8 @@ fun <T : Any> BasePagingList(
                             contentAlignment = Alignment.Center
                         ) {
                             CircularProgressIndicator(
-                                modifier.align(Alignment.Center),
-                                color = Theme.colors.primary
+                                color = Theme.colors.primary,
+                                modifier = Modifier.align(Alignment.Center)
                             )
                         }
                     }

@@ -78,7 +78,9 @@ private fun ScreenContent(
     onBackClicked: () -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
                 title = stringResource(Res.string.screen_title_article_detail),
@@ -106,10 +108,13 @@ private fun ScreenContent(
         if (article != null) {
             Column(
                 modifier = Modifier
+                    .fillMaxSize()
                     .padding(innerPadding)
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
                     .verticalScroll(state = rememberScrollState())
             ) {
+                Spacer(modifier = Modifier.height(8.dp))
+
                 // Thumbnail
                 LoadImageFromUrl(
                     imageUri = article.thumbnail,

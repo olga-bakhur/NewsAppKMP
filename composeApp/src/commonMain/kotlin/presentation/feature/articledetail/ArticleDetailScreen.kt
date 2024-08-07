@@ -102,14 +102,14 @@ private fun ScreenContent(
                 )
             )
         }
-    ) { innerPadding ->
+    ) { paddingValues ->
         val article = state.article
 
         if (article != null) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
+                    .padding(paddingValues)
                     .padding(horizontal = 16.dp)
                     .verticalScroll(state = rememberScrollState())
             ) {
@@ -190,7 +190,7 @@ private fun ScreenContent(
         } else {
             Box(
                 modifier = Modifier
-                    .padding(innerPadding)
+                    .padding(paddingValues)
                     .fillMaxSize()
             ) {
                 Text(
@@ -204,7 +204,7 @@ private fun ScreenContent(
         if (state.loading) {
             Box(
                 modifier = Modifier
-                    .padding(innerPadding)
+                    .padding(paddingValues)
                     .fillMaxSize()
             ) {
                 CircularProgressIndicator(

@@ -63,13 +63,13 @@ private fun ScreenContent(
                 isNavigationIconVisible = false
             )
         }
-    ) { innerPadding ->
+    ) { paddingValues ->
         val pagingItems = state.articles.collectAsLazyPagingItems()
 
         BasePagingList(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(paddingValues),
             data = pagingItems
         ) { articleView, _ ->
             articleView?.let { article ->

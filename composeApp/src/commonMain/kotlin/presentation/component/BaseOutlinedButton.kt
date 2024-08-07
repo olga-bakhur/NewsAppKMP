@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import presentation.theme.Theme
 
 @Composable
-fun BpOutlinedButton(
+fun BaseOutlinedButton(
     title: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,

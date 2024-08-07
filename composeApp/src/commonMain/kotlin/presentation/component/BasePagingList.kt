@@ -200,7 +200,7 @@ private fun ErrorView(
             style = Theme.typography.body,
             color = Color.Red
         )
-        BpOutlinedButton(
+        BaseOutlinedButton(
             title = "Try again",
             onClick = onClickRetry,
             modifier = Modifier

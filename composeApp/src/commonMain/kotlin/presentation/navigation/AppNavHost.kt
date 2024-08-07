@@ -62,7 +62,6 @@ fun NavGraphBuilder.navigationBarGraph(
 
         composable(Screen.Favorite.route) {
             FavoriteScreen(
-                modifier = modifier,
                 viewModel = koinViewModel(),
                 onBackClicked = { navController.popBackStack() }
             )
@@ -70,7 +69,6 @@ fun NavGraphBuilder.navigationBarGraph(
 
         composable(Screen.Settings.route) {
             SettingsScreen(
-                modifier = modifier,
                 viewModel = koinViewModel(),
                 onBackClicked = { navController.popBackStack() }
             )

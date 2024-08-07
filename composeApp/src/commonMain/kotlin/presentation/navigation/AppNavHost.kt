@@ -17,7 +17,7 @@ import common.EMPTY
 import org.koin.compose.viewmodel.koinViewModel
 import presentation.feature.articledetail.ArticleDetailScreen
 import presentation.feature.favorite.FavoriteScreen
-import presentation.feature.feed.NewsListScreen
+import presentation.feature.feed.FeedScreen
 import presentation.feature.settings.SettingsScreen
 
 @Composable
@@ -32,7 +32,10 @@ fun AppNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        navigationBarGraph(navController, Modifier.padding(paddingValues))
+        navigationBarGraph(
+            navController = navController,
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 }
 
@@ -45,17 +48,16 @@ fun NavGraphBuilder.navigationBarGraph(
         startDestination = Screen.Feed.route,
         route = Graph.NavigationBar.route
     ) {
-        // tabs
+        /* tabs */
         composable(Screen.Feed.route) {
-            NewsListScreen(
+            FeedScreen(
                 modifier = modifier,
                 viewModel = koinViewModel(),
                 onArticleClicked = { articleId ->
                     navController.navigate(
                         route = Screen.ArticleDetail.createRoute(articleId)
                     )
-                },
-                onBackClicked = { navController.popBackStack() }
+                }
             )
         }
 
@@ -75,7 +77,7 @@ fun NavGraphBuilder.navigationBarGraph(
             )
         }
 
-        // other screens
+        /* other screens */
         composable(
             route = Screen.ArticleDetail.route,
             arguments = listOf(

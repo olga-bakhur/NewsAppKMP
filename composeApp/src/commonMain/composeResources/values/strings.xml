@@ -19,10 +19,15 @@
     <string name="no_info">No info</string>
     <string name="error">Error</string>
     <string name="ok">Ok</string>
+    <string name="back">Back</string>
+    <string name="save">Save</string>
 
     <!--    BottomBar-->
-    <string name="feed">Feed</string>
-    <string name="favorite">Favorite</string>
-    <string name="settings">Settings</string>
+    <string name="screen_title_feed">Feed</string>
+    <string name="screen_title_favorite">Favorite</string>
+    <string name="screen_title_settings">Settings</string>
+
+    <!--    Screens-->
+    <string name="screen_title_article_detail">Detail</string>
 
 </resources>

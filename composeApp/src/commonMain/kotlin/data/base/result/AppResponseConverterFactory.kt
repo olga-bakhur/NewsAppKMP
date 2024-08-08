@@ -44,8 +44,11 @@ suspend fun <T : Any> handleApiResponse(
 ): ApiResult<T> {
     return try {
         if (response.status.isSuccess()) {
-            val jsonElement = Json.parseToJsonElement(response.bodyAsText())
-            val data = Json.decodeFromJsonElement(serializer, jsonElement)
+            val json = Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+            }
+            val data = json.decodeFromString(serializer, response.bodyAsText())
             println("KTOR / Success: $data")
             ApiSuccess(response.status.value, data)
         } else {

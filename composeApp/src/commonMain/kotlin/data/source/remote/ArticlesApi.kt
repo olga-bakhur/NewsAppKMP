@@ -1,8 +1,9 @@
 package data.source.remote
 
 import data.base.result.ApiResult
-import data.model.response.ArticleDetailSearchResponse
-import data.model.response.FeedSearchResponse
+import data.model.response.articledetail.ArticleDetailSearchResponse
+import data.model.response.feed.FeedSearchResponse
+import data.model.response.section.SectionsSearchResponse
 import data.util.Config.API_KEY_ARTICLES
 import data.util.FieldsRequestBuilder
 import de.jensklingenberg.ktorfit.http.GET
@@ -25,4 +26,9 @@ interface ArticlesApi {
         @Query("show-fields") fields: String = FieldsRequestBuilder.constructArticleDetailRequestFields(),
         @Path("id") articleId: String
     ): ApiResult<ArticleDetailSearchResponse>
+
+    @GET("sections")
+    suspend fun fetchSections(
+        @Query("api-key") apiKey: String = API_KEY_ARTICLES
+    ): ApiResult<SectionsSearchResponse>
 }

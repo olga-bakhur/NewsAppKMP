@@ -1,4 +1,4 @@
-package data.model.response
+package data.model.response.articledetail
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -8,10 +8,8 @@ data class ArticleResponse(
     @SerialName("id")
     val articleId: String,
     val type: String,
-    @SerialName("sectionId")
-    val categoryId: String,
-    @SerialName("sectionName")
-    val category: String,
+    val sectionId: String,
+    val sectionName: String,
     @SerialName("webPublicationDate")
     val publicationDate: String,
     @SerialName("webTitle")

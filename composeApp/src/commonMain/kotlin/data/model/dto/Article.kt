@@ -7,7 +7,7 @@ data class Article(
     val articleId: String,
     val type: String,
     val sectionId: String,
-    val category: String,
+    val sectionName: String,
     val publicationDate: Long,
     val title: String,
     val webUrl: String,

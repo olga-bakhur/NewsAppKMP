@@ -2,9 +2,9 @@ package data.util
 
 import data.model.dto.Article
 import data.model.dto.Feed
-import data.model.response.ArticleDetailSearchResponse
-import data.model.response.FeedSearchResponse
-import data.model.response.ArticleResponse
+import data.model.response.articledetail.ArticleDetailSearchResponse
+import data.model.response.articledetail.ArticleResponse
+import data.model.response.feed.FeedSearchResponse
 
 fun FeedSearchResponse.toFeed(): Feed =
     with(response) {
@@ -28,8 +28,8 @@ fun ArticleDetailSearchResponse.toArticle(): Article =
 fun ArticleResponse.toArticle(): Article = Article(
     articleId = articleId,
     type = type,
-    sectionId = categoryId,
-    category = category,
+    sectionId = sectionId,
+    sectionName = sectionName,
     publicationDate = toEpochMillis(publicationDate),
     title = title,
     webUrl = webUrl,

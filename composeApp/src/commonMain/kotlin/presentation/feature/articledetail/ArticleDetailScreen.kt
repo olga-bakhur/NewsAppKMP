@@ -169,7 +169,7 @@ private fun ScreenContent(
 
                 // Category
                 Text(
-                    text = article.category,
+                    text = article.sectionName,
                     color = Color.Black,
                     fontWeight = FontWeight.Light
                 )

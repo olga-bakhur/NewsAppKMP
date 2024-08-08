@@ -1,5 +1,6 @@
-package data.model.response
+package data.model.response.feed
 
+import data.model.response.articledetail.ArticleResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

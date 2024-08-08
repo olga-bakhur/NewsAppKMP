@@ -15,6 +15,7 @@ interface ArticlesApi {
     @GET("search")
     suspend fun fetchFeed(
         @Query("api-key") apiKey: String = API_KEY_ARTICLES,
+        @Query("section") sectionId: String? = null,
         @Query("page") page: Int,
         @Query("page-size") pageSize: Int,
         @Query("show-fields") fields: String = FieldsRequestBuilder.constructFeedRequestFields()

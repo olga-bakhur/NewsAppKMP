@@ -11,5 +11,6 @@ data class FeedListState(
     val loading: Boolean = false,
     val error: AppError? = null,
     val sections: List<Section> = emptyList(),
+    val sectionId: String? = null,
     val articles: Flow<PagingData<Article>> = emptyFlow()
 )

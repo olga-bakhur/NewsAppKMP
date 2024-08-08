@@ -4,22 +4,24 @@ import data.base.result.Result
 import data.model.dto.Article
 import data.model.dto.Feed
 import domain.repository.ArticlesRepository
-import kotlin.properties.Delegates
 
 class ArticlesPagingSource(
     private val articlesRepository: ArticlesRepository,
 ) : BasePagingSource<Article>() {
-    private var filterId by Delegates.notNull<String>()
+    private var filterId: String? = null
 
-    fun initFilter(id: String) {
+    fun initFilter(id: String?) {
         filterId = id
     }
 
     override suspend fun fetchData(page: Int, limit: Int): Result<PaginationItems<Article>> =
         articlesRepository
-            .fetchFeed(page, limit)
+            .fetchFeed(
+                sectionId = filterId,
+                page = page,
+                pageSize = limit
+            )
             .toPaginationItemsResult()
-
 }
 
 fun Result<Feed>.toPaginationItemsResult(): Result<PaginationItems<Article>> =

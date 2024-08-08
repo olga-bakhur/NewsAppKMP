@@ -14,8 +14,13 @@ import domain.repository.ArticlesRepository
 internal class ArticlesRepositoryImpl(
     private val articlesApi: ArticlesApi
 ) : ArticlesRepository {
-    override suspend fun fetchFeed(page: Int, pageSize: Int): Result<Feed> {
+    override suspend fun fetchFeed(
+        sectionId: String?,
+        page: Int,
+        pageSize: Int
+    ): Result<Feed> {
         val result = articlesApi.fetchFeed(
+            sectionId = sectionId,
             page = page,
             pageSize = pageSize
         )

@@ -1,9 +1,11 @@
 package presentation.feature.feed
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Search
@@ -26,9 +28,11 @@ import newsappkmp.composeapp.generated.resources.screen_title_feed
 import newsappkmp.composeapp.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import presentation.component.BaseFilterChip
 import presentation.component.BasePagingList
 import presentation.navigation.navbar.TopAppBar
 import presentation.navigation.navbar.TopAppBarActionItem
+import kotlin.reflect.KFunction1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalFoundationApi
@@ -48,6 +52,7 @@ fun FeedScreen(
     ScreenContent(
         state = state,
         onArticleClicked = onArticleClicked,
+        onFilterSelected = viewModel::setFilterBySection,
         scrollBehavior = scrollBehavior
     )
 }
@@ -58,6 +63,7 @@ fun FeedScreen(
 private fun ScreenContent(
     state: FeedListState,
     onArticleClicked: (articleId: String) -> Unit,
+    onFilterSelected: KFunction1<String?, Unit>,
     scrollBehavior: TopAppBarScrollBehavior,
 ) {
     Scaffold(
@@ -97,22 +103,44 @@ private fun ScreenContent(
             )
         }
     ) { paddingValues ->
-        val pagingItems = state.articles.collectAsLazyPagingItems()
-
-        BasePagingList(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
-            data = pagingItems
-        ) { articleView, _ ->
-            articleView?.let { article ->
-                TopHeadlineItem(
-                    article = article,
-                    onArticleClicked = {
-                        onArticleClicked(article.articleId)
+                .padding(paddingValues)
+        ) {
+            // Filters
+            state.sections.forEach { section ->
+                BaseFilterChip(
+                    label = section.sectionName,
+                    icon = Icons.Filled.Done,
+                    onChipClicked = {
+                        // TODO: coroutine scope???????
+                        onFilterSelected.invoke(section.sectionId)
                     }
                 )
             }
+
+            // Feed
+            val pagingItems = state.articles.collectAsLazyPagingItems()
+
+            BasePagingList(
+                modifier = Modifier
+                    .fillMaxSize(),
+                data = pagingItems
+            ) { articleView, _ ->
+                articleView?.let { article ->
+                    TopHeadlineItem(
+                        article = article,
+                        onArticleClicked = {
+                            onArticleClicked(article.articleId)
+                        }
+                    )
+                }
+            }
         }
+
+        // TODO: errors
     }
 }
+
+

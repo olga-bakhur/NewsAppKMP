@@ -19,17 +19,18 @@ class ArticleDetailViewModel(
 ) : BaseViewModel() {
 
     override val loading = MutableStateFlow(false)
-    private val _error = MutableStateFlow<AppError?>(null)
+    override val errors = MutableStateFlow<List<AppError>>(emptyList())
+
     private val _article = MutableStateFlow<Article?>(null)
 
     val state: StateFlow<ArticleDetailState> = combine(
         loading,
-        _error,
+        errors,
         _article
-    ) { loading, error, article ->
+    ) { loading, errors, article ->
         ArticleDetailState(
             loading = loading,
-            error = error,
+            errors = errors,
             article = article
         )
     }.stateIn(
@@ -42,7 +43,7 @@ class ArticleDetailViewModel(
         launchWithLoading(appDispatchers.io) {
             when (val result = fetchArticleDetailUseCase.fetchArticleDetailById(articleId)) {
                 is Result.Success -> _article.emit(result.data)
-                is Result.Error -> _error.emit(result.error)
+                is Result.Error -> addError(result.error)
             }
         }
     }

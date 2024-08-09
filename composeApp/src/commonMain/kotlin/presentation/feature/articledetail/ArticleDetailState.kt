@@ -5,6 +5,6 @@ import data.model.dto.Article
 
 data class ArticleDetailState(
     val loading: Boolean = false,
-    val error: AppError? = null,
+    val errors: List<AppError> = emptyList(),
     val article: Article? = null
 )

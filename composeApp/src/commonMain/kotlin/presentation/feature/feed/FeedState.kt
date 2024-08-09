@@ -7,9 +7,9 @@ import data.model.dto.Section
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-data class FeedListState(
+data class FeedState(
     val loading: Boolean = false,
-    val error: AppError? = null,
+    val errors: List<AppError> = emptyList(),
     val sections: List<Section> = emptyList(),
     val sectionId: String? = null,
     val articles: Flow<PagingData<Article>> = emptyFlow()

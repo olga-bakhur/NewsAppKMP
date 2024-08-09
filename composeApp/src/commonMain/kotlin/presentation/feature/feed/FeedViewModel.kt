@@ -26,21 +26,22 @@ class FeedViewModel(
 ) : BaseViewModel() {
 
     override val loading = MutableStateFlow(false)
-    private val _error = MutableStateFlow<AppError?>(null)
+    override val errors = MutableStateFlow<List<AppError>>(emptyList())
+
     private val _articles = MutableStateFlow(emptyFlow<PagingData<Article>>())
     private val _sections = MutableStateFlow(emptyList<Section>())
     private val _sectionId: MutableStateFlow<String?> = MutableStateFlow(null)
 
-    val state: StateFlow<FeedListState> = combine(
+    val state: StateFlow<FeedState> = combine(
         loading,
-        _error,
+        errors,
         _sections,
         _sectionId,
         _articles
-    ) { loading, error, sections, sectionId, articles ->
-        FeedListState(
+    ) { loading, errors, sections, sectionId, articles ->
+        FeedState(
             loading = loading,
-            error = error,
+            errors = errors,
             sections = sections,
             sectionId = sectionId,
             articles = articles
@@ -48,19 +49,14 @@ class FeedViewModel(
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(),
-        FeedListState()
+        FeedState()
     )
 
     fun fetchSections() {
         viewModelScope.launch(appDispatchers.io) {
             when (val result = fetchSectionsUseCase.fetchSections()) {
-                is Result.Success -> {
-                    _sections.emit(result.data)
-                }
-
-                is Result.Error -> {
-                    _error.emit(result.error)
-                }
+                is Result.Success -> _sections.emit(result.data)
+                is Result.Error -> addError(result.error)
             }
         }
     }

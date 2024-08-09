@@ -25,15 +25,18 @@
     <string name="share">Share</string>
     <string name="filter">Filter</string>
     <string name="date">Date</string>
-    <string name="less">less</string>
-    <string name="more_with_args">+ %1$d more</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="unknown">Unknown</string>
 
-    <!--    BottomBar-->
+    <!--    BottomBar titles-->
     <string name="screen_title_feed">Feed</string>
     <string name="screen_title_favorite">Favorite</string>
     <string name="screen_title_settings">Settings</string>
 
-    <!--    Screens-->
+    <!--    Screens titles-->
     <string name="screen_title_article_detail">Detail</string>
 
+    <!--    FeedScreen-->
+    <string name="more_with_args">+ %1$d more</string>
+    <string name="less">less</string>
 </resources>

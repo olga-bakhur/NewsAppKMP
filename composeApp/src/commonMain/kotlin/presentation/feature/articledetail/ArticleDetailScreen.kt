@@ -22,7 +22,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import common.EMPTY
 import data.util.transformMillisToDateString
 import newsappkmp.composeapp.generated.resources.Res
@@ -41,6 +41,7 @@ import newsappkmp.composeapp.generated.resources.screen_title_article_detail
 import newsappkmp.composeapp.generated.resources.share
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import presentation.component.BaseErrorDialog
 import presentation.component.LoadImageFromUrl
 import presentation.navigation.Screen
 import presentation.navigation.navbar.TopAppBar
@@ -61,11 +62,12 @@ fun ArticleDetailScreen(
         }
     }
 
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     ScreenContent(
         state = state,
+        dismissError = viewModel::dismissError,
         scrollBehavior = scrollBehavior,
         onBackClicked = onBackClicked
     )
@@ -76,6 +78,7 @@ fun ArticleDetailScreen(
 @Composable
 private fun ScreenContent(
     state: ArticleDetailState,
+    dismissError: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
     onBackClicked: () -> Unit
 ) {
@@ -223,26 +226,11 @@ private fun ScreenContent(
             }
         }
 
-        state.error?.let { appError ->
-            AlertDialog(
-                onDismissRequest = {
-                    // TODO: dismiss
-                },
-                confirmButton = {
-                    Text(
-                        text = stringResource(Res.string.ok)
-                    )
-                },
-                title = {
-                    Text(
-                        text = stringResource(Res.string.error)
-                    )
-                },
-                text = {
-                    Text(
-                        text = stringResource(appError.messageRes)
-                    )
-                }
+        // Errors
+        if (state.errors.isNotEmpty()) {
+            BaseErrorDialog(
+                error = state.errors.first(),
+                onDismiss = { dismissError.invoke() }
             )
         }
     }

@@ -29,7 +29,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.cash.paging.compose.collectAsLazyPagingItems
 import data.model.dto.Section
 import newsappkmp.composeapp.generated.resources.Res
@@ -49,10 +49,16 @@ import newsappkmp.composeapp.generated.resources.screen_title_feed
 import newsappkmp.composeapp.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import presentation.component.BaseErrorDialog
 import presentation.component.BaseFilterChip
 import presentation.component.BasePagingList
 import presentation.navigation.navbar.TopAppBar
 import presentation.navigation.navbar.TopAppBarActionItem
+import kotlin.Int
+import kotlin.OptIn
+import kotlin.String
+import kotlin.Unit
+import kotlin.let
 import kotlin.reflect.KFunction1
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,13 +73,14 @@ fun FeedScreen(
         viewModel.getPaginatedArticlesList()
     }
 
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     ScreenContent(
         state = state,
         onArticleClicked = onArticleClicked,
         onFilterSelected = viewModel::setFilterBySection,
+        dismissError = viewModel::dismissError,
         scrollBehavior = scrollBehavior
     )
 }
@@ -82,9 +89,10 @@ fun FeedScreen(
 @ExperimentalFoundationApi
 @Composable
 private fun ScreenContent(
-    state: FeedListState,
+    state: FeedState,
     onArticleClicked: (articleId: String) -> Unit,
     onFilterSelected: KFunction1<String?, Unit>,
+    dismissError: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
 ) {
     Scaffold(
@@ -161,7 +169,13 @@ private fun ScreenContent(
             }
         }
 
-        // TODO: errors
+        // Errors
+        if (state.errors.isNotEmpty()) {
+            BaseErrorDialog(
+                error = state.errors.first(),
+                onDismiss = { dismissError.invoke() }
+            )
+        }
     }
 }
 

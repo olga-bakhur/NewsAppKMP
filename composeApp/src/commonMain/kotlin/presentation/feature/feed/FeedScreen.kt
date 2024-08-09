@@ -54,11 +54,6 @@ import presentation.component.BaseFilterChip
 import presentation.component.BasePagingList
 import presentation.navigation.navbar.TopAppBar
 import presentation.navigation.navbar.TopAppBarActionItem
-import kotlin.Int
-import kotlin.OptIn
-import kotlin.String
-import kotlin.Unit
-import kotlin.let
 import kotlin.reflect.KFunction1
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -149,7 +144,8 @@ private fun ScreenContent(
                         bottom = 8.dp,
                     ),
                 sections = state.sections,
-                onFilterSelected = onFilterSelected
+                onFilterSelected = onFilterSelected,
+                currentFilterId = state.sectionId
             )
 
             // Feed
@@ -184,7 +180,8 @@ private fun ScreenContent(
 fun Filters(
     modifier: Modifier = Modifier,
     sections: List<Section>,
-    onFilterSelected: KFunction1<String?, Unit>
+    onFilterSelected: KFunction1<String?, Unit>,
+    currentFilterId: String?
 ) {
     var maxLines by rememberSaveable() { mutableStateOf(2) }
 
@@ -216,7 +213,8 @@ fun Filters(
             icon = Icons.Filled.Done,
             onChipClicked = {
                 onFilterSelected.invoke(section.sectionId)
-            }
+            },
+            selected = currentFilterId == section.sectionId
         )
     }
 }

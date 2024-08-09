@@ -25,6 +25,8 @@
     <string name="share">Share</string>
     <string name="filter">Filter</string>
     <string name="date">Date</string>
+    <string name="less">less</string>
+    <string name="more_with_args">+ %1$d more</string>
 
     <!--    BottomBar-->
     <string name="screen_title_feed">Feed</string>

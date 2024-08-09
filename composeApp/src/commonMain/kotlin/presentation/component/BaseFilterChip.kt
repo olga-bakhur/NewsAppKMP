@@ -22,24 +22,22 @@ fun BaseFilterChip(
     var selected by rememberSaveable { mutableStateOf(false) }
 
     FilterChip(
+        label = {
+            Text(label)
+        },
         onClick = {
             selected = !selected
             onChipClicked.invoke()
         },
-        label = {
-            Text(label)
-        },
         selected = selected,
-        leadingIcon = if (selected) {
-            {
+        leadingIcon = {
+            if (selected) {
                 Icon(
                     imageVector = icon,
                     contentDescription = label,
                     modifier = Modifier.size(FilterChipDefaults.IconSize)
                 )
             }
-        } else {
-            null
-        },
+        }
     )
 }

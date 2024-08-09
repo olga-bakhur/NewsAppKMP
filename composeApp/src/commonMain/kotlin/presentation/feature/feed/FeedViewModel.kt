@@ -55,12 +55,10 @@ class FeedViewModel(
         viewModelScope.launch(appDispatchers.io) {
             when (val result = fetchSectionsUseCase.fetchSections()) {
                 is Result.Success -> {
-                    println("Result.Success: $result")
                     _sections.emit(result.data)
                 }
 
                 is Result.Error -> {
-                    println("Result.Error: ${result.error}")
                     _error.emit(result.error)
                 }
             }
@@ -69,7 +67,8 @@ class FeedViewModel(
 
     fun setFilterBySection(sectionId: String?) {
         viewModelScope.launch(appDispatchers.io) {
-            _sectionId.emit(sectionId)
+            val newFilter = if (_sectionId.value == sectionId) null else sectionId
+            _sectionId.emit(newFilter)
 
             getPaginatedArticlesList()
         }

@@ -11,6 +11,12 @@ data class FeedState(
     val loading: Boolean = false,
     val errors: List<AppError> = emptyList(),
     val sections: List<Section> = emptyList(),
-    val sectionId: String? = null,
+    val feedFilter: FeedFilter = FeedFilter(),
     val articles: Flow<PagingData<Article>> = emptyFlow()
+)
+
+data class FeedFilter(
+    val sectionId: String? = null,
+    val fromDate: String? = null,
+    val toDate: String? = null
 )

@@ -8,16 +8,26 @@ import domain.repository.ArticlesRepository
 class ArticlesPagingSource(
     private val articlesRepository: ArticlesRepository,
 ) : BasePagingSource<Article>() {
-    private var filterId: String? = null
+    private var sectionId: String? = null
+    private var fromDate: String? = null
+    private var toDate: String? = null
 
-    fun initFilter(id: String?) {
-        filterId = id
+    fun initFilter(
+        sectionId: String?,
+        fromDate: String?,
+        toDate: String?
+    ) {
+        this.sectionId = sectionId
+        this.fromDate = fromDate
+        this.toDate = toDate
     }
 
     override suspend fun fetchData(page: Int, limit: Int): Result<PaginationItems<Article>> =
         articlesRepository
             .fetchFeed(
-                sectionId = filterId,
+                sectionId = sectionId,
+                fromDate = fromDate,
+                toDate = toDate,
                 page = page,
                 pageSize = limit
             )

@@ -11,8 +11,16 @@ class FetchFeedUseCase(
     private val articlesPagingSource: ArticlesPagingSource
 ) {
 
-    fun getPaginatedArticlesList(filterId: String?): Flow<PagingData<Article>> {
-        articlesPagingSource.initFilter(filterId)
+    fun getPaginatedArticlesList(
+        sectionId: String?,
+        fromDate: String?,
+        toDate: String?
+    ): Flow<PagingData<Article>> {
+        articlesPagingSource.initFilter(
+            sectionId = sectionId,
+            fromDate = fromDate,
+            toDate = toDate
+        )
 
         return Pager(
             config = PagingConfig(

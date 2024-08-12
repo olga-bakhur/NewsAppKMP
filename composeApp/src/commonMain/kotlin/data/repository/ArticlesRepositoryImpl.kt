@@ -16,11 +16,15 @@ internal class ArticlesRepositoryImpl(
 ) : ArticlesRepository {
     override suspend fun fetchFeed(
         sectionId: String?,
+        fromDate: String?,
+        toDate: String?,
         page: Int,
         pageSize: Int
     ): Result<Feed> {
         val result = articlesApi.fetchFeed(
             sectionId = sectionId,
+            fromDate = fromDate,
+            toDate = toDate,
             page = page,
             pageSize = pageSize
         )

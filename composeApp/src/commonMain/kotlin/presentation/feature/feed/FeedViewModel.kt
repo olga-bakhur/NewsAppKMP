@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -30,20 +29,20 @@ class FeedViewModel(
 
     private val _articles = MutableStateFlow(emptyFlow<PagingData<Article>>())
     private val _sections = MutableStateFlow(emptyList<Section>())
-    private val _sectionId: MutableStateFlow<String?> = MutableStateFlow(null)
+    private val _feedFilter: MutableStateFlow<FeedFilter> = MutableStateFlow(FeedFilter())
 
     val state: StateFlow<FeedState> = combine(
         _loading,
         _errors,
         _sections,
-        _sectionId,
+        _feedFilter,
         _articles
-    ) { loading, errors, sections, sectionId, articles ->
+    ) { loading, errors, sections, feedFilter, articles ->
         FeedState(
             loading = loading,
             errors = errors,
             sections = sections,
-            sectionId = sectionId,
+            feedFilter = feedFilter,
             articles = articles
         )
     }.stateIn(
@@ -63,8 +62,16 @@ class FeedViewModel(
 
     fun setFilterBySection(sectionId: String?) {
         viewModelScope.launch(appDispatchers.io) {
-            val newFilter = if (_sectionId.value == sectionId) null else sectionId
-            _sectionId.emit(newFilter)
+            val currentFilters = _feedFilter.value
+            val newSectionFilter = if (currentFilters.sectionId == sectionId) null else sectionId
+
+            _feedFilter.emit(
+                currentFilters.copy(
+                    sectionId = newSectionFilter,
+                    fromDate = currentFilters.fromDate,
+                    toDate = currentFilters.toDate
+                )
+            )
 
             getPaginatedArticlesList()
         }
@@ -72,7 +79,15 @@ class FeedViewModel(
 
     fun getPaginatedArticlesList() {
         viewModelScope.launch(appDispatchers.io) {
-            _articles.emit(fetchFeedUseCase.getPaginatedArticlesList(_sectionId.first()))
+            val currentFilters = _feedFilter.value
+
+            _articles.emit(
+                fetchFeedUseCase.getPaginatedArticlesList(
+                    sectionId = currentFilters.sectionId,
+                    fromDate = currentFilters.fromDate,
+                    toDate = currentFilters.sectionId,
+                )
+            )
         }
     }
 }

@@ -297,7 +297,7 @@ private fun ScreenContent(
                     ),
                 sections = state.sections,
                 onFilterSelected = onFilterSelected,
-                currentFilterId = state.sectionId
+                currentSectionId = state.feedFilter.sectionId
             )
 
             // Feed
@@ -333,7 +333,7 @@ fun Filters(
     modifier: Modifier = Modifier,
     sections: List<Section>,
     onFilterSelected: KFunction1<String?, Unit>,
-    currentFilterId: String?
+    currentSectionId: String?
 ) {
     var maxLines by rememberSaveable() { mutableStateOf(2) }
 
@@ -366,7 +366,7 @@ fun Filters(
             onChipClicked = {
                 onFilterSelected.invoke(section.sectionId)
             },
-            selected = currentFilterId == section.sectionId
+            selected = currentSectionId == section.sectionId
         )
     }
 }

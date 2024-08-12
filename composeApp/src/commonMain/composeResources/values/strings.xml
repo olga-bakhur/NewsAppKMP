@@ -28,15 +28,20 @@
     <string name="dismiss">Dismiss</string>
     <string name="unknown">Unknown</string>
 
-    <!--    BottomBar titles-->
+    <!--    BottomBar Screens titles-->
     <string name="screen_title_feed">Feed</string>
     <string name="screen_title_favorite">Favorite</string>
     <string name="screen_title_settings">Settings</string>
 
-    <!--    Screens titles-->
+    <!--    Other Screens titles-->
     <string name="screen_title_article_detail">Detail</string>
 
     <!--    FeedScreen-->
     <string name="more_with_args">+ %1$d more</string>
     <string name="less">less</string>
+
+    <!--    SettingsScreen-->
+    <string name="inbox">Inbox</string>
+    <string name="theme">Theme</string>
+    <string name="contact_us">Contact us</string>
 </resources>

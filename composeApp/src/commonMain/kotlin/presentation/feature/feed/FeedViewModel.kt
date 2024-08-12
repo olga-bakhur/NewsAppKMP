@@ -25,16 +25,16 @@ class FeedViewModel(
     private val fetchSectionsUseCase: FetchSectionsUseCase
 ) : BaseViewModel() {
 
-    override val loading = MutableStateFlow(false)
-    override val errors = MutableStateFlow<List<AppError>>(emptyList())
+    override val _loading = MutableStateFlow(false)
+    override val _errors = MutableStateFlow<List<AppError>>(emptyList())
 
     private val _articles = MutableStateFlow(emptyFlow<PagingData<Article>>())
     private val _sections = MutableStateFlow(emptyList<Section>())
     private val _sectionId: MutableStateFlow<String?> = MutableStateFlow(null)
 
     val state: StateFlow<FeedState> = combine(
-        loading,
-        errors,
+        _loading,
+        _errors,
         _sections,
         _sectionId,
         _articles

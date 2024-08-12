@@ -18,14 +18,14 @@ class ArticleDetailViewModel(
     private val appDispatchers: AppDispatchers
 ) : BaseViewModel() {
 
-    override val loading = MutableStateFlow(false)
-    override val errors = MutableStateFlow<List<AppError>>(emptyList())
+    override val _loading = MutableStateFlow(false)
+    override val _errors = MutableStateFlow<List<AppError>>(emptyList())
 
     private val _article = MutableStateFlow<Article?>(null)
 
     val state: StateFlow<ArticleDetailState> = combine(
-        loading,
-        errors,
+        _loading,
+        _errors,
         _article
     ) { loading, errors, article ->
         ArticleDetailState(

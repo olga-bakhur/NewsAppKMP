@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
@@ -59,9 +58,19 @@ fun SettingsScreen(
     onBackClicked: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    var inboxCount by rememberSaveable { mutableStateOf(20) }
+
+    val scope = rememberCoroutineScope()
+    val editThemeBottomSheetState = rememberModalBottomSheetState()
+    var showEditThemeBottomSheet by rememberSaveable { mutableStateOf(false) }
 
     ScreenContent(
         scrollBehavior = scrollBehavior,
+        inboxCount = inboxCount,
+        scope = scope,
+        showEditThemeBottomSheet = showEditThemeBottomSheet,
+        editThemeBottomSheetState = editThemeBottomSheetState,
+        onShowBottomSheetEditThemeChanged = { showEditThemeBottomSheet = it },
         onBackClicked = onBackClicked
     )
 }
@@ -70,6 +79,11 @@ fun SettingsScreen(
 @Composable
 private fun ScreenContent(
     scrollBehavior: TopAppBarScrollBehavior,
+    inboxCount: Int,
+    scope: CoroutineScope,
+    showEditThemeBottomSheet: Boolean,
+    editThemeBottomSheetState: SheetState,
+    onShowBottomSheetEditThemeChanged: (Boolean) -> Unit,
     onBackClicked: () -> Unit
 ) {
     Scaffold(
@@ -98,19 +112,13 @@ private fun ScreenContent(
         }
     ) { paddingValues ->
         /* Test value */
-        var inboxCount by rememberSaveable { mutableStateOf(20) }
-
-        val scope = rememberCoroutineScope()
-        val editThemeBottomSheetState = rememberModalBottomSheetState()
-        var showEditThemeBottomSheet by rememberSaveable { mutableStateOf(false) }
-
         ScreenContent(
             paddingValues = paddingValues,
             inboxCount = inboxCount,
             scope = scope,
             showEditThemeBottomSheet = showEditThemeBottomSheet,
             editThemeBottomSheetState = editThemeBottomSheetState,
-            onShowBottomSheetEditThemeChanged = { showEditThemeBottomSheet = it }
+            onShowBottomSheetEditThemeChanged = onShowBottomSheetEditThemeChanged
         )
     }
 }

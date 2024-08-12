@@ -27,6 +27,7 @@
     <string name="date">Date</string>
     <string name="dismiss">Dismiss</string>
     <string name="unknown">Unknown</string>
+    <string name="menu">Menu</string>
 
     <!--    BottomBar Screens titles-->
     <string name="screen_title_feed">Feed</string>

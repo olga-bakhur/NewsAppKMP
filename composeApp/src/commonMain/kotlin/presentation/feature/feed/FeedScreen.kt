@@ -8,29 +8,42 @@ import androidx.compose.foundation.layout.ContextualFlowRow
 import androidx.compose.foundation.layout.ContextualFlowRowOverflow
 import androidx.compose.foundation.layout.ContextualFlowRowOverflowScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -40,10 +53,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.cash.paging.compose.collectAsLazyPagingItems
 import data.model.dto.Section
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.date
 import newsappkmp.composeapp.generated.resources.filter
 import newsappkmp.composeapp.generated.resources.less
+import newsappkmp.composeapp.generated.resources.menu
 import newsappkmp.composeapp.generated.resources.more_with_args
 import newsappkmp.composeapp.generated.resources.screen_title_feed
 import newsappkmp.composeapp.generated.resources.search
@@ -69,14 +85,141 @@ fun FeedScreen(
     }
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    var selectedDrawerItem by rememberSaveable { mutableStateOf(0) }
 
-    ScreenContent(
+    NavigationDrawer(
         state = state,
         onArticleClicked = onArticleClicked,
         onFilterSelected = viewModel::setFilterBySection,
         dismissError = viewModel::dismissError,
-        scrollBehavior = scrollBehavior
+        scrollBehavior = scrollBehavior,
+        drawerState = drawerState,
+        selectedDrawerItem = selectedDrawerItem,
+        scope = scope,
+        onSelectedDrawerItemChanged = { selectedDrawerItem = it }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun NavigationDrawer(
+    state: FeedState,
+    onArticleClicked: (articleId: String) -> Unit,
+    onFilterSelected: KFunction1<String?, Unit>,
+    dismissError: () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior,
+    drawerState: DrawerState,
+    selectedDrawerItem: Int,
+    onSelectedDrawerItemChanged: (Int) -> Unit,
+    scope: CoroutineScope
+) {
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                NavigationDrawerContent(
+                    drawerState = drawerState,
+                    selectedDrawerItem = selectedDrawerItem,
+                    onSelectedDrawerItemChanged = onSelectedDrawerItemChanged,
+                    scope = scope
+                )
+            }
+        },
+    ) {
+        ScreenContent(
+            state = state,
+            onArticleClicked = onArticleClicked,
+            onFilterSelected = onFilterSelected,
+            dismissError = dismissError,
+            scrollBehavior = scrollBehavior,
+            scope = scope,
+            drawerState = drawerState
+        )
+    }
+}
+
+@Composable
+fun NavigationDrawerContent(
+    drawerState: DrawerState,
+    selectedDrawerItem: Int,
+    onSelectedDrawerItemChanged: (Int) -> Unit,
+    scope: CoroutineScope
+) {
+    Text(
+        text = stringResource(Res.string.menu),
+        modifier = Modifier.padding(16.dp)
+    )
+
+    HorizontalDivider()
+
+    NavigationDrawerItem(
+        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+        label = { Text(text = "Item 1") },
+        selected = selectedDrawerItem == 1,
+        onClick = {
+            onSelectedDrawerItemChanged.invoke(1)
+
+            scope.launch {
+                drawerState.close()
+            }
+        },
+        icon = {
+            Icon(
+                imageVector = Icons.Default.Info,
+                contentDescription = "Info"
+            )
+        },
+        badge = {
+            Text(text = "12")
+        }
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    NavigationDrawerItem(
+        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+        label = { Text(text = "Item 2") },
+        selected = selectedDrawerItem == 2,
+        onClick = {
+            onSelectedDrawerItemChanged.invoke(2)
+
+            scope.launch {
+                drawerState.close()
+            }
+        },
+        icon = {
+            Icon(
+                imageVector = Icons.Default.Info,
+                contentDescription = "Info"
+            )
+        }
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    NavigationDrawerItem(
+        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+        label = { Text(text = "Item 3") },
+        selected = selectedDrawerItem == 3,
+        onClick = {
+            onSelectedDrawerItemChanged.invoke(3)
+
+            scope.launch {
+                drawerState.close()
+            }
+        },
+        icon = {
+            Icon(
+                imageVector = Icons.Default.Info,
+                contentDescription = "Info"
+            )
+        },
+        badge = {
+            Text(text = "54")
+        }
     )
 }
 
@@ -89,6 +232,8 @@ private fun ScreenContent(
     onFilterSelected: KFunction1<String?, Unit>,
     dismissError: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
+    scope: CoroutineScope,
+    drawerState: DrawerState
 ) {
     Scaffold(
         modifier = Modifier
@@ -99,7 +244,14 @@ private fun ScreenContent(
                 title = stringResource(Res.string.screen_title_feed),
                 maxLines = 1,
                 scrollBehavior = scrollBehavior,
-                isNavigationIconVisible = false,
+                isTopLevelDestination = true,
+                onMenuClicked = {
+                    scope.launch {
+                        drawerState.apply {
+                            if (isClosed) open() else close()
+                        }
+                    }
+                },
                 actions = listOf(
                     TopAppBarActionItem(
                         icon = Icons.Outlined.Search,

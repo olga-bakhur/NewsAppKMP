@@ -2,6 +2,7 @@ package presentation.navigation.navbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.back
+import newsappkmp.composeapp.generated.resources.menu
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,8 +24,9 @@ fun TopAppBar(
     title: String,
     maxLines: Int,
     scrollBehavior: TopAppBarScrollBehavior,
-    isNavigationIconVisible: Boolean,
-    onNavigationIconClicked: (() -> Unit)? = null,
+    isTopLevelDestination: Boolean,
+    onMenuClicked: (() -> Unit)? = null,
+    onBackClicked: (() -> Unit)? = null,
     actions: List<TopAppBarActionItem> = emptyList()
 ) {
     CenterAlignedTopAppBar(
@@ -36,10 +39,21 @@ fun TopAppBar(
         },
         modifier = modifier,
         navigationIcon = {
-            if (isNavigationIconVisible) {
+            if (isTopLevelDestination) {
                 IconButton(
                     onClick = {
-                        onNavigationIconClicked?.invoke()
+                        onMenuClicked?.invoke()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = stringResource(Res.string.menu)
+                    )
+                }
+            } else {
+                IconButton(
+                    onClick = {
+                        onBackClicked?.invoke()
                     }
                 ) {
                     Icon(

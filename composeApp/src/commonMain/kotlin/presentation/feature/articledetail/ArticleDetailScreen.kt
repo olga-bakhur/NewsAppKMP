@@ -12,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.Star
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -33,9 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import common.EMPTY
 import data.util.transformMillisToDateString
 import newsappkmp.composeapp.generated.resources.Res
-import newsappkmp.composeapp.generated.resources.error
 import newsappkmp.composeapp.generated.resources.no_info
-import newsappkmp.composeapp.generated.resources.ok
 import newsappkmp.composeapp.generated.resources.save
 import newsappkmp.composeapp.generated.resources.screen_title_article_detail
 import newsappkmp.composeapp.generated.resources.share
@@ -91,8 +88,8 @@ private fun ScreenContent(
                 title = stringResource(Res.string.screen_title_article_detail),
                 maxLines = 1,
                 scrollBehavior = scrollBehavior,
-                isNavigationIconVisible = true,
-                onNavigationIconClicked = {
+                isTopLevelDestination = false,
+                onBackClicked = {
                     onBackClicked.invoke()
                 },
                 actions = listOf(

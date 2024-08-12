@@ -95,8 +95,8 @@ private fun ScreenContent(
                 title = stringResource(Res.string.screen_title_settings),
                 maxLines = 1,
                 scrollBehavior = scrollBehavior,
-                isNavigationIconVisible = true,
-                onNavigationIconClicked = {
+                isTopLevelDestination = false,
+                onBackClicked = {
                     onBackClicked.invoke()
                 }
             )

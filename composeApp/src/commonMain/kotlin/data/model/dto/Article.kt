@@ -20,5 +20,5 @@ data class Article(
     val byline: String?,
     val lastModified: Long,
     val source: String,
-    val thumbnail: String
+    val thumbnail: String?
 )

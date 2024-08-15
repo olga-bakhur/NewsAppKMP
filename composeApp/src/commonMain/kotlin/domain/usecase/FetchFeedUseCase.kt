@@ -5,6 +5,7 @@ import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
 import data.model.dto.Article
 import data.source.remote.paging.ArticlesPagingSource
+import data.util.millisToFormatedString
 import kotlinx.coroutines.flow.Flow
 
 class FetchFeedUseCase(
@@ -13,13 +14,13 @@ class FetchFeedUseCase(
 
     fun getPaginatedArticlesList(
         sectionId: String?,
-        fromDate: String?,
-        toDate: String?
+        fromDate: Long?,
+        toDate: Long?
     ): Flow<PagingData<Article>> {
         articlesPagingSource.initFilter(
             sectionId = sectionId,
-            fromDate = fromDate,
-            toDate = toDate
+            fromDate = millisToFormatedString(fromDate),
+            toDate = millisToFormatedString(toDate)
         )
 
         return Pager(

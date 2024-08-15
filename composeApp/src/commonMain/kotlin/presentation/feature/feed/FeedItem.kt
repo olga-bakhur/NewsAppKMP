@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import data.model.dto.Article
-import data.util.transformMillisToDateString
+import data.util.millisToFormattedDateString
 import presentation.component.BaseCard
 import presentation.component.LoadImageFromUrl
 
@@ -71,7 +71,7 @@ fun TopHeadlineItem(
 
         // Date
         Text(
-            text = transformMillisToDateString(article.publicationDate),
+            text = millisToFormattedDateString(article.publicationDate),
             color = Color.Black,
             fontWeight = FontWeight.Light
         )

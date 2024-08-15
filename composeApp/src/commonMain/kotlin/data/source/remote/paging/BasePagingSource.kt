@@ -23,7 +23,7 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                     PagingSourceLoadResultPage(
                         data = result.data.items,
                         prevKey = if (currentPage == 1) null else currentPage - 1,
-                        nextKey = (currentPage + 1).takeIf { result.data.items.lastIndex < result.data.totalItemsCount }
+                        nextKey = (currentPage + 1).takeIf { result.data.items.lastIndex < result.data.totalItemsCount } // TODO: JSON input: {"response":{"status":"error","message":"requested page is beyond the number of available pages"}}
                     )
                 }
 

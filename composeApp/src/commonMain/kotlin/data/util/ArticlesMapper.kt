@@ -30,7 +30,7 @@ fun ArticleResponse.toArticle(): Article = Article(
     type = type,
     sectionId = sectionId,
     sectionName = sectionName,
-    publicationDate = toEpochMillis(publicationDate),
+    publicationDate = isoFormatToMillis(publicationDate),
     title = title,
     webUrl = webUrl,
     apiUrl = apiUrl,
@@ -40,7 +40,7 @@ fun ArticleResponse.toArticle(): Article = Article(
     trailText = fields.trailText,
     bodyText = fields.bodyText,
     byline = fields.byline,
-    lastModified = toEpochMillis(fields.lastModified),
+    lastModified = isoFormatToMillis(fields.lastModified),
     source = fields.source,
     thumbnail = fields.thumbnail
 )

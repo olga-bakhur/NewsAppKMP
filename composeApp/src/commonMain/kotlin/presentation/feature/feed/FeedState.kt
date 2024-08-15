@@ -17,6 +17,6 @@ data class FeedState(
 
 data class FeedFilter(
     val sectionId: String? = null,
-    val fromDate: String? = null,
-    val toDate: String? = null
+    val fromDate: Long? = null,
+    val toDate: Long? = null
 )

@@ -20,8 +20,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DateRangePicker
+import androidx.compose.material3.DateRangePickerState
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,13 +37,16 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -56,11 +61,12 @@ import data.model.dto.Section
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import newsappkmp.composeapp.generated.resources.Res
+import newsappkmp.composeapp.generated.resources.cancel
 import newsappkmp.composeapp.generated.resources.date
-import newsappkmp.composeapp.generated.resources.filter
 import newsappkmp.composeapp.generated.resources.less
 import newsappkmp.composeapp.generated.resources.menu
 import newsappkmp.composeapp.generated.resources.more_with_args
+import newsappkmp.composeapp.generated.resources.ok
 import newsappkmp.composeapp.generated.resources.screen_title_feed
 import newsappkmp.composeapp.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
@@ -81,14 +87,23 @@ fun FeedScreen(
 ) {
     LaunchedEffect(Unit) {
         viewModel.fetchSections()
-        viewModel.getPaginatedArticlesList()
     }
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(state.feedFilter) {
+        viewModel.fetchSections()
+        viewModel.getPaginatedArticlesList()
+    }
+
     val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     var selectedDrawerItem by rememberSaveable { mutableStateOf(0) }
+
+    val dateRangePickerState = rememberDateRangePickerState()
+    var showDateRangePicker by rememberSaveable { mutableStateOf(false) }
 
     NavigationDrawer(
         state = state,
@@ -99,7 +114,21 @@ fun FeedScreen(
         drawerState = drawerState,
         selectedDrawerItem = selectedDrawerItem,
         scope = scope,
-        onSelectedDrawerItemChanged = { selectedDrawerItem = it }
+        onSelectedDrawerItemChanged = { selectedDrawerItem = it },
+        dateRangePickerState = dateRangePickerState,
+        showDateRangePicker = showDateRangePicker,
+        onDatePickerClicked = {
+            showDateRangePicker = true
+        },
+        onDatePickerDismissed = {
+            showDateRangePicker = false
+        },
+        onRangeSelected = {
+            viewModel.setFilterByDate(
+                fromDate = it?.first,
+                toDate = it?.second
+            )
+        }
     )
 }
 
@@ -114,6 +143,11 @@ fun NavigationDrawer(
     drawerState: DrawerState,
     selectedDrawerItem: Int,
     onSelectedDrawerItemChanged: (Int) -> Unit,
+    dateRangePickerState: DateRangePickerState,
+    showDateRangePicker: Boolean,
+    onDatePickerClicked: () -> Unit,
+    onDatePickerDismissed: () -> Unit,
+    onRangeSelected: (Pair<Long?, Long?>?) -> Unit,
     scope: CoroutineScope
 ) {
     ModalNavigationDrawer(
@@ -136,7 +170,12 @@ fun NavigationDrawer(
             dismissError = dismissError,
             scrollBehavior = scrollBehavior,
             scope = scope,
-            drawerState = drawerState
+            drawerState = drawerState,
+            dateRangePickerState = dateRangePickerState,
+            showDateRangePicker = showDateRangePicker,
+            onDatePickerClicked = onDatePickerClicked,
+            onDatePickerDismissed = onDatePickerDismissed,
+            onRangeSelected = onRangeSelected
         )
     }
 }
@@ -233,7 +272,12 @@ private fun ScreenContent(
     dismissError: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
     scope: CoroutineScope,
-    drawerState: DrawerState
+    drawerState: DrawerState,
+    dateRangePickerState: DateRangePickerState,
+    showDateRangePicker: Boolean,
+    onDatePickerClicked: () -> Unit,
+    onDatePickerDismissed: () -> Unit,
+    onRangeSelected: (Pair<Long?, Long?>?) -> Unit
 ) {
     Scaffold(
         modifier = Modifier
@@ -264,15 +308,7 @@ private fun ScreenContent(
                         icon = Icons.Outlined.DateRange,
                         contentDescription = stringResource(Res.string.date),
                         onActionClicked = {
-                            println("DateRange clicked")
-                        }
-                    ),
-                    TopAppBarActionItem(
-                        // TODO: must be a Filter icon
-                        icon = Icons.Outlined.MoreVert,
-                        contentDescription = stringResource(Res.string.filter),
-                        onActionClicked = {
-                            println("Filter clicked")
+                            onDatePickerClicked.invoke()
                         }
                     )
                 )
@@ -284,8 +320,8 @@ private fun ScreenContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Filters
-            Filters(
+            // Section Filters
+            SectionFilters(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(align = Alignment.Top)
@@ -299,6 +335,17 @@ private fun ScreenContent(
                 onFilterSelected = onFilterSelected,
                 currentSectionId = state.feedFilter.sectionId
             )
+
+            // DatePicker filter
+            if (showDateRangePicker) {
+                DateRangePickerModal(
+                    dateRangePickerState = dateRangePickerState,
+                    onDateRangeSelected = {
+                        onRangeSelected(it)
+                    },
+                    onDismiss = { onDatePickerDismissed.invoke() }
+                )
+            }
 
             // Feed
             val pagingItems = state.articles.collectAsLazyPagingItems()
@@ -329,7 +376,7 @@ private fun ScreenContent(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun Filters(
+fun SectionFilters(
     modifier: Modifier = Modifier,
     sections: List<Section>,
     onFilterSelected: KFunction1<String?, Unit>,
@@ -371,6 +418,47 @@ fun Filters(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DateRangePickerModal(
+    dateRangePickerState: DateRangePickerState,
+    onDateRangeSelected: (Pair<Long?, Long?>) -> Unit,
+    onDismiss: () -> Unit
+) {
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onDateRangeSelected(
+                        Pair(
+                            dateRangePickerState.selectedStartDateMillis,
+                            dateRangePickerState.selectedEndDateMillis
+                        )
+                    )
+                    onDismiss()
+                }
+            ) {
+                Text(text = stringResource(Res.string.ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(Res.string.cancel))
+            }
+        }
+    ) {
+        DateRangePicker(
+            state = dateRangePickerState,
+            showModeToggle = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(16.dp)
+        )
+    }
+}
+
 @Composable
 fun OverflowFilterChip(
     remainingItems: Int,
@@ -399,5 +487,3 @@ fun OverflowFilterChip(
             }
         })
 }
-
-

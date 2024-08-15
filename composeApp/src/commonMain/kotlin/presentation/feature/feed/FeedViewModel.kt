@@ -72,8 +72,50 @@ class FeedViewModel(
                     toDate = currentFilters.toDate
                 )
             )
+        }
+    }
 
-            getPaginatedArticlesList()
+    fun setFilterByDate(fromDate: Long?, toDate: Long?) {
+        viewModelScope.launch(appDispatchers.io) {
+            val currentFilters = _feedFilter.value
+            val currentFrom = currentFilters.fromDate
+            val currentTo = currentFilters.toDate
+
+            if (currentFrom == fromDate && currentTo == toDate) {
+                return@launch
+            }
+
+            when {
+                fromDate != null && toDate == null -> {
+                    _feedFilter.emit(
+                        currentFilters.copy(
+                            sectionId = currentFilters.sectionId,
+                            fromDate = fromDate,
+                            toDate = fromDate
+                        )
+                    )
+                }
+
+                fromDate == null && toDate != null -> {
+                    _feedFilter.emit(
+                        currentFilters.copy(
+                            sectionId = currentFilters.sectionId,
+                            fromDate = toDate,
+                            toDate = toDate
+                        )
+                    )
+                }
+
+                else -> {
+                    _feedFilter.emit(
+                        currentFilters.copy(
+                            sectionId = currentFilters.sectionId,
+                            fromDate = fromDate,
+                            toDate = toDate
+                        )
+                    )
+                }
+            }
         }
     }
 
@@ -85,7 +127,7 @@ class FeedViewModel(
                 fetchFeedUseCase.getPaginatedArticlesList(
                     sectionId = currentFilters.sectionId,
                     fromDate = currentFilters.fromDate,
-                    toDate = currentFilters.sectionId,
+                    toDate = currentFilters.toDate,
                 )
             )
         }

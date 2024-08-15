@@ -5,14 +5,23 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
-fun toEpochMillis(inputDate: String): Long {
+fun isoFormatToMillis(inputDate: String): Long {
     val instant = Instant.parse(inputDate)
     val localDateTime = instant.toLocalDateTime(TimeZone.UTC)
 
     return localDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
 }
 
-fun transformMillisToDateString(millis: Long): String {
+fun millisToFormatedString(millis: Long?): String? {
+    if (millis == null) return null
+
+    val instant = Instant.fromEpochMilliseconds(millis)
+    val dateTime = instant.toLocalDateTime(TimeZone.UTC)
+    val date = dateTime.date
+    return date.toString()
+}
+
+fun millisToFormattedDateString(millis: Long): String {
     val instant = Instant.fromEpochMilliseconds(millis)
     val localDateTime = instant.toLocalDateTime(TimeZone.UTC)
 

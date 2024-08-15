@@ -30,5 +30,5 @@ data class ArticleResponseFields(
     val lastModified: String,
     @SerialName("publication")
     val source: String,
-    val thumbnail: String
+    val thumbnail: String? = null
 )

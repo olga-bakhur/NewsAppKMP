@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import common.EMPTY
-import data.util.transformMillisToDateString
+import data.util.millisToFormattedDateString
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.no_info
 import newsappkmp.composeapp.generated.resources.save
@@ -178,7 +178,7 @@ private fun ScreenContent(
 
                 // Date
                 Text(
-                    text = transformMillisToDateString(article.publicationDate),
+                    text = millisToFormattedDateString(article.publicationDate),
                     color = Color.Black,
                     fontWeight = FontWeight.Light
                 )
@@ -187,7 +187,7 @@ private fun ScreenContent(
 
                 // Last modified
                 Text(
-                    text = transformMillisToDateString(article.lastModified),
+                    text = millisToFormattedDateString(article.lastModified),
                     color = Color.Black,
                     fontWeight = FontWeight.Light
                 )

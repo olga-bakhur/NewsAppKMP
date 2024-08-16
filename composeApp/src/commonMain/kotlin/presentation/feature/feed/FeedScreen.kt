@@ -39,6 +39,10 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -51,6 +55,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -71,8 +76,12 @@ import newsappkmp.composeapp.generated.resources.date
 import newsappkmp.composeapp.generated.resources.less
 import newsappkmp.composeapp.generated.resources.menu
 import newsappkmp.composeapp.generated.resources.more_with_args
+import newsappkmp.composeapp.generated.resources.removed
+import newsappkmp.composeapp.generated.resources.saved
 import newsappkmp.composeapp.generated.resources.screen_title_feed
 import newsappkmp.composeapp.generated.resources.search
+import newsappkmp.composeapp.generated.resources.undo
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import presentation.component.BaseErrorDialog
@@ -80,6 +89,7 @@ import presentation.component.BaseFilterChip
 import presentation.component.BasePagingList
 import presentation.navigation.navbar.TopAppBar
 import presentation.navigation.navbar.TopAppBarActionItem
+import kotlin.reflect.KFunction0
 import kotlin.reflect.KFunction1
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -110,9 +120,13 @@ fun FeedScreen(
     var showDateRangePicker by rememberSaveable { mutableStateOf(false) }
     val isDateSelected = state.feedFilter.fromDate != null || state.feedFilter.toDate != null
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
     NavigationDrawer(
         state = state,
         onArticleClicked = onArticleClicked,
+        onSaveArticleClicked = viewModel::saveArticle,
+        onRemoveArticleClicked = viewModel::removeArticle,
         onFilterSelected = viewModel::setFilterBySection,
         dismissError = viewModel::dismissError,
         scrollBehavior = scrollBehavior,
@@ -134,7 +148,8 @@ fun FeedScreen(
                 toDate = it?.second
             )
         },
-        isDateSelected = isDateSelected
+        isDateSelected = isDateSelected,
+        snackbarHostState = snackbarHostState
     )
 }
 
@@ -143,6 +158,8 @@ fun FeedScreen(
 fun NavigationDrawer(
     state: FeedState,
     onArticleClicked: (articleId: String) -> Unit,
+    onSaveArticleClicked: KFunction0<Unit>,
+    onRemoveArticleClicked: KFunction0<Unit>,
     onFilterSelected: KFunction1<String?, Unit>,
     dismissError: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -155,7 +172,8 @@ fun NavigationDrawer(
     onDatePickerDismissed: () -> Unit,
     onRangeSelected: (Pair<Long?, Long?>?) -> Unit,
     isDateSelected: Boolean,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    snackbarHostState: SnackbarHostState
 ) {
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -173,6 +191,8 @@ fun NavigationDrawer(
         ScreenContent(
             state = state,
             onArticleClicked = onArticleClicked,
+            onSaveArticleClicked = onSaveArticleClicked,
+            onRemoveArticleClicked = onRemoveArticleClicked,
             onFilterSelected = onFilterSelected,
             dismissError = dismissError,
             scrollBehavior = scrollBehavior,
@@ -183,7 +203,8 @@ fun NavigationDrawer(
             onDatePickerClicked = onDatePickerClicked,
             onDatePickerDismissed = onDatePickerDismissed,
             onRangeSelected = onRangeSelected,
-            isDateSelected = isDateSelected
+            isDateSelected = isDateSelected,
+            snackbarHostState = snackbarHostState
         )
     }
 }
@@ -276,6 +297,8 @@ fun NavigationDrawerContent(
 private fun ScreenContent(
     state: FeedState,
     onArticleClicked: (articleId: String) -> Unit,
+    onSaveArticleClicked: KFunction0<Unit>,
+    onRemoveArticleClicked: KFunction0<Unit>,
     onFilterSelected: KFunction1<String?, Unit>,
     dismissError: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -286,7 +309,8 @@ private fun ScreenContent(
     onDatePickerClicked: () -> Unit,
     onDatePickerDismissed: () -> Unit,
     onRangeSelected: (Pair<Long?, Long?>?) -> Unit,
-    isDateSelected: Boolean
+    isDateSelected: Boolean,
+    snackbarHostState: SnackbarHostState
 ) {
     Scaffold(
         modifier = Modifier
@@ -323,6 +347,9 @@ private fun ScreenContent(
                     )
                 )
             )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         }
     ) { paddingValues ->
         Column(
@@ -368,10 +395,26 @@ private fun ScreenContent(
                         article = article,
                         onArticleClicked = {
                             onArticleClicked(article.articleId)
+                        },
+                        onSaveArticleClicked = {
+                            onSaveArticleClicked.invoke()
+                        },
+                        onRemoveArticleClicked = {
+                            onRemoveArticleClicked.invoke()
                         }
                     )
                 }
             }
+        }
+
+        // Snackbar add to favorites
+        state.saveArticleResult?.let { isSaved ->
+            SnackbarSaveOrRemoveArticle(
+                isSaved = isSaved,
+                scope = scope,
+                snackbarHostState = snackbarHostState,
+                onRemoveArticleClicked = onRemoveArticleClicked
+            )
         }
 
         // Errors
@@ -380,6 +423,34 @@ private fun ScreenContent(
                 error = state.errors.first(),
                 onDismiss = { dismissError.invoke() }
             )
+        }
+    }
+}
+
+@Composable
+fun SnackbarSaveOrRemoveArticle(
+    isSaved: Boolean,
+    scope: CoroutineScope,
+    snackbarHostState: SnackbarHostState,
+    onRemoveArticleClicked: KFunction0<Unit>
+) {
+    scope.launch {
+        val result = snackbarHostState.showSnackbar(
+            message = if (isSaved) {
+                getString(Res.string.saved)
+            } else {
+                getString(Res.string.removed)
+            },
+            actionLabel = if (isSaved) {
+                getString(Res.string.undo)
+            } else {
+                null
+            },
+            duration = SnackbarDuration.Short
+        )
+
+        if (result == SnackbarResult.ActionPerformed) {
+            onRemoveArticleClicked.invoke()
         }
     }
 }

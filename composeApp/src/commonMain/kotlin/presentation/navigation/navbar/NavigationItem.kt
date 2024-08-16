@@ -1,12 +1,12 @@
 package presentation.navigation.navbar
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 import common.EMPTY
 import newsappkmp.composeapp.generated.resources.Res
@@ -31,8 +31,8 @@ sealed class NavigationItem(
 
     data object Favorite : NavigationItem(
         textId = Res.string.screen_title_favorite,
-        unselectedIcon = Icons.Outlined.Star,
-        selectedIcon = Icons.Filled.Star,
+        unselectedIcon = Icons.Outlined.Favorite,
+        selectedIcon = Icons.Filled.Favorite,
         route = Screen.Favorite.route
     )
 

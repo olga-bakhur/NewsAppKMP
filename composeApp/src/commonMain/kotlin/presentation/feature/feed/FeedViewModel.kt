@@ -10,6 +10,8 @@ import data.model.dto.Section
 import domain.usecase.FetchFeedUseCase
 import domain.usecase.FetchSectionsUseCase
 import domain.util.AppDispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -30,6 +32,7 @@ class FeedViewModel(
     private val _articles = MutableStateFlow(emptyFlow<PagingData<Article>>())
     private val _sections = MutableStateFlow(emptyList<Section>())
     private val _feedFilter: MutableStateFlow<FeedFilter> = MutableStateFlow(FeedFilter())
+    private val _saveArticleResult: MutableStateFlow<Boolean?> = MutableStateFlow(value = null)
 
     val state: StateFlow<FeedState> = combine(
         _loading,
@@ -38,17 +41,29 @@ class FeedViewModel(
         _feedFilter,
         _articles
     ) { loading, errors, sections, feedFilter, articles ->
-        FeedState(
-            loading = loading,
-            errors = errors,
-            sections = sections,
-            feedFilter = feedFilter,
-            articles = articles
+        CombinedResult(loading, errors, sections, feedFilter, articles)
+    }
+        .combine(_saveArticleResult) { combinedResult, saveArticleResult ->
+            FeedState(
+                loading = combinedResult.loading,
+                errors = combinedResult.errors,
+                sections = combinedResult.sections,
+                feedFilter = combinedResult.feedFilter,
+                articles = combinedResult.articles,
+                saveArticleResult = saveArticleResult
+            )
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(),
+            FeedState()
         )
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(),
-        FeedState()
+
+    data class CombinedResult(
+        val loading: Boolean,
+        val errors: List<AppError>,
+        val sections: List<Section>,
+        val feedFilter: FeedFilter,
+        val articles: Flow<PagingData<Article>>
     )
 
     fun fetchSections() {
@@ -130,6 +145,38 @@ class FeedViewModel(
                     toDate = currentFilters.toDate,
                 )
             )
+        }
+    }
+
+    fun saveArticle() {
+        viewModelScope.launch(appDispatchers.io) {
+            val result = Result.Success(Unit) // TODO: to be implemented
+
+            when (result) {
+                is Result.Success -> {
+                    _saveArticleResult.emit(true)
+                    delay(1000)
+                    _saveArticleResult.emit(null)
+                }
+
+                is Result.Error<*> -> addError(result.error)
+            }
+        }
+    }
+
+    fun removeArticle() {
+        viewModelScope.launch(appDispatchers.io) {
+            val result = Result.Success(Unit) // TODO: to be implemented
+
+            when (result) {
+                is Result.Success -> {
+                    _saveArticleResult.emit(false)
+                    delay(1000)
+                    _saveArticleResult.emit(null)
+                }
+
+                is Result.Error<*> -> addError(result.error)
+            }
         }
     }
 }

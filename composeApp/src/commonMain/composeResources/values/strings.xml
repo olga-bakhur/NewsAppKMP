@@ -22,6 +22,8 @@
     <string name="cancel">Cancel</string>
     <string name="back">Back</string>
     <string name="save">Save</string>
+    <string name="saved">Saved</string>
+    <string name="removed">Removed</string>
     <string name="search">Search</string>
     <string name="share">Share</string>
     <string name="filter">Filter</string>
@@ -32,6 +34,7 @@
     <string name="clear">Clear</string>
     <string name="close">Close</string>
     <string name="apply">Apply</string>
+    <string name="undo">Undo</string>
 
     <!--    BottomBar Screens titles-->
     <string name="screen_title_feed">Feed</string>

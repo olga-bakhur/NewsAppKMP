@@ -3,6 +3,7 @@ package presentation.feature.feed
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ContextualFlowRow
 import androidx.compose.foundation.layout.ContextualFlowRowOverflow
@@ -14,9 +15,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.DateRange
@@ -29,6 +32,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -46,7 +50,6 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -61,12 +64,13 @@ import data.model.dto.Section
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import newsappkmp.composeapp.generated.resources.Res
-import newsappkmp.composeapp.generated.resources.cancel
+import newsappkmp.composeapp.generated.resources.apply
+import newsappkmp.composeapp.generated.resources.clear
+import newsappkmp.composeapp.generated.resources.close
 import newsappkmp.composeapp.generated.resources.date
 import newsappkmp.composeapp.generated.resources.less
 import newsappkmp.composeapp.generated.resources.menu
 import newsappkmp.composeapp.generated.resources.more_with_args
-import newsappkmp.composeapp.generated.resources.ok
 import newsappkmp.composeapp.generated.resources.screen_title_feed
 import newsappkmp.composeapp.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
@@ -104,6 +108,7 @@ fun FeedScreen(
 
     val dateRangePickerState = rememberDateRangePickerState()
     var showDateRangePicker by rememberSaveable { mutableStateOf(false) }
+    val isDateSelected = state.feedFilter.fromDate != null || state.feedFilter.toDate != null
 
     NavigationDrawer(
         state = state,
@@ -128,7 +133,8 @@ fun FeedScreen(
                 fromDate = it?.first,
                 toDate = it?.second
             )
-        }
+        },
+        isDateSelected = isDateSelected
     )
 }
 
@@ -148,6 +154,7 @@ fun NavigationDrawer(
     onDatePickerClicked: () -> Unit,
     onDatePickerDismissed: () -> Unit,
     onRangeSelected: (Pair<Long?, Long?>?) -> Unit,
+    isDateSelected: Boolean,
     scope: CoroutineScope
 ) {
     ModalNavigationDrawer(
@@ -175,7 +182,8 @@ fun NavigationDrawer(
             showDateRangePicker = showDateRangePicker,
             onDatePickerClicked = onDatePickerClicked,
             onDatePickerDismissed = onDatePickerDismissed,
-            onRangeSelected = onRangeSelected
+            onRangeSelected = onRangeSelected,
+            isDateSelected = isDateSelected
         )
     }
 }
@@ -277,7 +285,8 @@ private fun ScreenContent(
     showDateRangePicker: Boolean,
     onDatePickerClicked: () -> Unit,
     onDatePickerDismissed: () -> Unit,
-    onRangeSelected: (Pair<Long?, Long?>?) -> Unit
+    onRangeSelected: (Pair<Long?, Long?>?) -> Unit,
+    isDateSelected: Boolean
 ) {
     Scaffold(
         modifier = Modifier
@@ -307,6 +316,7 @@ private fun ScreenContent(
                     TopAppBarActionItem(
                         icon = Icons.Outlined.DateRange,
                         contentDescription = stringResource(Res.string.date),
+                        isSelected = isDateSelected,
                         onActionClicked = {
                             onDatePickerClicked.invoke()
                         }
@@ -439,23 +449,43 @@ fun DateRangePickerModal(
                     onDismiss()
                 }
             ) {
-                Text(text = stringResource(Res.string.ok))
+                Text(text = stringResource(Res.string.apply))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(Res.string.cancel))
+            TextButton(
+                onClick = {
+                    onDateRangeSelected(
+                        Pair(null, null)
+                    )
+                    onDismiss()
+                }) {
+                Text(text = stringResource(Res.string.clear))
             }
         }
     ) {
-        DateRangePicker(
-            state = dateRangePickerState,
-            showModeToggle = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(16.dp)
-        )
+        Box {
+            DateRangePicker(
+                state = dateRangePickerState,
+                showModeToggle = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(16.dp)
+            )
+
+            IconButton(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .align(Alignment.TopEnd),
+                onClick = onDismiss
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = stringResource(Res.string.close)
+                )
+            }
+        }
     }
 }
 

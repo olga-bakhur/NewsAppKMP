@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.compose_multiplatform
@@ -27,6 +28,7 @@ internal fun LoadImageFromUrl(
             placeholder = painterResource(Res.drawable.compose_multiplatform),
             error = painterResource(Res.drawable.compose_multiplatform),
             modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.FillWidth,
             contentDescription = contentDescription,
             onError = {
                 //update state

@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
@@ -357,22 +355,6 @@ private fun ScreenContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Section Filters
-            SectionFilters(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(align = Alignment.Top)
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = 16.dp,
-                        bottom = 8.dp,
-                    ),
-                sections = state.sections,
-                onFilterSelected = onFilterSelected,
-                currentSectionId = state.feedFilter.sectionId
-            )
-
             // DatePicker filter
             if (showDateRangePicker) {
                 DateRangePickerModal(
@@ -388,7 +370,24 @@ private fun ScreenContent(
             val pagingItems = state.articles.collectAsLazyPagingItems()
             BasePagingList(
                 modifier = Modifier.fillMaxSize(1F),
-                data = pagingItems
+                data = pagingItems,
+                contentTop = {
+                    // Section Filters
+                    SectionFilters(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(align = Alignment.Top)
+                            .padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                top = 16.dp,
+                                bottom = 8.dp,
+                            ),
+                        sections = state.sections,
+                        onFilterSelected = onFilterSelected,
+                        currentSectionId = state.feedFilter.sectionId
+                    )
+                }
             ) { articleView, _ ->
                 articleView?.let { article ->
                     TopHeadlineItem(
@@ -475,7 +474,6 @@ fun SectionFilters(
     }
 
     ContextualFlowRow(
-        modifier = modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
         horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
         maxLines = maxLines,

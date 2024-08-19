@@ -126,7 +126,9 @@ private fun ScreenContent(
                 // Thumbnail
                 LoadImageFromUrl(
                     imageUri = article.thumbnail,
-                    contentDescription = "Thumbnail"
+                    contentDescription = "Thumbnail",
+                    widthInPx = 500,
+                    heightInPx = 300
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))

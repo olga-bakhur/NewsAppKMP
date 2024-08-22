@@ -26,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import common.EMPTY
@@ -135,63 +134,49 @@ private fun ScreenContent(
 
                 // Title
                 Text(
-                    text = article.title,
-                    color = Color.Black,
-                    fontWeight = FontWeight.SemiBold
+                    text = article.title
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Body text
                 Text(
-                    text = article.bodyText ?: EMPTY,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Light
+                    text = article.bodyText ?: EMPTY
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // By line
                 Text(
-                    text = article.byline ?: EMPTY,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Light
+                    text = article.byline ?: EMPTY
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Source
                 Text(
-                    text = article.source,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Light
+                    text = article.source
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Category
                 Text(
-                    text = article.sectionName,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Light
+                    text = article.sectionName
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Date
                 Text(
-                    text = millisToFormattedDateString(article.publicationDate),
-                    color = Color.Black,
-                    fontWeight = FontWeight.Light
+                    text = millisToFormattedDateString(article.publicationDate)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Last modified
                 Text(
-                    text = millisToFormattedDateString(article.lastModified),
-                    color = Color.Black,
-                    fontWeight = FontWeight.Light
+                    text = millisToFormattedDateString(article.lastModified)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))

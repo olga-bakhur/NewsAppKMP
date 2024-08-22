@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,21 +30,21 @@ fun BaseOutlinedButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    textStyle: TextStyle = Theme.typography.titleLarge,
+    textStyle: TextStyle = MaterialTheme.typography.titleLarge,
     textPadding: PaddingValues = PaddingValues(Theme.dimens.space16),
     shape: Shape = RoundedCornerShape(Theme.radius.medium),
-    contentColor: Color = Theme.colors.primary,
-    border: BorderStroke = BorderStroke(1.dp, color = Theme.colors.primary),
+    contentColor: Color = MaterialTheme.colorScheme.primary,
+    border: BorderStroke = BorderStroke(1.dp, color = MaterialTheme.colorScheme.primary),
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center
 ) {
     val buttonBorderColor by animateColorAsState(
-        if (enabled) Theme.colors.primary
-        else Theme.colors.disable
+        if (enabled) MaterialTheme.colorScheme.primary
+        else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
     )
 
     val buttonContentColor by animateColorAsState(
         if (enabled) contentColor
-        else Theme.colors.disable
+        else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
     )
 
     Surface(

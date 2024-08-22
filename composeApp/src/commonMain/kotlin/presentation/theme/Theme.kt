@@ -1,55 +1,37 @@
 package presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 
 private val localDimens = staticCompositionLocalOf { Dimens() }
-private val localColorScheme = staticCompositionLocalOf { LightColors }
 private val localRadius = staticCompositionLocalOf { Radius() }
-private val localTypography = staticCompositionLocalOf { Typography() }
 
 @Composable
-fun Theme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
+fun AppTheme(
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
 ) {
 
-    val colorScheme = if (useDarkTheme) DarkColors else LightColors
-
-    val typography = Typography(
-        headlineLarge = headlineLarge(),
-        headline = headline(),
-        titleLarge = titleLarge(),
-        title = title(),
-        titleMedium = titleMedium(),
-        body = body(),
-        caption = caption(),
-    )
-
     CompositionLocalProvider(
-        localColorScheme provides colorScheme,
-        localTypography provides typography,
         localDimens provides Dimens(),
         localRadius provides Radius(),
     ) {
-        content()
+        MaterialTheme(
+            colorScheme = getColorScheme(isDarkTheme),
+            shapes = getAppShapes(),
+            typography = getAppTypography(),
+            content = content
+        )
     }
+
+
 }
 
 object Theme {
-    val colors: Colors
-        @Composable
-        @ReadOnlyComposable
-        get() = localColorScheme.current
-
-    val typography: Typography
-        @Composable
-        @ReadOnlyComposable
-        get() = localTypography.current
-
     val radius: Radius
         @Composable
         @ReadOnlyComposable

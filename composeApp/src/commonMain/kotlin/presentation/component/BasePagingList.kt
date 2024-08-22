@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +27,6 @@ import app.cash.paging.LoadStateError
 import app.cash.paging.LoadStateLoading
 import app.cash.paging.LoadStateNotLoading
 import app.cash.paging.compose.LazyPagingItems
-import presentation.theme.Theme
 
 
 @Composable
@@ -42,7 +42,7 @@ fun <T : Any> BasePagingList(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(Theme.colors.background),
+            .background(MaterialTheme.colorScheme.background),
         verticalArrangement = verticalArrangement,
         horizontalAlignment = Alignment.CenterHorizontally,
         contentPadding = paddingValues
@@ -86,7 +86,7 @@ fun <T : Any> BasePagingList(
                             contentAlignment = Alignment.Center
                         ) {
                             CircularProgressIndicator(
-                                color = Theme.colors.primary,
+                                color = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
@@ -96,7 +96,7 @@ fun <T : Any> BasePagingList(
                 append is LoadStateLoading -> {
                     item {
                         CircularProgressIndicator(
-                            color = Theme.colors.primary,
+                            color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.fillMaxWidth()
                                 .padding(16.dp)
                                 .wrapContentWidth(Alignment.CenterHorizontally)
@@ -142,7 +142,7 @@ private fun ErrorItem(
             text = message,
             maxLines = 1,
             modifier = Modifier.weight(1f),
-            style = Theme.typography.body,
+            style = MaterialTheme.typography.bodyMedium,
             color = Color.Red
         )
         OutlinedButton(onClick = onClickRetry) {
@@ -168,7 +168,7 @@ private fun ErrorView(
             text = message,
             maxLines = 1,
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            style = Theme.typography.body,
+            style = MaterialTheme.typography.bodyMedium,
             color = Color.Red
         )
         BaseOutlinedButton(

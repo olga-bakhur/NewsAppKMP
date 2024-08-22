@@ -14,8 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import data.model.dto.Article
 import data.util.millisToFormattedDateString
@@ -76,45 +74,35 @@ fun TopHeadlineItem(
 
         // Title
         Text(
-            text = article.title,
-            color = Color.Black,
-            fontWeight = FontWeight.SemiBold
+            text = article.title
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         // Trail text
         Text(
-            text = article.trailText,
-            color = Color.Black,
-            fontWeight = FontWeight.Light
+            text = article.trailText
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         // Source
         Text(
-            text = article.source,
-            color = Color.Black,
-            fontWeight = FontWeight.Light
+            text = article.source
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         // Category
         Text(
-            text = article.sectionName,
-            color = Color.Black,
-            fontWeight = FontWeight.Light
+            text = article.sectionName
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         // Date
         Text(
-            text = millisToFormattedDateString(article.publicationDate),
-            color = Color.Black,
-            fontWeight = FontWeight.Light
+            text = millisToFormattedDateString(article.publicationDate)
         )
 
         Spacer(modifier = Modifier.height(8.dp))

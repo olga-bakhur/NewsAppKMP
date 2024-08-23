@@ -8,11 +8,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.back
@@ -25,6 +28,8 @@ fun TopAppBar(
     modifier: Modifier = Modifier,
     title: String,
     maxLines: Int,
+    fontFamily: FontFamily? = null,
+    textStyle: TextStyle = LocalTextStyle.current,
     scrollBehavior: TopAppBarScrollBehavior,
     isTopLevelDestination: Boolean,
     onMenuClicked: (() -> Unit)? = null,
@@ -36,7 +41,9 @@ fun TopAppBar(
             Text(
                 text = title,
                 maxLines = maxLines,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                fontFamily = fontFamily,
+                style = textStyle
             )
         },
         modifier = modifier,

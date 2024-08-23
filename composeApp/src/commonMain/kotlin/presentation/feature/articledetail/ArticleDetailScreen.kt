@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -26,7 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.FontFamily
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import common.EMPTY
 import data.util.millisToFormattedDateString
@@ -42,6 +43,7 @@ import presentation.component.LoadImageFromUrl
 import presentation.navigation.Screen
 import presentation.navigation.navbar.TopAppBar
 import presentation.navigation.navbar.TopAppBarActionItem
+import presentation.theme.Theme
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -86,6 +88,8 @@ private fun ScreenContent(
             TopAppBar(
                 title = stringResource(Res.string.screen_title_article_detail),
                 maxLines = 1,
+                fontFamily = FontFamily.Cursive,
+                textStyle = MaterialTheme.typography.headlineMedium,
                 scrollBehavior = scrollBehavior,
                 isTopLevelDestination = false,
                 onBackClicked = {
@@ -117,10 +121,10 @@ private fun ScreenContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = Theme.dimens.space16)
                     .verticalScroll(state = rememberScrollState())
             ) {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
                 // Thumbnail
                 LoadImageFromUrl(
@@ -130,56 +134,56 @@ private fun ScreenContent(
                     heightInPx = 300
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
                 // Title
                 Text(
                     text = article.title
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
                 // Body text
                 Text(
                     text = article.bodyText ?: EMPTY
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
                 // By line
                 Text(
                     text = article.byline ?: EMPTY
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
                 // Source
                 Text(
                     text = article.source
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
                 // Category
                 Text(
                     text = article.sectionName
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
                 // Date
                 Text(
                     text = millisToFormattedDateString(article.publicationDate)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
                 // Last modified
                 Text(
                     text = millisToFormattedDateString(article.lastModified)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
             }
         } else {

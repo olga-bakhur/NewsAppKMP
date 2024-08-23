@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import data.model.dto.Article
 import data.util.millisToFormattedDateString
 import newsappkmp.composeapp.generated.resources.Res
@@ -22,6 +21,7 @@ import newsappkmp.composeapp.generated.resources.save
 import org.jetbrains.compose.resources.stringResource
 import presentation.component.BaseCard
 import presentation.component.LoadImageFromUrl
+import presentation.theme.Theme
 
 @Composable
 fun TopHeadlineItem(
@@ -68,43 +68,43 @@ fun TopHeadlineItem(
 
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
-            thickness = 1.dp
+            thickness = Theme.dimens.space1
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
         // Title
         Text(
             text = article.title
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
         // Trail text
         Text(
             text = article.trailText
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
         // Source
         Text(
             text = article.source
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
         // Category
         Text(
             text = article.sectionName
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
         // Date
         Text(
             text = millisToFormattedDateString(article.publicationDate)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Theme.dimens.space8))
     }
 }

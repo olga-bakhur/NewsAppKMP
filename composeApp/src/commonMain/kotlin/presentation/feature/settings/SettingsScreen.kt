@@ -18,6 +18,7 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
@@ -34,9 +35,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.FontFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import newsappkmp.composeapp.generated.resources.Res
@@ -50,6 +50,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import presentation.component.BaseFloatingActionButton
 import presentation.component.BaseTextButton
 import presentation.navigation.navbar.TopAppBar
+import presentation.theme.Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,6 +95,8 @@ private fun ScreenContent(
             TopAppBar(
                 title = stringResource(Res.string.screen_title_settings),
                 maxLines = 1,
+                fontFamily = FontFamily.Cursive,
+                textStyle = MaterialTheme.typography.headlineMedium,
                 scrollBehavior = scrollBehavior,
                 isTopLevelDestination = false,
                 onBackClicked = {
@@ -138,14 +141,16 @@ fun ScreenContent(
             .fillMaxSize()
             .padding(paddingValues)
             .padding(
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 16.dp
+                start = Theme.dimens.space16,
+                end = Theme.dimens.space16,
+                bottom = Theme.dimens.space16
             )
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             BaseTextButton(
                 text = stringResource(Res.string.inbox),
+                fontFamily = FontFamily.Cursive,
+                textStyle = MaterialTheme.typography.titleLarge,
                 icon = Icons.Filled.Notifications,
                 contentDescription = stringResource(Res.string.inbox),
                 onClick = {
@@ -155,18 +160,23 @@ fun ScreenContent(
 
             if (inboxCount > 0) {
                 Badge(
-                    containerColor = Color.Red,
-                    contentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError
                 ) {
-                    Text("$inboxCount")
+                    Text(
+                        text = "$inboxCount",
+                        fontFamily = FontFamily.Cursive
+                    )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
         BaseTextButton(
             text = stringResource(Res.string.theme),
+            fontFamily = FontFamily.Cursive,
+            textStyle = MaterialTheme.typography.titleLarge,
             icon = Icons.Filled.Edit,
             contentDescription = stringResource(Res.string.theme),
             onClick = {
@@ -174,10 +184,12 @@ fun ScreenContent(
             }
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
         BaseTextButton(
             text = stringResource(Res.string.contact_us),
+            fontFamily = FontFamily.Cursive,
+            textStyle = MaterialTheme.typography.titleLarge,
             icon = Icons.Filled.Email,
             contentDescription = stringResource(Res.string.contact_us),
             onClick = {
@@ -216,7 +228,7 @@ fun ShowBottomSheetEditTheme(
             ) {
                 Button(
                     modifier = Modifier
-                        .padding(16.dp)
+                        .padding(Theme.dimens.space16)
                         .align(Alignment.CenterHorizontally),
                     onClick = {
                         scope.launch { editThemeBottomSheetState.hide() }.invokeOnCompletion {
@@ -227,7 +239,7 @@ fun ShowBottomSheetEditTheme(
                     }
                 ) {
                     Icon(
-                        modifier = Modifier.padding(end = 8.dp),
+                        modifier = Modifier.padding(end = Theme.dimens.space8),
                         imageVector = Icons.Default.Done,
                         contentDescription = stringResource(Res.string.save),
                     )

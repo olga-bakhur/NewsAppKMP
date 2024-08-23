@@ -1,6 +1,5 @@
 package presentation.feature.feed
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,7 +40,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
-import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -60,6 +58,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.cash.paging.compose.collectAsLazyPagingItems
@@ -71,9 +70,7 @@ import newsappkmp.composeapp.generated.resources.apply
 import newsappkmp.composeapp.generated.resources.clear
 import newsappkmp.composeapp.generated.resources.close
 import newsappkmp.composeapp.generated.resources.date
-import newsappkmp.composeapp.generated.resources.less
 import newsappkmp.composeapp.generated.resources.menu
-import newsappkmp.composeapp.generated.resources.more_with_args
 import newsappkmp.composeapp.generated.resources.removed
 import newsappkmp.composeapp.generated.resources.saved
 import newsappkmp.composeapp.generated.resources.screen_title_feed
@@ -85,8 +82,10 @@ import org.koin.compose.viewmodel.koinViewModel
 import presentation.component.BaseErrorDialog
 import presentation.component.BaseFilterChip
 import presentation.component.BasePagingList
+import presentation.component.OverflowFilterChip
 import presentation.navigation.navbar.TopAppBar
 import presentation.navigation.navbar.TopAppBarActionItem
+import presentation.theme.Theme
 import kotlin.reflect.KFunction0
 import kotlin.reflect.KFunction1
 
@@ -216,7 +215,7 @@ fun NavigationDrawerContent(
 ) {
     Text(
         text = stringResource(Res.string.menu),
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(Theme.dimens.space16)
     )
 
     HorizontalDivider()
@@ -243,7 +242,7 @@ fun NavigationDrawerContent(
         }
     )
 
-    Spacer(modifier = Modifier.height(4.dp))
+    Spacer(modifier = Modifier.height(Theme.dimens.space4))
 
     NavigationDrawerItem(
         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
@@ -264,7 +263,7 @@ fun NavigationDrawerContent(
         }
     )
 
-    Spacer(modifier = Modifier.height(4.dp))
+    Spacer(modifier = Modifier.height(Theme.dimens.space16))
 
     NavigationDrawerItem(
         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
@@ -318,6 +317,8 @@ private fun ScreenContent(
             TopAppBar(
                 title = stringResource(Res.string.screen_title_feed),
                 maxLines = 1,
+                fontFamily = FontFamily.Cursive,
+                textStyle = MaterialTheme.typography.headlineMedium,
                 scrollBehavior = scrollBehavior,
                 isTopLevelDestination = true,
                 onMenuClicked = {
@@ -376,13 +377,7 @@ private fun ScreenContent(
                     SectionFilters(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentHeight(align = Alignment.Top)
-                            .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                top = 16.dp,
-                                bottom = 8.dp,
-                            ),
+                            .wrapContentHeight(align = Alignment.Top),
                         sections = state.sections,
                         onFilterSelected = onFilterSelected,
                         currentSectionId = state.feedFilter.sectionId
@@ -469,13 +464,19 @@ fun SectionFilters(
         OverflowFilterChip(
             remainingItems = remainingItems,
             maxLines = maxLines,
-            onMaxLinesChange = { maxLines = it }
+            onMaxLinesChange = { maxLines = it },
+            fontFamily = FontFamily.Cursive,
+            textStyle = MaterialTheme.typography.titleMedium
         )
     }
 
     ContextualFlowRow(
+        modifier = modifier,
         verticalArrangement = Arrangement.Top,
-        horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
+        horizontalArrangement = Arrangement.spacedBy(
+            space = Theme.dimens.space4,
+            alignment = Alignment.CenterHorizontally
+        ),
         maxLines = maxLines,
         overflow = ContextualFlowRowOverflow.expandOrCollapseIndicator(
             minRowsToShowCollapse = 4,
@@ -488,6 +489,8 @@ fun SectionFilters(
 
         BaseFilterChip(
             label = section.sectionName,
+            fontFamily = FontFamily.Cursive,
+            textStyle = MaterialTheme.typography.titleMedium,
             icon = Icons.Filled.Done,
             onChipClicked = {
                 onFilterSelected.invoke(section.sectionId)
@@ -540,7 +543,7 @@ fun DateRangePickerModal(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(16.dp)
+                    .padding(Theme.dimens.space16)
             )
 
             IconButton(
@@ -556,33 +559,4 @@ fun DateRangePickerModal(
             }
         }
     }
-}
-
-@Composable
-fun OverflowFilterChip(
-    remainingItems: Int,
-    maxLines: Int,
-    onMaxLinesChange: (Int) -> Unit
-) {
-    SuggestionChip(
-        label = {
-            Text(
-                text = if (remainingItems > 0) {
-                    stringResource(
-                        Res.string.more_with_args,
-                        remainingItems
-                    )
-                } else {
-                    stringResource(Res.string.less)
-                }
-            )
-        },
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
-        onClick = {
-            if (remainingItems > 0) {
-                onMaxLinesChange(maxLines + 5)
-            } else {
-                onMaxLinesChange(2)
-            }
-        })
 }

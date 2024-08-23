@@ -27,8 +27,6 @@ fun AppTheme(
             content = content
         )
     }
-
-
 }
 
 object Theme {

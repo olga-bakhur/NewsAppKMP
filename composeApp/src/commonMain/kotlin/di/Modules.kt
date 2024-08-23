@@ -35,6 +35,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import presentation.feature.articledetail.ArticleDetailViewModel
+import presentation.feature.favorite.FavoriteViewModel
 import presentation.feature.feed.FeedViewModel
 import presentation.feature.profile.ProfileViewModel
 import presentation.feature.settings.SettingsViewModel
@@ -63,9 +64,10 @@ val sharedModule = module {
 
     /* ViewModel */
     viewModelOf(::FeedViewModel)
-    viewModelOf(::ArticleDetailViewModel)
+    viewModelOf(::FavoriteViewModel)
     viewModelOf(::ProfileViewModel)
     viewModelOf(::SettingsViewModel)
+    viewModelOf(::ArticleDetailViewModel)
 
     /* Paging */
     singleOf(::ArticlesPagingSource)

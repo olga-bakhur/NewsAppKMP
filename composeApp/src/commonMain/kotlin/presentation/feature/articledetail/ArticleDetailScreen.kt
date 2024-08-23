@@ -25,17 +25,25 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import common.EMPTY
 import data.util.millisToFormattedDateString
 import newsappkmp.composeapp.generated.resources.Res
+import newsappkmp.composeapp.generated.resources.by_line
+import newsappkmp.composeapp.generated.resources.last_modified
 import newsappkmp.composeapp.generated.resources.no_info
+import newsappkmp.composeapp.generated.resources.published
 import newsappkmp.composeapp.generated.resources.save
 import newsappkmp.composeapp.generated.resources.screen_title_article_detail
+import newsappkmp.composeapp.generated.resources.section
 import newsappkmp.composeapp.generated.resources.share
+import newsappkmp.composeapp.generated.resources.source
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import presentation.component.BaseErrorDialog
@@ -126,65 +134,29 @@ private fun ScreenContent(
             ) {
                 Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
-                // Thumbnail
-                LoadImageFromUrl(
-                    imageUri = article.thumbnail,
-                    contentDescription = "Thumbnail",
-                    widthInPx = 500,
-                    heightInPx = 300
-                )
-
+                Thumbnail(imageUri = article.thumbnail)
                 Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
-                // Title
-                Text(
-                    text = article.title
-                )
-
+                Title(title = article.title)
                 Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
-                // Body text
-                Text(
-                    text = article.bodyText ?: EMPTY
-                )
+                BodyText(bodyText = article.bodyText ?: EMPTY)
+                Spacer(modifier = Modifier.height(Theme.dimens.space16))
 
-                Spacer(modifier = Modifier.height(Theme.dimens.space8))
+                ByLine(byLine = article.byline ?: EMPTY)
+                Spacer(modifier = Modifier.height(Theme.dimens.space4))
 
-                // By line
-                Text(
-                    text = article.byline ?: EMPTY
-                )
+                Source(source = article.source)
+                Spacer(modifier = Modifier.height(Theme.dimens.space4))
 
-                Spacer(modifier = Modifier.height(Theme.dimens.space8))
+                Section(section = article.sectionName)
+                Spacer(modifier = Modifier.height(Theme.dimens.space4))
 
-                // Source
-                Text(
-                    text = article.source
-                )
+                PublicationDate(publicationDate = millisToFormattedDateString(article.publicationDate))
+                Spacer(modifier = Modifier.height(Theme.dimens.space4))
 
-                Spacer(modifier = Modifier.height(Theme.dimens.space8))
-
-                // Category
-                Text(
-                    text = article.sectionName
-                )
-
-                Spacer(modifier = Modifier.height(Theme.dimens.space8))
-
-                // Date
-                Text(
-                    text = millisToFormattedDateString(article.publicationDate)
-                )
-
-                Spacer(modifier = Modifier.height(Theme.dimens.space8))
-
-                // Last modified
-                Text(
-                    text = millisToFormattedDateString(article.lastModified)
-                )
-
-                Spacer(modifier = Modifier.height(Theme.dimens.space8))
-
+                LastModified(lastModified = millisToFormattedDateString(article.lastModified))
+                Spacer(modifier = Modifier.height(Theme.dimens.space16))
             }
         } else {
             Box(
@@ -192,14 +164,11 @@ private fun ScreenContent(
                     .padding(paddingValues)
                     .fillMaxSize()
             ) {
-                Text(
-                    text = stringResource(Res.string.no_info),
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                )
+                EmptyState(modifier = Modifier.align(Alignment.Center))
             }
         }
 
+        // Loading
         if (state.loading) {
             Box(
                 modifier = Modifier
@@ -207,9 +176,7 @@ private fun ScreenContent(
                     .fillMaxSize()
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center),
-                    color = Color.Red
+                    modifier = Modifier.align(Alignment.Center)
                 )
             }
         }
@@ -222,4 +189,153 @@ private fun ScreenContent(
             )
         }
     }
+}
+
+@Composable
+fun Thumbnail(
+    imageUri: String? = null
+) {
+    LoadImageFromUrl(
+        imageUri = imageUri,
+        contentDescription = "Thumbnail",
+        widthInPx = 500,
+        heightInPx = 300
+    )
+}
+
+@Composable
+fun Title(
+    title: String
+) {
+    Text(
+        text = title,
+        fontWeight = FontWeight.SemiBold,
+        style = MaterialTheme.typography.titleMedium
+    )
+}
+
+@Composable
+fun BodyText(
+    bodyText: String
+) {
+    Text(
+        text = bodyText,
+        fontWeight = FontWeight.Normal,
+        style = MaterialTheme.typography.bodyLarge
+    )
+}
+
+@Composable
+fun ByLine(
+    byLine: String
+) {
+    Text(
+        text = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.SemiBold
+                )
+            ) {
+                append(stringResource(Res.string.by_line))
+            }
+
+            append(byLine)
+        },
+        fontWeight = FontWeight.Light,
+        style = MaterialTheme.typography.bodyMedium
+    )
+}
+
+@Composable
+fun Source(
+    source: String
+) {
+    Text(
+        text = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.SemiBold
+                )
+            ) {
+                append(stringResource(Res.string.source))
+            }
+
+            append(source)
+        },
+        fontWeight = FontWeight.Light,
+        style = MaterialTheme.typography.bodyMedium
+    )
+}
+
+@Composable
+fun Section(
+    section: String
+) {
+    Text(
+        text = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.SemiBold
+                )
+            ) {
+                append(stringResource(Res.string.section))
+            }
+
+            append(section)
+        },
+        fontWeight = FontWeight.Light,
+        style = MaterialTheme.typography.bodyMedium
+    )
+}
+
+@Composable
+fun PublicationDate(
+    publicationDate: String
+) {
+    Text(
+        text = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.SemiBold
+                )
+            ) {
+                append(stringResource(Res.string.published))
+            }
+
+            append(publicationDate)
+        },
+        fontWeight = FontWeight.Light,
+        style = MaterialTheme.typography.bodyMedium
+    )
+}
+
+@Composable
+fun LastModified(
+    lastModified: String
+) {
+    Text(
+        text = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.SemiBold
+                )
+            ) {
+                append(stringResource(Res.string.last_modified))
+            }
+
+            append(lastModified)
+        },
+        fontWeight = FontWeight.Light,
+        style = MaterialTheme.typography.bodyMedium
+    )
+}
+
+@Composable
+fun EmptyState(
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = stringResource(Res.string.no_info),
+        modifier = modifier
+    )
 }

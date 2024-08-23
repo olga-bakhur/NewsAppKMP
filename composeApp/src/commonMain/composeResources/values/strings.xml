@@ -48,9 +48,11 @@
     <!--    FeedScreen-->
     <string name="more_with_args">+ %1$d more</string>
     <string name="less">less</string>
+    <string name="by_line">By line: </string>
     <string name="source">Source: </string>
     <string name="section">Section: </string>
     <string name="published">Published: </string>
+    <string name="last_modified">Last modified: </string>
 
     <!--    SettingsScreen-->
     <string name="inbox">Inbox</string>

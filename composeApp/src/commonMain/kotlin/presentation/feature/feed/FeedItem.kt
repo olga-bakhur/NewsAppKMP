@@ -53,44 +53,26 @@ fun TopHeadlineItem(
                 .align(Alignment.End)
         )
 
-        Thumbnail(
-            imageUri = article.thumbnail
-        )
-
+        Thumbnail(imageUri = article.thumbnail)
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
             thickness = Theme.dimens.space1
         )
-
         Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
-        Title(
-            title = article.title
-        )
-
+        Title(title = article.title)
         Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
-        TrailText(
-            trailText = article.trailText
-        )
-
+        TrailText(trailText = article.trailText)
         Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
-        Source(
-            source = article.source
-        )
-
+        Source(source = article.source)
         Spacer(modifier = Modifier.height(Theme.dimens.space4))
 
-        Section(
-            section = article.sectionName
-        )
-
+        Section(section = article.sectionName)
         Spacer(modifier = Modifier.height(Theme.dimens.space4))
 
-        PublicationDate(
-            publicationDate = millisToFormattedDateString(article.publicationDate)
-        )
+        PublicationDate(publicationDate = millisToFormattedDateString(article.publicationDate))
     }
 }
 

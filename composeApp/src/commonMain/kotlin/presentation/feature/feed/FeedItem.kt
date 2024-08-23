@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -112,9 +112,9 @@ fun SaveIconButton(
     ) {
         Icon(
             imageVector = if (false /* isSaved */) {
-                Icons.Filled.Favorite
+                Icons.Filled.Star
             } else {
-                Icons.Outlined.Favorite
+                Icons.Outlined.Star
             },
             contentDescription = stringResource(Res.string.save)
         )

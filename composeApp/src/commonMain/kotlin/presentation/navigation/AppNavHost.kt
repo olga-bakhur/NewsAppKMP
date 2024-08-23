@@ -18,6 +18,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import presentation.feature.articledetail.ArticleDetailScreen
 import presentation.feature.favorite.FavoriteScreen
 import presentation.feature.feed.FeedScreen
+import presentation.feature.profile.ProfileScreen
 import presentation.feature.settings.SettingsScreen
 
 @Composable
@@ -62,6 +63,13 @@ fun NavGraphBuilder.navigationBarGraph(
 
         composable(Screen.Favorite.route) {
             FavoriteScreen(
+                viewModel = koinViewModel(),
+                onBackClicked = { navController.popBackStack() }
+            )
+        }
+
+        composable(Screen.Profile.route) {
+            ProfileScreen(
                 viewModel = koinViewModel(),
                 onBackClicked = { navController.popBackStack() }
             )

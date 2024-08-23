@@ -39,6 +39,7 @@
     <!--    BottomBar Screens titles-->
     <string name="screen_title_feed">Feed</string>
     <string name="screen_title_favorite">Favorite</string>
+    <string name="screen_title_profile">Profile</string>
     <string name="screen_title_settings">Settings</string>
 
     <!--    Other Screens titles-->

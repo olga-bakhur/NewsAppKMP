@@ -27,6 +27,7 @@ fun BottomNavBar(
     val navigationBarItems: List<NavigationItem> = listOf(
         NavigationItem.Feed,
         NavigationItem.Favorite,
+        NavigationItem.Profile,
         NavigationItem.Settings
     )
 

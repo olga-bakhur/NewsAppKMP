@@ -1,17 +1,20 @@
 package presentation.navigation.navbar
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 import common.EMPTY
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.screen_title_favorite
 import newsappkmp.composeapp.generated.resources.screen_title_feed
+import newsappkmp.composeapp.generated.resources.screen_title_profile
 import newsappkmp.composeapp.generated.resources.screen_title_settings
 import org.jetbrains.compose.resources.StringResource
 import presentation.navigation.Screen
@@ -31,9 +34,16 @@ sealed class NavigationItem(
 
     data object Favorite : NavigationItem(
         textId = Res.string.screen_title_favorite,
-        unselectedIcon = Icons.Outlined.Favorite,
-        selectedIcon = Icons.Filled.Favorite,
+        unselectedIcon = Icons.Outlined.Star,
+        selectedIcon = Icons.Filled.Star,
         route = Screen.Favorite.route
+    )
+
+    data object Profile : NavigationItem(
+        textId = Res.string.screen_title_profile,
+        unselectedIcon = Icons.Outlined.AccountCircle,
+        selectedIcon = Icons.Filled.AccountCircle,
+        route = Screen.Profile.route
     )
 
     data object Settings : NavigationItem(

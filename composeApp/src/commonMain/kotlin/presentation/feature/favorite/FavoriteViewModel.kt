@@ -1,6 +1,6 @@
 package presentation.feature.favorite
 
-import base.BaseViewModel
+import presentation.base.BaseViewModel
 
 class FavoriteViewModel : BaseViewModel() {
 

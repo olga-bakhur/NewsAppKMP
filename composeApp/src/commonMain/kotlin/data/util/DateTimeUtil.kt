@@ -37,7 +37,7 @@ fun millisToFormattedDateString(millis: Long): String {
         append(month)
         append(" ")
         append(year)
-        append(",")
+        append(", ")
         append("")
         append(hour)
         append(":")

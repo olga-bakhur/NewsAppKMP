@@ -1,4 +1,4 @@
-package domain.util
+package data.model.mapper
 
 import data.model.dto.Section
 import data.model.response.section.SectionResponse

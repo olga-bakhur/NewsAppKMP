@@ -1,4 +1,4 @@
-package data.util
+package data.source.remote
 
 object FieldsRequestBuilder {
 

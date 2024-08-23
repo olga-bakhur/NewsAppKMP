@@ -6,9 +6,9 @@ import data.base.result.Result
 import data.base.result.map
 import data.model.dto.Article
 import data.model.dto.Feed
+import data.model.mapper.toArticle
+import data.model.mapper.toFeed
 import data.source.remote.ArticlesApi
-import data.util.toArticle
-import data.util.toFeed
 import domain.repository.ArticlesRepository
 
 internal class ArticlesRepositoryImpl(

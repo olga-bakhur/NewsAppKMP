@@ -4,8 +4,7 @@ import data.base.result.ApiResult
 import data.model.response.articledetail.ArticleDetailSearchResponse
 import data.model.response.feed.FeedSearchResponse
 import data.model.response.section.SectionsSearchResponse
-import data.util.Config.API_KEY_ARTICLES
-import data.util.FieldsRequestBuilder
+import data.source.remote.ApiConfig.API_KEY_ARTICLES
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query

@@ -1,17 +1,17 @@
 package presentation.feature.articledetail
 
 import androidx.lifecycle.viewModelScope
-import base.BaseViewModel
 import data.base.error.AppError
 import data.base.result.Result
 import data.model.dto.Article
 import domain.usecase.FetchArticleDetailUseCase
-import domain.util.AppDispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import presentation.base.BaseViewModel
+import presentation.util.AppDispatchers
 
 class ArticleDetailViewModel(
     private val fetchArticleDetailUseCase: FetchArticleDetailUseCase,

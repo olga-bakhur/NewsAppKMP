@@ -5,9 +5,9 @@ import data.base.result.ApiSuccess
 import data.base.result.Result
 import data.base.result.map
 import data.model.dto.Section
+import data.model.mapper.toSectionList
 import data.source.remote.ArticlesApi
 import domain.repository.SectionsRepository
-import domain.util.toSectionList
 
 class SectionsRepositoryImpl(
     private val articlesApi: ArticlesApi

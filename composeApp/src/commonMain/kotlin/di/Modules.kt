@@ -3,10 +3,10 @@ package di
 import data.base.result.AppResponseConverterFactory
 import data.repository.ArticlesRepositoryImpl
 import data.repository.SectionsRepositoryImpl
+import data.source.remote.ApiConfig.BASE_URL_ARTICLES
 import data.source.remote.ArticlesApi
 import data.source.remote.createArticlesApi
 import data.source.remote.paging.ArticlesPagingSource
-import data.util.Config.BASE_URL_ARTICLES
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.ktorfit
 import domain.repository.ArticlesRepository
@@ -14,7 +14,6 @@ import domain.repository.SectionsRepository
 import domain.usecase.FetchArticleDetailUseCase
 import domain.usecase.FetchFeedUseCase
 import domain.usecase.FetchSectionsUseCase
-import domain.util.AppDispatchers
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
@@ -39,6 +38,7 @@ import presentation.feature.articledetail.ArticleDetailViewModel
 import presentation.feature.favorite.FavoriteViewModel
 import presentation.feature.feed.FeedViewModel
 import presentation.feature.settings.SettingsViewModel
+import presentation.util.AppDispatchers
 
 private const val NETWORK_TIME_OUT = 10_000L
 

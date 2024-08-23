@@ -1,6 +1,6 @@
 package presentation.feature.settings
 
-import base.BaseViewModel
+import presentation.base.BaseViewModel
 
 class SettingsViewModel : BaseViewModel() {
 

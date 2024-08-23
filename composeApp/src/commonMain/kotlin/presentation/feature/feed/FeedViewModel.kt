@@ -2,14 +2,12 @@ package presentation.feature.feed
 
 import androidx.lifecycle.viewModelScope
 import app.cash.paging.PagingData
-import base.BaseViewModel
 import data.base.error.AppError
 import data.base.result.Result
 import data.model.dto.Article
 import data.model.dto.Section
 import domain.usecase.FetchFeedUseCase
 import domain.usecase.FetchSectionsUseCase
-import domain.util.AppDispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +17,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import presentation.base.BaseViewModel
+import presentation.util.AppDispatchers
 
 class FeedViewModel(
     private val appDispatchers: AppDispatchers,

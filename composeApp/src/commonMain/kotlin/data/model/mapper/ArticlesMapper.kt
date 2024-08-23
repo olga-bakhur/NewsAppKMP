@@ -1,10 +1,12 @@
-package data.util
+package data.model.mapper
 
 import data.model.dto.Article
 import data.model.dto.Feed
 import data.model.response.articledetail.ArticleDetailSearchResponse
 import data.model.response.articledetail.ArticleResponse
 import data.model.response.feed.FeedSearchResponse
+import data.util.isoFormatToMillis
+import data.util.removeHtmlTags
 
 fun FeedSearchResponse.toFeed(): Feed =
     with(response) {
@@ -37,7 +39,7 @@ fun ArticleResponse.toArticle(): Article = Article(
     isHosted = isHosted,
     pillarId = pillarId,
     pillarName = pillarName,
-    trailText = fields.trailText,
+    trailText = fields.trailText.removeHtmlTags(),
     bodyText = fields.bodyText,
     byline = fields.byline,
     lastModified = isoFormatToMillis(fields.lastModified),

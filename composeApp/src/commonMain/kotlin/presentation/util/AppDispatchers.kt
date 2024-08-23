@@ -1,4 +1,4 @@
-package domain.util
+package presentation.util
 
 import kotlinx.coroutines.CoroutineDispatcher
 

@@ -8,13 +8,13 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import presentation.theme.Theme
 
 @Composable
 fun BaseCard(
     modifier: Modifier = Modifier,
-    contentPadding: Dp = 16.dp,
-    elevation: Dp = 6.dp,
+    contentPadding: Dp = Theme.dimens.space16,
+    elevation: Dp = Theme.dimens.space6,
     onCardClicked: (() -> Unit)? = null,
     content: @Composable() (ColumnScope.() -> Unit)
 ) {

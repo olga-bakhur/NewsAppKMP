@@ -4,9 +4,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -26,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -193,11 +197,17 @@ private fun ScreenContent(
 
 @Composable
 fun Thumbnail(
+    modifier: Modifier = Modifier,
     imageUri: String? = null
 ) {
     LoadImageFromUrl(
         imageUri = imageUri,
-        contentDescription = "Thumbnail"
+        contentDescription = "Thumbnail",
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .aspectRatio(10f / 6f),
+        contentScale = ContentScale.FillWidth
     )
 }
 

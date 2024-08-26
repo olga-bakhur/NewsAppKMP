@@ -197,9 +197,7 @@ fun Thumbnail(
 ) {
     LoadImageFromUrl(
         imageUri = imageUri,
-        contentDescription = "Thumbnail",
-        widthInPx = 500,
-        heightInPx = 300
+        contentDescription = "Thumbnail"
     )
 }
 

@@ -1,15 +1,13 @@
 package presentation.component
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.ic_image_error
@@ -21,29 +19,17 @@ internal fun LoadImageFromUrl(
     imageUri: String?,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    widthInPx: Int? = null,
-    heightInPx: Int? = null,
-    contentScale: ContentScale = ContentScale.Inside
+    contentScale: ContentScale = ContentScale.Fit,
+    contentAlignment: Alignment = Alignment.Center
 ) {
-    var widthInDp: Dp? = null
-    var heightInDp: Dp? = null
-
-    if (widthInPx != null && heightInPx != null) {
-        val density = LocalDensity.current.density
-        widthInDp = (widthInPx?.div(density))?.dp
-        heightInDp = (heightInPx?.div(density))?.dp
-    }
-
     Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxWidth()
+        contentAlignment = contentAlignment,
+        modifier = modifier.fillMaxSize()
     ) {
         AsyncImage(
-            modifier = if (widthInDp != null && heightInDp != null) {
-                Modifier.size(widthInDp, heightInDp)
-            } else {
-                Modifier.fillMaxWidth()
-            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(3f / 2f),
             model = imageUri,
             placeholder = painterResource(Res.drawable.ic_image_placeholder),
             error = painterResource(Res.drawable.ic_image_error),

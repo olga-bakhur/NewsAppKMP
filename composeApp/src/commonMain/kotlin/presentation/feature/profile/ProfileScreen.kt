@@ -22,14 +22,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontFamily
 import common.EMPTY
 import newsappkmp.composeapp.generated.resources.Res
+import newsappkmp.composeapp.generated.resources.compose_multiplatform
 import newsappkmp.composeapp.generated.resources.screen_title_profile
+import newsappkmp.composeapp.generated.resources.user_avatar_content_description
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import presentation.component.RoundImage
 import presentation.navigation.navbar.TopAppBar
 import presentation.theme.Theme
 
@@ -77,11 +82,28 @@ private fun ScreenContent(
                 .padding(paddingValues)
                 .padding(horizontal = Theme.dimens.space16)
         ) {
+            Avatar(
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+
             UserNameInputField(
                 modifier = Modifier.fillMaxWidth()
             )
         }
     }
+}
+
+@Composable
+fun Avatar(
+    modifier: Modifier = Modifier
+) {
+    RoundImage(
+        modifier = modifier,
+        size = Theme.dimens.space200,
+        strokeWidth = Theme.dimens.space1,
+        painter = painterResource(Res.drawable.compose_multiplatform),
+        contentDescription = stringResource(Res.string.user_avatar_content_description)
+    )
 }
 
 @Composable

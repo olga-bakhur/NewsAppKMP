@@ -53,7 +53,12 @@ fun TopHeadlineItem(
                 .align(Alignment.End)
         )
 
-        Thumbnail(imageUri = article.thumbnail)
+        Thumbnail(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally),
+            imageUri = article.thumbnail
+        )
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
             thickness = Theme.dimens.space1
@@ -105,13 +110,13 @@ fun SaveIconButton(
 
 @Composable
 fun Thumbnail(
+    modifier: Modifier = Modifier,
     imageUri: String? = null
 ) {
     LoadImageFromUrl(
         imageUri = imageUri,
         contentDescription = "Thumbnail",
-        widthInPx = 500,
-        heightInPx = 300
+        modifier = modifier
     )
 }
 

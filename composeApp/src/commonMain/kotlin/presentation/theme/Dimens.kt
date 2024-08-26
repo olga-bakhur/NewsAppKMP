@@ -14,5 +14,6 @@ data class Dimens(
     val space24: Dp = 24.dp,
     val space32: Dp = 32.dp,
     val space40: Dp = 40.dp,
-    val space100: Dp = 100.dp
+    val space100: Dp = 100.dp,
+    val space200: Dp = 200.dp
 )

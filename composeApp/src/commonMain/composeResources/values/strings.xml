@@ -53,6 +53,7 @@
     <string name="section">Section: </string>
     <string name="published">Published: </string>
     <string name="last_modified">Last modified: </string>
+    <string name="article_thumbnail_content_description">Article thumbnail</string>
 
     <!--    SettingsScreen-->
     <string name="inbox">Inbox</string>

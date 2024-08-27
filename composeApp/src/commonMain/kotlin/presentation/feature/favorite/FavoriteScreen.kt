@@ -14,13 +14,12 @@ import androidx.compose.ui.text.font.FontFamily
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.screen_title_favorite
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
 import presentation.navigation.navbar.TopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteScreen(
-    viewModel: FavoriteViewModel = koinViewModel(),
+    viewModel: FavoriteViewModel,
     onBackClicked: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())

@@ -1,5 +1,6 @@
 package presentation.feature.feed
 
+import androidx.compose.runtime.Immutable
 import androidx.paging.PagingData
 import data.base.error.AppError
 import data.model.dto.Article
@@ -7,6 +8,7 @@ import data.model.dto.Section
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
+@Immutable
 data class FeedState(
     val loading: Boolean = false,
     val errors: List<AppError> = emptyList(),
@@ -16,6 +18,7 @@ data class FeedState(
     val saveArticleResult: Boolean? = null
 )
 
+@Immutable
 data class FeedFilter(
     val sectionId: String? = null,
     val fromDate: Long? = null,

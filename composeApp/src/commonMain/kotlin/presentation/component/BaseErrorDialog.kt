@@ -12,9 +12,12 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BaseErrorDialog(
+    isError: Boolean,
     error: AppError,
     onDismiss: () -> Unit
 ) {
+    if (!isError) return
+
     BaseOneOptionDialog(
         onDismissRequest = {
             onDismiss.invoke()

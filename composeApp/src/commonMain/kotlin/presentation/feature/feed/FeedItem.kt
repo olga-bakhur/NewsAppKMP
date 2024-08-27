@@ -20,6 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -100,8 +102,29 @@ fun SaveIconButton(
     onSaveArticleClicked: () -> Unit,
     onRemoveArticleClicked: () -> Unit
 ) {
+    val startColor = MaterialTheme.colorScheme.secondaryContainer
+    val endColor = MaterialTheme.colorScheme.primary
+
     IconButton(
-        modifier = modifier,
+        modifier = modifier
+            .padding(
+                start = Theme.dimens.space16,
+                end = Theme.dimens.space16
+            )
+            .drawWithCache {
+                val brush = Brush.linearGradient(
+                    listOf(
+                        startColor,
+                        endColor
+                    )
+                )
+
+                onDrawBehind {
+                    drawCircle(
+                        brush = brush
+                    )
+                }
+            },
         onClick = {
             if (true /* !isSaved */) {
                 onSaveArticleClicked()

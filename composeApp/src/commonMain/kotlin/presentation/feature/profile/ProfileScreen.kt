@@ -24,14 +24,23 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.dp
 import common.EMPTY
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.compose_multiplatform
 import newsappkmp.composeapp.generated.resources.screen_title_profile
 import newsappkmp.composeapp.generated.resources.user_avatar_content_description
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import presentation.component.RoundImage
@@ -98,10 +107,45 @@ fun Avatar(
     modifier: Modifier = Modifier
 ) {
     RoundImage(
-        modifier = modifier,
+        modifier = modifier
+            .padding(8.dp)
+            .graphicsLayer {
+                compositingStrategy = CompositingStrategy.Offscreen
+            }
+            .drawWithCache {
+                val path = Path()
+                path.addOval(
+                    Rect(
+                        topLeft = Offset.Zero,
+                        bottomRight = Offset(size.width, size.height)
+                    )
+                )
+                onDrawWithContent {
+                    clipPath(path) {
+                        this@onDrawWithContent.drawContent()
+                    }
+                    val dotSize = size.width / 8f
+                    drawCircle(
+                        Color.Black,
+                        radius = dotSize,
+                        center = Offset(
+                            x = size.width - dotSize,
+                            y = size.height - dotSize
+                        ),
+                        blendMode = BlendMode.Clear
+                    )
+                    drawCircle(
+                        Color(0xFFEF5350), radius = dotSize * 0.8f,
+                        center = Offset(
+                            x = size.width - dotSize,
+                            y = size.height - dotSize
+                        )
+                    )
+                }
+            },
         size = Theme.dimens.space200,
         strokeWidth = Theme.dimens.space1,
-        painter = painterResource(Res.drawable.compose_multiplatform),
+        drawableResource = Res.drawable.compose_multiplatform,
         contentDescription = stringResource(Res.string.user_avatar_content_description)
     )
 }

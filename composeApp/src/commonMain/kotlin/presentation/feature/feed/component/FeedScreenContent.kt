@@ -24,7 +24,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontFamily
 import app.cash.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.date
 import newsappkmp.composeapp.generated.resources.screen_title_feed
@@ -154,7 +156,7 @@ fun FeedScreenContent(
 
         // Snackbar add to favorites
         FeedSnackbarSaveOrRemoveArticle(
-            isSaved = state.saveArticleResult,
+            isSaved = runBlocking { state.saveArticleResult.firstOrNull() },
             scope = scope,
             snackbarHostState = snackbarHostState,
             onRemoveArticleClicked = onRemoveArticleClicked

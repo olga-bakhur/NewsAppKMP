@@ -15,7 +15,7 @@ data class FeedState(
     val sections: List<Section> = emptyList(),
     val feedFilter: FeedFilter = FeedFilter(),
     val articles: Flow<PagingData<Article>> = emptyFlow(),
-    val saveArticleResult: Boolean? = null
+    val saveArticleResult: Flow<Boolean> = emptyFlow()
 )
 
 @Immutable

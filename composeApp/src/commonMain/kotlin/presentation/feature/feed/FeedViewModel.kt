@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import presentation.base.BaseViewModel
@@ -32,7 +33,7 @@ class FeedViewModel(
     private val _articles = MutableStateFlow(emptyFlow<PagingData<Article>>())
     private val _sections = MutableStateFlow(emptyList<Section>())
     private val _feedFilter: MutableStateFlow<FeedFilter> = MutableStateFlow(FeedFilter())
-    private val _saveArticleResult: MutableStateFlow<Boolean?> = MutableStateFlow(value = null)
+    private val _saveArticleResult: MutableStateFlow<Flow<Boolean>> = MutableStateFlow(emptyFlow())
 
     val state: StateFlow<FeedState> = combine(
         _loading,
@@ -154,9 +155,9 @@ class FeedViewModel(
 
             when (result) {
                 is Result.Success -> {
-                    _saveArticleResult.emit(true)
+                    _saveArticleResult.emit(flowOf(true))
                     delay(1000)
-                    _saveArticleResult.emit(null)
+                    _saveArticleResult.emit(emptyFlow())
                 }
 
                 is Result.Error<*> -> addError(result.error)
@@ -170,9 +171,9 @@ class FeedViewModel(
 
             when (result) {
                 is Result.Success -> {
-                    _saveArticleResult.emit(false)
+                    _saveArticleResult.emit(flowOf(false))
                     delay(1000)
-                    _saveArticleResult.emit(null)
+                    _saveArticleResult.emit(emptyFlow())
                 }
 
                 is Result.Error<*> -> addError(result.error)

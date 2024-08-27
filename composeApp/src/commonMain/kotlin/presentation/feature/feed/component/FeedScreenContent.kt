@@ -163,7 +163,7 @@ fun FeedScreenContent(
         // Errors
         BaseErrorDialog(
             isError = state.errors.isNotEmpty(),
-            error = state.errors.first(),
+            error = state.errors.firstOrNull(),
             onDismiss = { dismissError.invoke() }
         )
     }

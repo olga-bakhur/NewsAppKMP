@@ -1,4 +1,4 @@
-package presentation.component
+package presentation.feature.feed.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,17 +27,21 @@ import app.cash.paging.LoadStateError
 import app.cash.paging.LoadStateLoading
 import app.cash.paging.LoadStateNotLoading
 import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.itemKey
+import data.model.dto.Article
+import presentation.component.BaseOutlinedButton
+import presentation.theme.Theme
 
 
 @Composable
-fun <T : Any> BasePagingList(
+fun FeedPagingList(
     modifier: Modifier = Modifier,
-    data: LazyPagingItems<T>,
-    paddingValues: PaddingValues = PaddingValues(16.dp),
-    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(8.dp),
+    data: LazyPagingItems<Article>,
+    paddingValues: PaddingValues = PaddingValues(Theme.dimens.space16),
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(Theme.dimens.space8),
     contentTop: @Composable() (LazyListScope.() -> Unit)? = null,
-    bottomPadding: PaddingValues = PaddingValues(0.dp),
-    content: @Composable (T?, Modifier) -> Unit
+    bottomPadding: PaddingValues = PaddingValues(Theme.dimens.space0),
+    content: @Composable (Article, Modifier) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -51,14 +55,20 @@ fun <T : Any> BasePagingList(
             contentTop?.invoke(this@LazyColumn)
         }
 
-        items(data.itemCount) { index ->
-            val item = data[index]
-            // Check if this is the last index
-            if (index == data.itemCount - 1) {
-                // This is the last index, you can add padding or any other logic here
-                content(item, Modifier.padding(bottomPadding))
-            } else {
-                content(item, Modifier)
+        items(
+            count = data.itemCount,
+            key = data.itemKey { article ->
+                article.articleId
+            }
+        ) { index ->
+            data[index]?.let { article ->
+                // Check if this is the last index
+                if (index == data.itemCount - 1) {
+                    // This is the last index, you can add padding or any other logic here
+                    content(article, Modifier.padding(bottomPadding))
+                } else {
+                    content(article, Modifier)
+                }
             }
         }
 
@@ -134,7 +144,7 @@ private fun ErrorItem(
     onClickRetry: () -> Unit,
 ) {
     Row(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(Theme.dimens.space16),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -158,7 +168,7 @@ private fun ErrorView(
     onClickRetry: () -> Unit,
 ) {
     Column(
-        modifier = modifier.padding(16.dp).onPlaced { cor ->
+        modifier = modifier.padding(Theme.dimens.space16).onPlaced { cor ->
 
         },
         verticalArrangement = Arrangement.Center,
@@ -176,7 +186,7 @@ private fun ErrorView(
             onClick = onClickRetry,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(Theme.dimens.space16)
                 .wrapContentWidth(Alignment.CenterHorizontally)
         )
     }

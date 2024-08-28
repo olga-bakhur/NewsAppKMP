@@ -31,7 +31,6 @@ import newsappkmp.composeapp.generated.resources.screen_title_feed
 import newsappkmp.composeapp.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
 import presentation.component.BaseErrorDialog
-import presentation.component.BasePagingList
 import presentation.feature.feed.FeedState
 import presentation.feature.feed.TopHeadlineItem
 import presentation.navigation.navbar.TopAppBar
@@ -120,7 +119,7 @@ fun FeedScreenContent(
 
             // Feed
             val pagingItems = state.articles.collectAsLazyPagingItems()
-            BasePagingList(
+            FeedPagingList(
                 modifier = Modifier.fillMaxSize(1F),
                 data = pagingItems,
                 contentTop = {
@@ -134,21 +133,19 @@ fun FeedScreenContent(
                         currentSectionId = state.feedFilter.sectionId
                     )
                 }
-            ) { articleView, _ ->
-                articleView?.let { article ->
-                    TopHeadlineItem(
-                        article = article,
-                        onArticleClicked = {
-                            onArticleClicked(article.articleId)
-                        },
-                        onSaveArticleClicked = {
-                            onSaveArticleClicked.invoke()
-                        },
-                        onRemoveArticleClicked = {
-                            onRemoveArticleClicked.invoke()
-                        }
-                    )
-                }
+            ) { article, _ ->
+                TopHeadlineItem(
+                    article = article,
+                    onArticleClicked = {
+                        onArticleClicked(article.articleId)
+                    },
+                    onSaveArticleClicked = {
+                        onSaveArticleClicked.invoke()
+                    },
+                    onRemoveArticleClicked = {
+                        onRemoveArticleClicked.invoke()
+                    }
+                )
             }
         }
 

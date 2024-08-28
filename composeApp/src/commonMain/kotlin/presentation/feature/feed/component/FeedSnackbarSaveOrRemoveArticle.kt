@@ -11,34 +11,46 @@ import newsappkmp.composeapp.generated.resources.removed
 import newsappkmp.composeapp.generated.resources.saved
 import newsappkmp.composeapp.generated.resources.undo
 import org.jetbrains.compose.resources.getString
+import presentation.feature.feed.SaveArticleResult
 import kotlin.reflect.KFunction0
 
 @Composable
 fun FeedSnackbarSaveOrRemoveArticle(
-    isSaved: Boolean?,
+    saveArticleResult: SaveArticleResult,
     scope: CoroutineScope,
     snackbarHostState: SnackbarHostState,
     onRemoveArticleClicked: KFunction0<Unit>
 ) {
-    if (isSaved == null) return
 
-    scope.launch {
-        val result = snackbarHostState.showSnackbar(
-            message = if (isSaved) {
-                getString(Res.string.saved)
-            } else {
-                getString(Res.string.removed)
-            },
-            actionLabel = if (isSaved) {
-                getString(Res.string.undo)
-            } else {
-                null
-            },
-            duration = SnackbarDuration.Short
-        )
+    when (saveArticleResult) {
+        SaveArticleResult.None -> return
 
-        if (result == SnackbarResult.ActionPerformed) {
-            onRemoveArticleClicked.invoke()
+        SaveArticleResult.Saved -> {
+            scope.launch {
+                val result = snackbarHostState.showSnackbar(
+                    message = getString(Res.string.saved),
+                    actionLabel = getString(Res.string.undo),
+                    duration = SnackbarDuration.Short
+                )
+
+                if (result == SnackbarResult.ActionPerformed) {
+                    onRemoveArticleClicked.invoke()
+                }
+            }
+        }
+
+        SaveArticleResult.Removed -> {
+            scope.launch {
+                val result = snackbarHostState.showSnackbar(
+                    message = getString(Res.string.removed),
+                    actionLabel = null,
+                    duration = SnackbarDuration.Short
+                )
+
+                if (result == SnackbarResult.ActionPerformed) {
+                    onRemoveArticleClicked.invoke()
+                }
+            }
         }
     }
 }

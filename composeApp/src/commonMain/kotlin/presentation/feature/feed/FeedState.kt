@@ -15,7 +15,7 @@ data class FeedState(
     val sections: List<Section> = emptyList(),
     val feedFilter: FeedFilter = FeedFilter(),
     val articles: Flow<PagingData<Article>> = emptyFlow(),
-    val saveArticleResult: Flow<Boolean> = emptyFlow()
+    val saveArticleResult: SaveArticleResult = SaveArticleResult.None
 )
 
 @Immutable
@@ -24,3 +24,10 @@ data class FeedFilter(
     val fromDate: Long? = null,
     val toDate: Long? = null
 )
+
+@Immutable
+sealed interface SaveArticleResult {
+    data object Saved : SaveArticleResult
+    data object Removed : SaveArticleResult
+    data object None : SaveArticleResult
+}

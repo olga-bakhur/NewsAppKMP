@@ -1,5 +1,6 @@
 package presentation.feature.feed.component
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ContextualFlowRow
 import androidx.compose.foundation.layout.ContextualFlowRowOverflow
@@ -44,7 +45,7 @@ fun FeedSectionFilters(
     }
 
     ContextualFlowRow(
-        modifier = modifier,
+        modifier = modifier.animateContentSize(),
         verticalArrangement = Arrangement.Top,
         horizontalArrangement = Arrangement.spacedBy(
             space = Theme.dimens.space4,

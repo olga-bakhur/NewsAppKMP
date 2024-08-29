@@ -51,7 +51,6 @@ fun TopHeadlineItem(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(Alignment.Top),
-        contentPadding = Theme.dimens.space0,
         onCardClicked = {
             onArticleClicked.invoke()
         }

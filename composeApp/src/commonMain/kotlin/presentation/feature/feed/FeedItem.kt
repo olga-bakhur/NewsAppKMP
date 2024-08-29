@@ -3,7 +3,6 @@ package presentation.feature.feed
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,6 +30,7 @@ import androidx.compose.ui.text.withStyle
 import data.model.dto.Article
 import data.util.millisToFormattedDateString
 import newsappkmp.composeapp.generated.resources.Res
+import newsappkmp.composeapp.generated.resources.article_thumbnail_content_description
 import newsappkmp.composeapp.generated.resources.published
 import newsappkmp.composeapp.generated.resources.save
 import newsappkmp.composeapp.generated.resources.section
@@ -146,17 +146,13 @@ fun SaveIconButton(
 
 @Composable
 fun Thumbnail(
-    modifier: Modifier = Modifier,
     imageUri: String? = null
 ) {
     LoadImageFromUrl(
         imageUri = imageUri,
-        contentDescription = "Thumbnail",
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .aspectRatio(10f / 6f),
-        contentScale = ContentScale.FillWidth
+        stringResource(Res.string.article_thumbnail_content_description),
+        contentScale = ContentScale.FillWidth,
+        aspectRatio = 10f / 6f
     )
 }
 

@@ -20,7 +20,7 @@ fun CollapsingAvatar(
             label = "basic_transition"
         ) { targetState ->
             if (!targetState) {
-                MainContent(
+                ProfileAvatarMainContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight(),
@@ -29,7 +29,7 @@ fun CollapsingAvatar(
                     sharedTransitionScope = this@SharedTransitionLayout
                 )
             } else {
-                DetailsContent(
+                ProfileAvatarDetailsContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight(),

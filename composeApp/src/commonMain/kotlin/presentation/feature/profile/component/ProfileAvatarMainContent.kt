@@ -19,12 +19,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import presentation.feature.profile.SharedElementProfileAvatar
 import presentation.theme.Theme
 
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun MainContent(
+fun ProfileAvatarMainContent(
     modifier: Modifier = Modifier,
     onShowDetails: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
@@ -37,7 +38,7 @@ fun MainContent(
             ProfileAvatar(
                 modifier = Modifier
                     .sharedElement(
-                        state = rememberSharedContentState(key = "image"),
+                        state = rememberSharedContentState(key = SharedElementProfileAvatar.Image),
                         animatedVisibilityScope = animatedVisibilityScope
                     )
                     .size(Theme.dimens.space100)
@@ -54,7 +55,7 @@ fun MainContent(
                 Text(
                     modifier = Modifier
                         .sharedElement(
-                            state = rememberSharedContentState(key = "userName"),
+                            state = rememberSharedContentState(key = SharedElementProfileAvatar.Name),
                             animatedVisibilityScope = animatedVisibilityScope
                         ),
                     text = "Full name: Volha Bakhur",
@@ -70,7 +71,7 @@ fun MainContent(
                 Text(
                     modifier = Modifier
                         .sharedElement(
-                            state = rememberSharedContentState(key = "userAge"),
+                            state = rememberSharedContentState(key = SharedElementProfileAvatar.Age),
                             animatedVisibilityScope = animatedVisibilityScope
                         ),
                     text = "Age: 30",

@@ -1,6 +1,7 @@
 package presentation.feature.profile.component
 
 import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.clickable
@@ -28,6 +29,7 @@ import presentation.theme.Theme
 fun ProfileAvatarDetailsContent(
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
+    boundsTransform: BoundsTransform,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
@@ -39,7 +41,8 @@ fun ProfileAvatarDetailsContent(
                 modifier = Modifier
                     .sharedElement(
                         state = rememberSharedContentState(key = SharedElementProfileAvatar.Image),
-                        animatedVisibilityScope = animatedVisibilityScope
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = boundsTransform
                     )
                     .size(Theme.dimens.space200)
                     .clickable { onBack() }
@@ -51,7 +54,8 @@ fun ProfileAvatarDetailsContent(
                 modifier = Modifier
                     .sharedElement(
                         state = rememberSharedContentState(key = SharedElementProfileAvatar.Name),
-                        animatedVisibilityScope = animatedVisibilityScope
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = boundsTransform
                     )
                     .fillMaxWidth(),
                 text = "Full name: Volha Bakhur",
@@ -66,7 +70,8 @@ fun ProfileAvatarDetailsContent(
                 modifier = Modifier
                     .sharedElement(
                         state = rememberSharedContentState(key = SharedElementProfileAvatar.Age),
-                        animatedVisibilityScope = animatedVisibilityScope
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = boundsTransform
                     )
                     .fillMaxWidth(),
                 text = "Age: 30",

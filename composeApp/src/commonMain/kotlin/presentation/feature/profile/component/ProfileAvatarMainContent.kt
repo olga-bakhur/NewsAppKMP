@@ -1,6 +1,7 @@
 package presentation.feature.profile.component
 
 import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.clickable
@@ -28,6 +29,7 @@ import presentation.theme.Theme
 fun ProfileAvatarMainContent(
     modifier: Modifier = Modifier,
     onShowDetails: () -> Unit,
+    boundsTransform: BoundsTransform,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
@@ -39,7 +41,8 @@ fun ProfileAvatarMainContent(
                 modifier = Modifier
                     .sharedElement(
                         state = rememberSharedContentState(key = SharedElementProfileAvatar.Image),
-                        animatedVisibilityScope = animatedVisibilityScope
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = boundsTransform
                     )
                     .size(Theme.dimens.space100)
                     .clickable { onShowDetails() }
@@ -56,7 +59,8 @@ fun ProfileAvatarMainContent(
                     modifier = Modifier
                         .sharedElement(
                             state = rememberSharedContentState(key = SharedElementProfileAvatar.Name),
-                            animatedVisibilityScope = animatedVisibilityScope
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = boundsTransform
                         ),
                     text = "Full name: Volha Bakhur",
                     fontFamily = FontFamily.Cursive,
@@ -72,7 +76,8 @@ fun ProfileAvatarMainContent(
                     modifier = Modifier
                         .sharedElement(
                             state = rememberSharedContentState(key = SharedElementProfileAvatar.Age),
-                            animatedVisibilityScope = animatedVisibilityScope
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = boundsTransform
                         ),
                     text = "Age: 30",
                     fontFamily = FontFamily.Cursive,

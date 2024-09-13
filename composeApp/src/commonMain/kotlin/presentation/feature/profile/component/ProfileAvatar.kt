@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.unit.dp
 import newsappkmp.composeapp.generated.resources.Res
 import newsappkmp.composeapp.generated.resources.compose_multiplatform
 import newsappkmp.composeapp.generated.resources.user_avatar_content_description
@@ -26,7 +25,7 @@ fun ProfileAvatar(
 ) {
     RoundImage(
         modifier = modifier
-            .padding(8.dp)
+            .padding(Theme.dimens.space8)
             .graphicsLayer {
                 compositingStrategy = CompositingStrategy.Offscreen
             }

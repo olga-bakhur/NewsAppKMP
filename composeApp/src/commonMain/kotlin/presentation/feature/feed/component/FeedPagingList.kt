@@ -58,7 +58,7 @@ fun FeedPagingList(
         items(
             count = data.itemCount,
             key = data.itemKey { article ->
-                article.articleId
+                article.webUrl
             }
         ) { index ->
             data[index]?.let { article ->

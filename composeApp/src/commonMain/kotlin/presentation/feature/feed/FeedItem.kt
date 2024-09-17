@@ -1,5 +1,8 @@
 package presentation.feature.feed
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,12 +43,15 @@ import presentation.component.BaseCard
 import presentation.component.LoadImageFromUrl
 import presentation.theme.Theme
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun TopHeadlineItem(
     article: Article,
     onArticleClicked: () -> Unit,
     onSaveArticleClicked: () -> Unit,
-    onRemoveArticleClicked: () -> Unit
+    onRemoveArticleClicked: () -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
 ) {
     BaseCard(
         modifier = Modifier
@@ -55,14 +61,23 @@ fun TopHeadlineItem(
             onArticleClicked.invoke()
         }
     ) {
-        Thumbnail(imageUri = article.thumbnail)
+        Thumbnail(
+            imageUri = article.thumbnail,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedContentScope = animatedContentScope
+        )
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
             thickness = Theme.dimens.space1
         )
         Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
-        Title(title = article.title)
+        Title(
+            title = article.title,
+            articleId = article.articleId,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedContentScope = animatedContentScope
+        )
         Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
         TrailText(trailText = article.trailText)
@@ -143,34 +158,54 @@ fun SaveIconButton(
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun Thumbnail(
-    imageUri: String? = null
+    imageUri: String? = null,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
 ) {
-    LoadImageFromUrl(
-        imageUri = imageUri,
-        stringResource(Res.string.article_thumbnail_content_description),
-        contentScale = ContentScale.FillWidth,
-        aspectRatio = 10f / 6f
-    )
+    with(sharedTransitionScope) {
+        LoadImageFromUrl(
+            modifier = Modifier
+                .sharedBounds(
+                    sharedContentState = sharedTransitionScope.rememberSharedContentState(key = "image-$imageUri"),
+                    animatedVisibilityScope = animatedContentScope
+                ),
+            imageUri = imageUri,
+            contentDescription = stringResource(Res.string.article_thumbnail_content_description),
+            contentScale = ContentScale.FillWidth,
+            aspectRatio = 10f / 6f
+        )
+    }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun Title(
     modifier: Modifier = Modifier,
-    title: String
+    title: String,
+    articleId: String,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
 ) {
-    Text(
-        modifier = modifier.padding(
-            start = Theme.dimens.space16,
-            end = Theme.dimens.space16
-        ),
-        text = title,
-        fontWeight = FontWeight.SemiBold,
-        maxLines = 3,
-        overflow = TextOverflow.Ellipsis,
-        style = MaterialTheme.typography.titleMedium
-    )
+    with(sharedTransitionScope) {
+        Text(
+            modifier = modifier
+                .sharedBounds(
+                    sharedContentState = sharedTransitionScope.rememberSharedContentState(key = "text-$articleId"),
+                    animatedVisibilityScope = animatedContentScope,
+                ).padding(
+                    start = Theme.dimens.space16,
+                    end = Theme.dimens.space16
+                ),
+            text = title,
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.titleMedium
+        )
+    }
 }
 
 @Composable

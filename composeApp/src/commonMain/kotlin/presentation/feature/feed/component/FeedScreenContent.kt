@@ -1,5 +1,8 @@
 package presentation.feature.feed.component
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,7 +41,7 @@ import presentation.navigation.navbar.TopAppBarActionItem
 import kotlin.reflect.KFunction0
 import kotlin.reflect.KFunction1
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @ExperimentalFoundationApi
 @Composable
 fun FeedScreenContent(
@@ -57,7 +60,9 @@ fun FeedScreenContent(
     onDatePickerDismissed: () -> Unit,
     onRangeSelected: (Pair<Long?, Long?>?) -> Unit,
     isDateSelected: Boolean,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
 ) {
     Scaffold(
         modifier = Modifier
@@ -144,7 +149,9 @@ fun FeedScreenContent(
                     },
                     onRemoveArticleClicked = {
                         onRemoveArticleClicked.invoke()
-                    }
+                    },
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedContentScope = animatedContentScope
                 )
             }
         }

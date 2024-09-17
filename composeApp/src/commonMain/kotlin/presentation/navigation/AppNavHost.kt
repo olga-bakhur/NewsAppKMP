@@ -3,6 +3,9 @@ package presentation.navigation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.LinearEasing
@@ -33,6 +36,7 @@ import presentation.feature.settings.SettingsScreen
 
 private const val animationDuration = 400
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun AppNavHost(
     navController: NavHostController,
@@ -40,22 +44,26 @@ fun AppNavHost(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        modifier = modifier,
-    ) {
-        navigationBarGraph(
+    SharedTransitionLayout {
+        NavHost(
             navController = navController,
-            modifier = Modifier.padding(paddingValues)
-        )
+            startDestination = startDestination,
+            modifier = modifier,
+        ) {
+            navigationBarGraph(
+                navController = navController,
+                modifier = Modifier.padding(paddingValues),
+                sharedTransitionScope = this@SharedTransitionLayout
+            )
+        }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
 fun NavGraphBuilder.navigationBarGraph(
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope
 ) {
     navigation(
         startDestination = Screen.Feed.route,
@@ -64,8 +72,6 @@ fun NavGraphBuilder.navigationBarGraph(
         /* tabs */
         composable(
             route = Screen.Feed.route,
-            enterTransition = { enterAnimation() },
-            exitTransition = { exitAnimation() },
             popEnterTransition = { enterAnimation() },
             popExitTransition = { exitAnimation() }
         ) {
@@ -75,7 +81,9 @@ fun NavGraphBuilder.navigationBarGraph(
                     navController.navigate(
                         route = Screen.ArticleDetail.createRoute(articleId)
                     )
-                }
+                },
+                sharedTransitionScope = sharedTransitionScope,
+                animatedContentScope = this@composable
             )
         }
 
@@ -127,15 +135,13 @@ fun NavGraphBuilder.navigationBarGraph(
                     defaultValue = EMPTY
                 }
             ),
-            enterTransition = { enterAnimation() },
-            exitTransition = { exitAnimation() },
-            popEnterTransition = { enterAnimation() },
-            popExitTransition = { exitAnimation() }
         ) { backStackEntry ->
             ArticleDetailScreen(
                 viewModel = koinViewModel(),
                 articleId = backStackEntry.arguments?.getString(articleId) ?: EMPTY,
-                onBackClicked = { navController.popBackStack() }
+                onBackClicked = { navController.popBackStack() },
+                sharedTransitionScope = sharedTransitionScope,
+                animatedContentScope = this@composable
             )
         }
     }

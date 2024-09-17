@@ -1,5 +1,8 @@
 package presentation.feature.feed.component
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.DateRangePickerState
 import androidx.compose.material3.DrawerState
@@ -14,7 +17,10 @@ import presentation.feature.feed.FeedState
 import kotlin.reflect.KFunction0
 import kotlin.reflect.KFunction1
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
+    ExperimentalSharedTransitionApi::class
+)
 @Composable
 fun FeedNavigationDrawer(
     state: FeedState,
@@ -34,7 +40,9 @@ fun FeedNavigationDrawer(
     onRangeSelected: (Pair<Long?, Long?>?) -> Unit,
     isDateSelected: Boolean,
     scope: CoroutineScope,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
 ) {
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -65,7 +73,9 @@ fun FeedNavigationDrawer(
             onDatePickerDismissed = onDatePickerDismissed,
             onRangeSelected = onRangeSelected,
             isDateSelected = isDateSelected,
-            snackbarHostState = snackbarHostState
+            snackbarHostState = snackbarHostState,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedContentScope = animatedContentScope
         )
     }
 }

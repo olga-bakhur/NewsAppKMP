@@ -1,5 +1,8 @@
 package presentation.feature.articledetail
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -31,7 +34,6 @@ import newsappkmp.composeapp.generated.resources.save
 import newsappkmp.composeapp.generated.resources.screen_title_article_detail
 import newsappkmp.composeapp.generated.resources.share
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.component.BaseErrorDialog
 import presentation.component.BaseLoading
 import presentation.feature.articledetail.component.ArticleDetailBodyText
@@ -46,15 +48,19 @@ import presentation.feature.articledetail.component.ArticleDetailTitle
 import presentation.navigation.Screen
 import presentation.navigation.navbar.TopAppBar
 import presentation.navigation.navbar.TopAppBarActionItem
-import presentation.theme.AppTheme
 import presentation.theme.Theme
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalSharedTransitionApi::class
+)
 @Composable
 fun ArticleDetailScreen(
     viewModel: ArticleDetailViewModel,
     articleId: String,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
 ) {
     val decodedArticleId = Screen.ArticleDetail.decodeUrl(articleId)
 
@@ -71,18 +77,22 @@ fun ArticleDetailScreen(
         state = state,
         dismissError = viewModel::dismissError,
         scrollBehavior = scrollBehavior,
-        onBackClicked = onBackClicked
+        onBackClicked = onBackClicked,
+        sharedTransitionScope = sharedTransitionScope,
+        animatedContentScope = animatedContentScope
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @ExperimentalFoundationApi
 @Composable
 private fun ScreenContent(
     state: ArticleDetailState,
     dismissError: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
 ) {
     Scaffold(
         modifier = Modifier
@@ -130,10 +140,19 @@ private fun ScreenContent(
             ) {
                 Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
-                ArticleDetailThumbnail(imageUri = article.thumbnail)
+                ArticleDetailThumbnail(
+                    imageUri = article.thumbnail,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedContentScope = animatedContentScope
+                )
                 Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
-                ArticleDetailTitle(title = article.title)
+                ArticleDetailTitle(
+                    title = article.title,
+                    articleId = article.articleId,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedContentScope = animatedContentScope
+                )
                 Spacer(modifier = Modifier.height(Theme.dimens.space8))
 
                 ArticleDetailBodyText(bodyText = article.bodyText ?: EMPTY)
@@ -175,20 +194,6 @@ private fun ScreenContent(
             isError = state.errors.isNotEmpty(),
             error = state.errors.firstOrNull(),
             onDismiss = { dismissError.invoke() }
-        )
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-fun ScreenContentPreview() {
-    AppTheme {
-        ScreenContent(
-            state = ArticleDetailState(),
-            dismissError = {},
-            scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
-            onBackClicked = {}
         )
     }
 }

@@ -1,5 +1,8 @@
 package presentation.feature.feed
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,12 +22,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import presentation.feature.feed.component.FeedNavigationDrawer
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @ExperimentalFoundationApi
 @Composable
 fun FeedScreen(
     viewModel: FeedViewModel,
-    onArticleClicked: (articleId: String) -> Unit
+    onArticleClicked: (articleId: String) -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
 ) {
     LaunchedEffect(Unit) {
         viewModel.fetchSections()
@@ -76,6 +81,8 @@ fun FeedScreen(
             )
         },
         isDateSelected = isDateSelected,
-        snackbarHostState = snackbarHostState
+        snackbarHostState = snackbarHostState,
+        sharedTransitionScope = sharedTransitionScope,
+        animatedContentScope = animatedContentScope
     )
 }

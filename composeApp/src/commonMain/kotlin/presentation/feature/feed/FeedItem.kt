@@ -45,7 +45,7 @@ import presentation.theme.Theme
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun TopHeadlineItem(
+fun FeedItem(
     article: Article,
     onArticleClicked: () -> Unit,
     onSaveArticleClicked: () -> Unit,

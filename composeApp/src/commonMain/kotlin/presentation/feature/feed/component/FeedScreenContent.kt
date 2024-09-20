@@ -34,8 +34,8 @@ import newsappkmp.composeapp.generated.resources.screen_title_feed
 import newsappkmp.composeapp.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
 import presentation.component.BaseErrorDialog
+import presentation.feature.feed.FeedItem
 import presentation.feature.feed.FeedState
-import presentation.feature.feed.TopHeadlineItem
 import presentation.navigation.navbar.TopAppBar
 import presentation.navigation.navbar.TopAppBarActionItem
 import kotlin.reflect.KFunction0
@@ -139,7 +139,7 @@ fun FeedScreenContent(
                     )
                 }
             ) { article, _ ->
-                TopHeadlineItem(
+                FeedItem(
                     article = article,
                     onArticleClicked = {
                         onArticleClicked(article.articleId)

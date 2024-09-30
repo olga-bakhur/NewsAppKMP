@@ -108,6 +108,10 @@ kotlin {
             implementation(libs.sqlDelight.driver.sqlite)
             implementation(libs.kstore.file)
         }
+
+        all {
+            languageSettings.enableLanguageFeature("ExplicitBackingFields")
+        }
     }
 
     tasks.create("testClasses")

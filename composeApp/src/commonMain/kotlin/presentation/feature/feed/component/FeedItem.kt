@@ -1,4 +1,4 @@
-package presentation.feature.feed
+package presentation.feature.feed.component
 
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
